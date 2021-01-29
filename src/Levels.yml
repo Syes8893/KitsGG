@@ -1,0 +1,60 @@
+1:
+  requiredExp: 0
+  name: "I"
+  primaryColor: "&f"
+  secondaryColor: "&f"
+  nameColor: "&f"
+2:
+  requiredExp: 10
+  name: "II"
+  primaryColor: "&7"
+  secondaryColor: "&7"
+  nameColor: "&7"
+3:
+  requiredExp: 35
+  name: "III"
+  primaryColor: "&e"
+  secondaryColor: "&e"
+  nameColor: "&e"
+4:
+  requiredExp: 70
+  name: "IV"
+  primaryColor: "&b"
+  secondaryColor: "b"
+  nameColor: "&b"
+5:
+  requiredExp: 130
+  name: "V"
+  primaryColor: "&a"
+  secondaryColor: "&a"
+  nameColor: "&a"
+6:
+  requiredExp: 200
+  name: "VI"
+  primaryColor: "&c"
+  secondaryColor: "&c"
+  nameColor: "&c"
+7:
+  requiredExp: 290
+  name: "VII"
+  primaryColor: "&d"
+  secondaryColor: "&d"
+  nameColor: "&d"
+8:
+  requiredExp: 410
+  name: "VIII"
+  primaryColor: "&8"
+  secondaryColor: "&8"
+  nameColor: "&8"
+9:
+  requiredExp: 560
+  name: "IX"
+  primaryColor: "&9"
+  secondaryColor: "&9"
+  nameColor: "&9"
+10:
+  requiredExp: 780
+  name: "X"
+  primaryColor: "&c"
+  secondaryColor: "&4"
+  nameColor: "&4"

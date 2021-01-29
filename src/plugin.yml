@@ -1,0 +1,21 @@
+name: Kits
+version: 1.0.7
+main: me.syes.kits.Kits
+author: Syes
+description: A powerful KitPvP core
+commands:
+  kits:
+    description: main plugin command
+    aliases: [kit, class, classes]
+  arena:
+    description: main arena command
+    aliases: [map, a]
+  stats:
+    description: main stats command
+    aliases: [stat, statistic, statistics]
+  event:
+    description: main event command
+    aliases: [events, e]
+  level:
+    description: main level command
+    aliases: [levels, explevel, explevels]

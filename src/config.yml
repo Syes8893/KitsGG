@@ -1,0 +1,72 @@
+#---------------------------------------------------------------------------------#
+#                              Kits v1.0.7 by Syes                                #
+#---------------------------------------------------------------------------------#
+
+#DO NOT TOUCH
+Config-Version: 1.1
+
+Kits:
+  Per-Kit-Permission: false
+  Shortened-Kit-List: true
+  
+Arena:
+  Building:
+    #Blocks can not be placed in liquids (water & lava)
+    #to prevent players from destroying the map
+    Placeable-Blocks:
+    - CAKE_BLOCK
+    - FIRE
+    - WEB
+    Block-Disappear-Seconds: 20
+  Utility:
+    #These settings will only prevent the player from interacting with said blocks,
+    #they will still be able to craft/enchant/anvil if they manage to open the GUI
+    Allow-Crafting: false
+    Allow-Enchanting: false
+    Allow-Anvil-Usage: false
+  Player-Deaths:
+    Item-Drops: true
+    #Loot-Chest-On-Burn will only work if Item-Drops is set to true
+    Loot-Chest-On-Burn: true
+
+Event:
+  Required-Players: 5
+  Delay-Minutes: 30
+  Duration-Seconds: 300
+  Reset-Arena-After-Event: true
+  Track-Stats-During-Event: false
+  KoTH:
+    Platform-Materials:
+    - WOOL
+    - STAINED_GLASS
+    Damage-Multiplier: 0.5
+  Marksman:
+    Instakill-Blocks: 40
+  Boss:
+    Health: 10000
+    Tracking-Range: 100
+
+Messages:
+  Chat-Prefix: true
+  Handle-Chat: true
+  Death-Message-Prefix: true
+  Tab-Prefix: true
+  Handle-Join-Leave-Messages: true
+
+#Following settings are recommended for default spigot
+Velocity:
+  Modify-Velocity: true
+  X-Multiplier: 1.3
+  Y-Multiplier: 0.85
+  Z-Multiplier: 1.3
+  
+Scoreboard:
+  Enabled: true
+  Title: "&a&lKitPvP"
+  Primary-Color: "&f"
+  Secondary-Color: "&a"
+  Server-IP: "&7&oserver-ip"
+  
+Extra:
+  Display-Health: true
+  Disable-Weather: true
