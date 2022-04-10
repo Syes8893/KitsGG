@@ -28,7 +28,7 @@ public class MarksmanEvent extends Event {
 		this.eventManager = eventManager;
 		this.participants = new HashMap<KitPlayer, Double>();
 		this.name = "Marksman";
-		this.goal = "Land the most bowshots to win.";
+		this.goal = "Hit the most bowshots to win.";
 		this.rules = "Bowshots landed from over " + instakillBlocks + " blocks insta-kill the target. Players drop a bow and 12 arrows on death. All players receive a bow and 16 arrows.";
 	}
 	

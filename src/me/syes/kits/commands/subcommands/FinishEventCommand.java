@@ -10,7 +10,7 @@ public class FinishEventCommand extends SubCommand{
 	public void execute(Player p, String[] args) {
 		if(Kits.getInstance().getEventManager().getActiveEvent() != null) {
 			Kits.getInstance().getEventManager().getActiveEvent().finishEvent();
-			p.sendMessage("§aEvent succesfully finished.");
+			p.sendMessage("§aEvent successfully finished.");
 			return;
 		}
 		p.sendMessage("§cThere's no event currently running.");
