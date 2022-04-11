@@ -2,16 +2,13 @@ package me.syes.kits.commands;
 
 import java.util.HashMap;
 
+import me.syes.kits.commands.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
-import me.syes.kits.commands.subcommands.FinishEventCommand;
-import me.syes.kits.commands.subcommands.RerollEventCommand;
-import me.syes.kits.commands.subcommands.StartEventCommand;
-import me.syes.kits.commands.subcommands.SubCommand;
 
 public class EventCommandHandler implements CommandExecutor {
 	
@@ -26,6 +23,7 @@ public class EventCommandHandler implements CommandExecutor {
 		commands.put("start", new StartEventCommand());
 		commands.put("finish", new FinishEventCommand());
 		commands.put("reroll", new RerollEventCommand());
+		commands.put("set", new SetEventCommand());
 	}
 	
 	
