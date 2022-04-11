@@ -3,6 +3,7 @@ package me.syes.kits.event;
 import java.text.DecimalFormat;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -146,6 +147,7 @@ public class EventListener implements Listener {
 				e.getItem().remove();
 				eventManager.getGoldRushEvent().addParticipantSpecifiedScore(kp, e.getItem().getItemStack().getAmount());
 				ActionBarMessage.sendMessage(p, "§d+" + e.getItem().getItemStack().getAmount() + " Score §7(Picked up Gold)");
+				p.playSound(p.getLocation(),Sound.NOTE_PLING, 1.0F, 100.0F);
 			}
 	}
 	

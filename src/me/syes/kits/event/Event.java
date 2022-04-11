@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -42,6 +43,7 @@ public abstract class Event {
 	public void announceEventStart() {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			this.announceEventStart(p);
+			p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1.0F, 1.0F);
 		}
 	}
 	
