@@ -58,6 +58,7 @@ public class EventCommandHandler implements CommandExecutor {
 			p.sendMessage("§7> §f/event start");
 			p.sendMessage("§7> §f/event finish");
 			p.sendMessage("§7> §f/event reroll");
+			p.sendMessage("§7> §f/event set <name>");
 			p.sendMessage("§7");
 		}
 	}

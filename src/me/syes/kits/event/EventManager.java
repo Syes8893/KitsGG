@@ -131,6 +131,14 @@ public class EventManager {
     		return time + "s";
     	return "ERROR";
     }
+
+	public Event getEvent(String name){
+		for(Event e : this.events){
+			if(e.getName().equalsIgnoreCase(name))
+				return e;
+		}
+		return null;
+	}
     
     public Event getNextEvent() {
     	return nextEvent;
