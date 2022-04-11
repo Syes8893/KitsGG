@@ -12,17 +12,18 @@ public class SetEventCommand extends SubCommand {
             help(p);
             return;
         }
-        if(args[1].equalsIgnoreCase("set")) {
+        if(args[0].equalsIgnoreCase("set")) {
             if(args.length < 2) {
                 help(p);
                 return;
             }
-            Event newEvent = Kits.getInstance().getEventManager().getEvent(args[2]);
+            Event newEvent = Kits.getInstance().getEventManager().getEvent(args[1].replace("_", " "));
             if(newEvent == null){
                 p.sendMessage("§cInvalid event, valid events are Gold_Rush, Showdown, Marksman, Boss, Rambo and Koth.");
                 return;
             }
-            p.sendMessage("§aSuccessfully set the next event to" + newEvent.getName() + ".");
+            Kits.getInstance().getEventManager().setNextEvent(newEvent);
+            p.sendMessage("§aSuccessfully set the next event to " + newEvent.getName() + ".");
         }
     }
 

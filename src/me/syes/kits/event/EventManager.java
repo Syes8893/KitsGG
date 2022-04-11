@@ -143,6 +143,10 @@ public class EventManager {
     public Event getNextEvent() {
     	return nextEvent;
     }
+
+	public void setNextEvent(Event nextEvent) {
+		this.nextEvent = nextEvent;
+	}
     
     public void rerollNextEvent() {
 		nextEvent = getRandomEvent();
