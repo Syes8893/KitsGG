@@ -95,7 +95,6 @@ public abstract class Event {
 					e.remove();
 			}
 		}
-		//TODO - fix async chunk loading during reset
 		Arena a = Kits.getInstance().getArenaManager().getArena();
 		new BukkitRunnable(){
 			@Override
