@@ -41,7 +41,7 @@ public class GoldRushEvent extends Event {
 						}
 					}.runTask(Kits.getInstance());
 				}
-				if(time == 0) {
+				if(time == 0 || !active) {
 					finishEvent();
 					this.cancel();
 					time++;
