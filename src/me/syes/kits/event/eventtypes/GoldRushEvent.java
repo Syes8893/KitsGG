@@ -40,9 +40,11 @@ public class GoldRushEvent extends Event {
 							a.getWorld().dropItemNaturally(a.getRandomSpawn().add(0, 1.5, 0), new ItemStack(Material.GOLD_NUGGET));
 						}
 					}.runTask(Kits.getInstance());
-				}
-				if(time == 0 || !active) {
+				} else if(time == 0) {
 					finishEvent();
+					this.cancel();
+					time++;
+				} else if(!active) {
 					this.cancel();
 					time++;
 				}
