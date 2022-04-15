@@ -30,9 +30,12 @@ public class LeaderboardManager {
 		}.runTaskTimer(Kits.getInstance(), 240, 240);
 	}
 	
-	public void removeLeaderboards() {
-		for(Leaderboard lb : this.getLeaderboards())
+	public void removeLeaderboards(boolean shutdown) {
+		for(Leaderboard lb : this.getLeaderboards()){
 			lb.removeLeaderboard(false);
+			if(shutdown)
+				this.leaderboards.clear();
+		}
 	}
     
     public HashMap<KitPlayer, Integer> getTopPlayers(int amount, LeaderboardType lbType) {
