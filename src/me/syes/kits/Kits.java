@@ -1,6 +1,9 @@
 package me.syes.kits;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -91,6 +94,12 @@ public class Kits extends JavaPlugin {
 		KitUtils.loadKits();
 		ArenaUtils.loadArenaData();
 		PlayerUtils.loadPlayerData();
+		//Temporary fix for
+		for(Entity e : arenaManager.getArena().getWorld().getEntities()){
+			if(!(e instanceof Player) && !(e.getType().equals(EntityType.ARMOR_STAND) && (e.getCustomName().equalsIgnoreCase("§aJoin the Arena")
+					|| e.getCustomName().equalsIgnoreCase("§aAvailable Kits"))))
+				e.remove();
+		}
 		LeaderboardUtils.loadLeaderboardData();
 		
 		//Fix no KitPlayer bug
@@ -114,7 +123,7 @@ public class Kits extends JavaPlugin {
 		LeaderboardUtils.saveLeaderboardData();
 		
 		//Remove leaderboards to prevent double leaderboard bug
-		leaderboardManager.removeLeaderboards();
+		leaderboardManager.removeLeaderboards(true);
 	}
 	
 	public Kits() {
