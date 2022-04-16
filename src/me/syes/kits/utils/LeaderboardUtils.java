@@ -44,7 +44,7 @@ public class LeaderboardUtils {
 				fc.set(i + ".Location.X", lb.getLocation().getX());
 				fc.set(i + ".Location.Y", lb.getLocation().getY());
 				fc.set(i + ".Location.Z", lb.getLocation().getZ());
-				lb.removeLeaderboard(false);
+				//lb.removeLeaderboard(false);
 			}else if(lb.hasBeenDeleted()){
 				fc.set("" + i, null);
 			}

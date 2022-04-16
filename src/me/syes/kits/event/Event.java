@@ -16,6 +16,7 @@ import me.syes.kits.arena.Arena;
 import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.utils.ConfigUtils;
 import me.syes.kits.utils.MessageUtils;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class Event {
 
@@ -95,13 +96,18 @@ public abstract class Event {
 			}
 		}
 		Arena a = Kits.getInstance().getArenaManager().getArena();
-		for(Entity e : a.getCenter().getWorld().getNearbyEntities(a.getCenter()
-				, Math.abs(a.getCenter().getBlockX() - a.getMinBounds().getBlockX()), 256
-				, Math.abs(a.getCenter().getBlockZ() - a.getMinBounds().getBlockZ()))) {
-			if(e.getType() == EntityType.DROPPED_ITEM
-					|| e.getType() == EntityType.ARROW)
-				e.remove();
-		}
+		new BukkitRunnable(){
+			@Override
+			public void run() {
+				for(Entity e : a.getCenter().getWorld().getNearbyEntities(a.getCenter()
+						, Math.abs(a.getCenter().getBlockX() - a.getMinBounds().getBlockX()), 256
+						, Math.abs(a.getCenter().getBlockZ() - a.getMinBounds().getBlockZ()))) {
+					if(e.getType() == EntityType.DROPPED_ITEM
+							|| e.getType() == EntityType.ARROW)
+						e.remove();
+				}
+			}
+		}.runTask(Kits.getInstance());
 	}
 
 	public boolean isActive() {

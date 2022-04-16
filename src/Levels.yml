@@ -20,7 +20,7 @@
   requiredExp: 70
   name: "IV"
   primaryColor: "&b"
-  secondaryColor: "b"
+  secondaryColor: "&b"
   nameColor: "&b"
 5:
   requiredExp: 130
