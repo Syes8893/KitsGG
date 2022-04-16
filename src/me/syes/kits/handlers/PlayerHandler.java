@@ -143,7 +143,7 @@ public class PlayerHandler implements Listener {
 					p.getWorld().dropItemNaturally(p.getLocation(), is);
 			}
 			for(ItemStack is : p.getInventory().getArmorContents()) {
-				if(is != null)
+				if(is != null && is.getType() != Material.AIR)
 					p.getWorld().dropItemNaturally(p.getLocation(), is);
 			}
 			p.getInventory().clear();
