@@ -16,7 +16,7 @@ public class SetRequiredExpCommand extends SubCommand {
 		for(Kit k : Kits.getInstance().getKitManager().getKits()) {
 			if(k.getName().equalsIgnoreCase(args[1])) {
 				k.setRequiredExp(Integer.parseInt(args[2]));
-				p.sendMessage("§aSuccesfully the Exp requirement for " + k.getName() + " to " + Integer.parseInt(args[2]) + ".");
+				p.sendMessage("§aSuccessfully set the Exp requirement for " + k.getName() + " to " + Integer.parseInt(args[2]) + ".");
 				return;
 			}
 		}
