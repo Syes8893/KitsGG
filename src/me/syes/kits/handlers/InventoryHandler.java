@@ -66,7 +66,7 @@ public class InventoryHandler implements Listener {
 							return;
 						}
 						if(kp.getSavedKits().contains(kitName)) {
-							p.sendMessage("§cYou already have saved this kit!");
+							p.sendMessage("§cYou have already saved this kit!");
 							return;
 						}
 						if(kp.getSavedKits().size() == 4) {
