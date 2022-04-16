@@ -34,7 +34,9 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("create", new CreateCommand());
 		commands.put("delete", new DeleteCommand());
 		commands.put("seticon", new SetIconCommand());
-		commands.put("setrequiredexp", new SetRequiredExpCommand());
+		SetRequiredExpCommand setRequiredExpCommand = new SetRequiredExpCommand();
+		commands.put("setexp", setRequiredExpCommand);
+		commands.put("setrequiredexp", setRequiredExpCommand);
 		commands.put("list", new ListCommand());
 		commands.put("update", new UpdateCommand());
 		commands.put("npc", new KitNpcCommand());
