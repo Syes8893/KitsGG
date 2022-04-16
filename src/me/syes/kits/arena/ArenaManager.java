@@ -3,6 +3,7 @@ package me.syes.kits.arena;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import me.syes.kits.gui.KitsGUI;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -19,7 +20,7 @@ public class ArenaManager {
 	public Arena arena;
 	
 	public ArenaManager() {
-		this.arena = new Arena(0, 0, 0, 0, null, null);
+		this.arena = new Arena(0, 0, 0, 255, 0, 0, null, null);
 	}
 
 	public Arena getArena() {
@@ -38,6 +39,7 @@ public class ArenaManager {
 		}
 		if(!kp.hasKitSelected()) {
 			p.sendMessage("§cPlease select a kit before entering the arena. Use /kit for a list of kits.");
+			KitsGUI.openKitsGUI(p);
 			return;
 		}
 		giveTrackingCompass(p);
