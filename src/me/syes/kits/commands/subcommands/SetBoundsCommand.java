@@ -14,23 +14,23 @@ public class SetBoundsCommand extends SubCommand {
 			return;
 		}
 		Arena a = Kits.getInstance().arenaManager.getArena();
-		if(args[1].equalsIgnoreCase("min")) {
-			if(a.getMaxBounds() != null &&
-					(a.getMaxBounds().getBlockX() < p.getLocation().getBlockX() || a.getMaxBounds().getBlockZ() < p.getLocation().getBlockZ())) {
-				p.sendMessage("§cThe minimum bounds MUST be smaller than than the maximum ones.");
-				return;
-			}
-			a.setMinBounds(p.getLocation().getBlockX(), p.getLocation().getBlockZ());
-			p.sendMessage("§aMinimum bounds succesfully updated.");
+		if(args[1].equalsIgnoreCase("min") || args[1].equalsIgnoreCase("1")) {
+//			if(a.getMaxBounds() != null &&
+//					(a.getMaxBounds().getBlockX() < p.getLocation().getBlockX() || a.getMaxBounds().getBlockZ() < p.getLocation().getBlockZ())) {
+//				p.sendMessage("§cThe minimum bounds must be smaller than than the maximum ones, make sure both x and z are negative");
+//				return;
+//			}
+			a.setMinBounds(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
+			p.sendMessage("§aMinimum bounds successfully updated.");
 		}
-		else if(args[1].equalsIgnoreCase("max")) {
-			if(a.getMinBounds() != null &&
-					(a.getMinBounds().getBlockX() > p.getLocation().getBlockX() || a.getMinBounds().getBlockZ() > p.getLocation().getBlockZ())) {
-				p.sendMessage("§cThe maximum bounds MUST be bigger than than the minimum ones.");
-				return;
-			}
-			a.setMaxBounds(p.getLocation().getBlockX(), p.getLocation().getBlockZ());
-			p.sendMessage("§aMaximum bounds succesfully updated.");
+		else if(args[1].equalsIgnoreCase("max") || args[1].equalsIgnoreCase("2")) {
+//			if(a.getMinBounds() != null &&
+//					(a.getMinBounds().getBlockX() > p.getLocation().getBlockX() || a.getMinBounds().getBlockZ() > p.getLocation().getBlockZ())) {
+//				p.sendMessage("§cThe maximum bounds must be bigger than than the minimum ones, make sure both x and z are positive");
+//				return;
+//			}
+			a.setMaxBounds(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
+			p.sendMessage("§aMaximum bounds successfully updated.");
 		}
 	}
 
