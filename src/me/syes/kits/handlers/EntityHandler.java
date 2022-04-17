@@ -5,13 +5,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.*;
 
 import me.syes.kits.Kits;
 import me.syes.kits.kitplayer.KitPlayer;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class EntityHandler implements Listener{
 	
@@ -53,6 +51,17 @@ public class EntityHandler implements Listener{
 		if(!(e.getEntity() instanceof Slime))
 			return;
 		((Slime) e.getEntity()).setSize(3);
+	}
+
+	@EventHandler
+	public void onItemDrop(ItemSpawnEvent e){
+		new BukkitRunnable(){
+			@Override
+			public void run() {
+				if(!e.getEntity().isDead())
+					e.getEntity().remove();
+			}
+		}.runTaskLater(Kits.getInstance(), 15*20);
 	}
 
 }
