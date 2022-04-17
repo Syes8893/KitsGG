@@ -13,9 +13,12 @@ public class ConfigUtils {
 	public static FileConfiguration config;
 	final public static String configVersion = "1.1";
 
+	public static boolean perKitPermissions;
+
 	public static void loadConfig() {
 		Kits.getInstance().saveDefaultConfig();
 		config = Kits.getInstance().getConfig();
+		perKitPermissions = ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission");
 		if(!config.getString("Config-Version").equals(configVersion))
 			updateConfig();
 	}
