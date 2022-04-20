@@ -49,18 +49,18 @@ public class Arena {
 		sortValues();
 	}
 
+	public Location getMaxBounds() {
+		return new Location(this.world, this.xValues[1], this.yValues[1], this.zValues[1]);
+	}
+
 	public void sortValues(){
 		Arrays.sort(xValues);
 		Arrays.sort(yValues);
 		Arrays.sort(zValues);
 	}
 	
-	public Location getMaxBounds() {
-		return new Location(this.world, this.xValues[1], this.yValues[1], this.zValues[1]);
-	}
-	
 	public Location getCenter() {
-		return new Location(this.world, (this.xValues[1] + this.xValues[0])/2, (this.yValues[1] + this.yValues[0])/2, (this.zValues[1] + this.zValues[1])/2);
+		return new Location(this.world, (this.xValues[1] + this.xValues[0])/2, (this.yValues[1] + this.yValues[0])/2, (this.zValues[1] + this.zValues[0])/2);
 	}
 	
 	public void setWorld(World world) {
@@ -80,13 +80,29 @@ public class Arena {
 	}
 	
 	public Location getRandomSpawn() {
-		int x = (int) (new Random().nextDouble() *(getMaxBounds().getBlockX() - getCenter().getBlockX())*2) + (getMinBounds().getBlockX() - getCenter().getBlockX());
-		int z = (int) (new Random().nextDouble() *(getMaxBounds().getBlockX() - getCenter().getBlockX())*2) + (getMinBounds().getBlockX() - getCenter().getBlockX());
-		int y = ArenaUtils.calculateLowestBlock(this.getWorld(), x, z , yValues[0], yValues[1]);
+		int xRadius = (int) Math.abs(getMaxBounds().getBlockX()) - Math.abs(getCenter().getBlockX());
+		int xValue = (int) (getMinBounds().getBlockX() + 2*xRadius*new Random().nextDouble());
+		int zRadius = (int) Math.abs(getMaxBounds().getBlockZ()) - Math.abs(getCenter().getBlockZ());
+		System.out.println(zRadius);
+		int zValue = (int) (getMinBounds().getBlockZ() + 2*zRadius*new Random().nextDouble());
+		System.out.println(zValue);
+//		int x = (int) (new Random().nextDouble() *(getMaxBounds().getBlockX() - getCenter().getBlockX())*2) + (getMinBounds().getBlockX() - getCenter().getBlockX());
+//		int z = (int) (new Random().nextDouble() *(getMaxBounds().getBlockZ() - getCenter().getBlockZ())*2) + (getMinBounds().getBlockZ() - getCenter().getBlockZ());
+		int y = ArenaUtils.calculateLowestBlock(this.getWorld(), xValue, zValue , yValues[0], yValues[1]);
+		Location location = new Location(this.world, xValue, y + 1.5, zValue);
+		int failSafe = 0;
+		while(location.getBlock().getType().equals(Material.LAVA) || location.getBlock().getType().equals(Material.STATIONARY_LAVA)){
+			if(failSafe == 10){
+				return null;
+			}
+			location = getRandomSpawn();
+			failSafe++;
+		}
 //		while(this.world.getBlockAt(x, y, z).getType().equals(Material.AIR)){
 //			y += -1;
 //		}
-		return new Location(this.world, x, y + 1.5, z);
+		System.out.println(location);
+		return location;
 	}
 
 }

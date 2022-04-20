@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import me.syes.kits.gui.KitsGUI;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -42,9 +43,14 @@ public class ArenaManager {
 			KitsGUI.openKitsGUI(p);
 			return;
 		}
+		Location randomSpawn = this.getArena().getRandomSpawn();
+		if(randomSpawn == null){
+			p.sendMessage("§cCould find a valid spawn, please try again.");
+			return;
+		}
+		p.teleport(randomSpawn);
 		giveTrackingCompass(p);
 		p.setGameMode(GameMode.SURVIVAL);
-		p.teleport(this.getArena().getRandomSpawn());
 		kp.setInArena(true);
 		if(Kits.getInstance().getEventManager().getActiveEvent() == null)
 			return;

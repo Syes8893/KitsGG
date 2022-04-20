@@ -20,6 +20,11 @@ public class ArenaUtils {
 			&& world.getBlockAt(xValue, i+2, zValue).getType().equals(Material.AIR))
 				return i;
 		}
+		for(int i = maxY+1; i < 255; i++){
+			if(!world.getBlockAt(xValue, i, zValue).getType().equals(Material.AIR) && world.getBlockAt(xValue, i+1, zValue).getType().equals(Material.AIR)
+					&& world.getBlockAt(xValue, i+2, zValue).getType().equals(Material.AIR))
+				return i;
+		}
 		return -1;
 	}
 	
