@@ -83,15 +83,13 @@ public class Arena {
 		int xRadius = (int) Math.abs(getMaxBounds().getBlockX()) - Math.abs(getCenter().getBlockX());
 		int xValue = (int) (getMinBounds().getBlockX() + 2*xRadius*new Random().nextDouble());
 		int zRadius = (int) Math.abs(getMaxBounds().getBlockZ()) - Math.abs(getCenter().getBlockZ());
-		System.out.println(zRadius);
 		int zValue = (int) (getMinBounds().getBlockZ() + 2*zRadius*new Random().nextDouble());
-		System.out.println(zValue);
 //		int x = (int) (new Random().nextDouble() *(getMaxBounds().getBlockX() - getCenter().getBlockX())*2) + (getMinBounds().getBlockX() - getCenter().getBlockX());
 //		int z = (int) (new Random().nextDouble() *(getMaxBounds().getBlockZ() - getCenter().getBlockZ())*2) + (getMinBounds().getBlockZ() - getCenter().getBlockZ());
 		int y = ArenaUtils.calculateLowestBlock(this.getWorld(), xValue, zValue , yValues[0], yValues[1]);
 		Location location = new Location(this.world, xValue, y + 1.5, zValue);
 		int failSafe = 0;
-		while(location.getBlock().getType().equals(Material.LAVA) || location.getBlock().getType().equals(Material.STATIONARY_LAVA)){
+		while(location.clone().add(0, -1.5, 0).getBlock().getType().equals(Material.LAVA) || location.clone().add(0, -1.5, 0).getBlock().getType().equals(Material.STATIONARY_LAVA)){
 			if(failSafe == 10){
 				return null;
 			}
@@ -101,7 +99,6 @@ public class Arena {
 //		while(this.world.getBlockAt(x, y, z).getType().equals(Material.AIR)){
 //			y += -1;
 //		}
-		System.out.println(location);
 		return location;
 	}
 
