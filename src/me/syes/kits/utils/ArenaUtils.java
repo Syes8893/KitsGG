@@ -25,7 +25,7 @@ public class ArenaUtils {
 					&& world.getBlockAt(xValue, i+2, zValue).getType().equals(Material.AIR))
 				return i;
 		}
-		return -1;
+		return world.getHighestBlockYAt(xValue, zValue);
 	}
 	
 	public static void saveArenaData() {
