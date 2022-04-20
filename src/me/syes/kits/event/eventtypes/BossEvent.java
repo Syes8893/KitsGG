@@ -106,7 +106,7 @@ public class BossEvent extends Event {
 		int r = new Random().nextInt(3);
 		Arena a = Kits.getInstance().getArenaManager().getArena();
 		if(r == 0) {
-			MagmaCube alfie = (MagmaCube) a.getWorld().spawnEntity(a.getCenter(), EntityType.MAGMA_CUBE);
+			MagmaCube alfie = (MagmaCube) a.getWorld().spawnEntity(a.getRandomSpawn(), EntityType.MAGMA_CUBE);
 			alfie.setSize(5);
 			alfie.setMaxHealth(this.health);
 			alfie.setHealth(alfie.getMaxHealth());
@@ -116,7 +116,7 @@ public class BossEvent extends Event {
 			alfie.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 9, true));
 			boss = alfie;
 		}else if(r == 1) {
-			Zombie karl = (Zombie) a.getWorld().spawnEntity(a.getCenter(), EntityType.ZOMBIE);
+			Zombie karl = (Zombie) a.getWorld().spawnEntity(a.getRandomSpawn(), EntityType.ZOMBIE);
 			karl.setBaby(false);
 			karl.setMaxHealth(this.health);
 			karl.setHealth(karl.getMaxHealth());
@@ -134,7 +134,7 @@ public class BossEvent extends Event {
 					, "§2Karl's Wooden-Carved Katana", Arrays.asList(""), enchants));
 			boss = karl;
 		}else if(r == 2) {
-			Skeleton skeleton = (Skeleton) a.getWorld().spawnEntity(a.getCenter(), EntityType.SKELETON);
+			Skeleton skeleton = (Skeleton) a.getWorld().spawnEntity(a.getRandomSpawn(), EntityType.SKELETON);
 			//skeleton.setPassenger(a.getWorld().spawnEntity(skeleton.getLocation(), EntityType.SKELETON));
 			skeleton.setSkeletonType(SkeletonType.WITHER);
 			skeleton.setMaxHealth(this.health);

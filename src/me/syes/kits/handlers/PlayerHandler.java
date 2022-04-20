@@ -312,7 +312,6 @@ public class PlayerHandler implements Listener {
 			return;
 		if(e.getPlayer().getItemInHand().getType() == Material.COMPASS)
 			Kits.getInstance().getArenaManager().setCompassTarget(e.getPlayer());
-			return;
     }
 	
 	@EventHandler
