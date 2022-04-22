@@ -1,5 +1,6 @@
 package me.syes.kits.handlers;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
@@ -55,13 +56,15 @@ public class EntityHandler implements Listener{
 
 	@EventHandler
 	public void onItemDrop(ItemSpawnEvent e){
-		new BukkitRunnable(){
-			@Override
-			public void run() {
-				if(!e.getEntity().isDead())
-					e.getEntity().remove();
-			}
-		}.runTaskLater(Kits.getInstance(), 15*20);
+		if(e.getEntity().getItemStack().getType() != Material.GOLD_NUGGET
+				&& Kits.getInstance().getEventManager().getActiveEvent() == Kits.getInstance().getEventManager().getGoldRushEvent())
+			new BukkitRunnable(){
+				@Override
+				public void run() {
+					if(!e.getEntity().isDead())
+						e.getEntity().remove();
+				}
+			}.runTaskLater(Kits.getInstance(), 15*20);
 	}
 
 }
