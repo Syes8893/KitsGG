@@ -410,13 +410,18 @@ public class PlayerHandler implements Listener {
 		if(p.getLocation().getBlock().getType() == Material.FIRE
 				|| p.getLocation().getBlock().getType() == Material.LAVA
 				|| p.getLocation().getBlock().getType() == Material.STATIONARY_LAVA) {
-			Location loc = p.getLocation().add(0, 1, 0);
-			p.getWorld().getBlockAt(loc).setType(Material.CHEST);
-			Chest chest = (Chest) p.getWorld().getBlockAt(loc).getState();
+			Location chestLoc = p.getLocation().clone().add(0, 1, 0);
+			while(chestLoc.getBlock().getType() != Material.AIR){
+				if(chestLoc.getY() > 255)
+					break;
+				chestLoc.add(0, 1, 0);
+			}
+			p.getWorld().getBlockAt(chestLoc).setType(Material.CHEST);
+			Chest chest = (Chest) p.getWorld().getBlockAt(chestLoc).getState();
 			for(ItemStack i : e.getDrops())
 				if(i.getType() != Material.COMPASS)
 					chest.getInventory().addItem(i);
-			ArmorStand as = (ArmorStand) loc.getWorld().spawnEntity(chest.getLocation().add(0.5, 0.8 - 2, 0.5), EntityType.ARMOR_STAND);
+			ArmorStand as = (ArmorStand) chestLoc.getWorld().spawnEntity(chest.getLocation().add(0.5, 0.8 - 2, 0.5), EntityType.ARMOR_STAND);
 			as.setGravity(false);
 			as.setVisible(false);
 			as.setCustomNameVisible(true);
@@ -431,7 +436,7 @@ public class PlayerHandler implements Listener {
 					else
 						as.setCustomName("§c" + time + "s");
 					if(time == 0) {
-						p.getWorld().getBlockAt(loc).setType(Material.AIR);
+						p.getWorld().getBlockAt(chestLoc).setType(Material.AIR);
 						as.remove();
 						this.cancel();
 					}
