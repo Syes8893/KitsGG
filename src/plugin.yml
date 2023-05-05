@@ -1,5 +1,5 @@
 name: Kits
-version: 1.0.8
+version: 1.0.8-lb-patch
 main: me.syes.kits.Kits
 author: Syes
 description: A powerful KitPvP core
