@@ -25,8 +25,11 @@ public class StatsGUI {
 		lore.add("§fK/D: §a" + new DecimalFormat("#.##").format(kp.getKDR()));
 		lore.add("§f");
 		lore.add("§fLevel: " + Kits.getInstance().getExpManager().getLevel(kp.getExp()).getPrefix());
-		lore.add("§fTotal Exp: §a" + kp.getExp());
-		lore.add("§fNext Level: §a" + (Kits.getInstance().getExpManager().getExpForNextLevel(kp)-kp.getExp()) + " Exp");
+		lore.add("§fTotal Exp: §a" + kp.getRawExp() + " §d(+" + kp.getBonusExp() + " Bonus)");
+		if((Kits.getInstance().getExpManager().getExpForNextLevel(kp)-kp.getExp()) < 0)
+			lore.add("§fNext Level: §7MAX LEVEL");
+		else
+			lore.add("§fNext Level: §a" + (Kits.getInstance().getExpManager().getExpForNextLevel(kp)-kp.getExp()) + " Exp");
 		ItemStack combat = ItemUtils.buildItem(new ItemStack(Material.IRON_SWORD), "&a&lCombat Stats", lore, true, true);
 		lore.clear();
 		lore.add("§fArrows Shot: §a" + kp.getArrowsShot());
