@@ -62,9 +62,4 @@ public class ShowdownEvent extends Event {
 		resetArena();
 	}
 
-	@Override
-	public void onArenaEnter(Player p) {
-		//do nothing
-	}
-
 }

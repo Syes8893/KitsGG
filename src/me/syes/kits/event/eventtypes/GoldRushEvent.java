@@ -65,9 +65,4 @@ public class GoldRushEvent extends Event {
 		resetArena();
 	}
 
-	@Override
-	public void onArenaEnter(Player p) {
-		//do nothing
-	}
-
 }

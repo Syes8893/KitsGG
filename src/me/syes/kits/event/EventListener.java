@@ -37,8 +37,8 @@ public class EventListener implements Listener {
 		Player p = e.getPlayer();
 		//KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
 		if(eventManager.getActiveEvent() != null) {
-			if(eventManager.getActiveEvent().getParticipants().contains(p.getUniqueId()));
-				eventManager.getActiveEvent().addParticipant(p.getUniqueId());
+//			if(!eventManager.getActiveEvent().getParticipants().contains(p.getUniqueId()));
+//				eventManager.getActiveEvent().addParticipant(p.getUniqueId());
 			eventManager.getActiveEvent().announceEventStart(p);
 			if(eventManager.getShowdownEvent().isActive())
 				eventManager.getShowdownEvent().setDoubleHealth(p);

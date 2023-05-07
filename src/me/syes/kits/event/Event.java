@@ -39,7 +39,8 @@ public abstract class Event {
 	public abstract void finishEvent();
 	
 	public void onArenaEnter(Player p) {
-		//Do nothing
+		if(!participants.keySet().contains(p.getUniqueId()))
+			addParticipant(p.getUniqueId());
 	}
 	
 	public void announceEventStart() {
@@ -60,6 +61,10 @@ public abstract class Event {
 		MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).getName());
 		MessageUtils.broadcastMessage("&7&m------------------------------");
 		MessageUtils.broadcastMessage("&d&lEVENT HAS ENDED");
+		for(UUID uuid : participants.keySet()){
+			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
+			kp.addEventsPlayed();
+		}
 		for(int i = 1; i < 4; i ++) {
 			if(i > eventManager.getEventTop().size()) break;
 			MessageUtils.broadcastMessage("&7#" + i + " "
@@ -72,9 +77,9 @@ public abstract class Event {
 	
 	public void loadParticipants() {
 		for(Player p : Bukkit.getOnlinePlayers()) {
-			participants.put(p.getUniqueId(), 0.0);
 			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
-			kp.addEventsPlayed();
+			if(kp.isInArena())
+				participants.put(p.getUniqueId(), 0.0);
 		}
 	}
 	

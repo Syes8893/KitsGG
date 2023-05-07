@@ -72,6 +72,7 @@ public class MarksmanEvent extends Event {
 
 	@Override
 	public void onArenaEnter(Player p) {
+		super.onArenaEnter(p);
 		p.getInventory().addItem(new ItemStack(Material.BOW));
 		p.getInventory().addItem(new ItemStack(Material.ARROW, 16));
 	}

@@ -96,6 +96,7 @@ public class KothEvent extends Event {
 
 	@Override
 	public void onArenaEnter(Player p) {
+		super.onArenaEnter(p);
 		HashMap<Enchantment, Integer> enchants = new HashMap<Enchantment, Integer>();
 		enchants.put(Enchantment.KNOCKBACK, 1);
 		ItemStack is = ItemUtils.buildEnchantedItem(new ItemStack(Material.STICK)

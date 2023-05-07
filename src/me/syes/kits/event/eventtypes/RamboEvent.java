@@ -48,9 +48,4 @@ public class RamboEvent extends Event {
 		resetArena();
 	}
 
-	@Override
-	public void onArenaEnter(Player p) {
-		
-	}
-
 }
