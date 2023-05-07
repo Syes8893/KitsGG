@@ -17,19 +17,17 @@ import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.utils.ConfigUtils;
 
 public class MarksmanEvent extends Event {
-	
-	private int instakillBlocks;
+
 	private List<ItemStack> dropsOnDeath;
 	
 	public MarksmanEvent(EventManager eventManager) {
-		this.instakillBlocks = ConfigUtils.getConfigSection("Event.Marksman").getInt("Instakill-Blocks");
 		this.dropsOnDeath = Arrays.asList(new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 12));
 		
 		this.eventManager = eventManager;
 		this.participants = new HashMap<KitPlayer, Double>();
 		this.name = "Marksman";
 		this.goal = "Hit the most bowshots to win.";
-		this.rules = "Bowshots landed from over " + instakillBlocks + " blocks insta-kill the target. Players drop a bow and 12 arrows on death. All players receive a bow and 16 arrows.";
+		this.rules = "Shots hit from farther away award more points. Players drop a bow and 12 arrows on death. All players receive a bow and 16 arrows.";
 	}
 	
 	@Override
@@ -64,10 +62,6 @@ public class MarksmanEvent extends Event {
 		this.participants.clear();
 		time = durationSeconds;
 		resetArena();
-	}
-	
-	public int getInstakillBlocks() {
-		return instakillBlocks;
 	}
 	
 	public List<ItemStack> getDropsOnDeath() {

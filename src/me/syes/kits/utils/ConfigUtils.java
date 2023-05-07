@@ -11,7 +11,7 @@ import me.syes.kits.Kits;
 public class ConfigUtils {
 	
 	public static FileConfiguration config;
-	final public static String configVersion = "1.1";
+	final public static String configVersion = "1.2";
 
 	public static boolean perKitPermissions;
 
