@@ -1,6 +1,7 @@
 package me.syes.kits.event.eventtypes;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,7 +19,7 @@ public class GoldRushEvent extends Event {
 	
 	public GoldRushEvent(EventManager eventManager) {
 		this.eventManager = eventManager;
-		this.participants = new HashMap<KitPlayer, Double>();
+		this.participants = new HashMap<UUID, Double>();
 		this.name = "Gold Rush";
 		this.goal = "Collect the most Gold Nuggets to win.";
 		this.rules = "Players drop 1 Gold Nuggets on death, killing a player with a killstreak will drop additional Gold Nuggets. Additionally, Gold Nuggets will randomly drop in the arena.";

@@ -2,6 +2,7 @@ package me.syes.kits.event;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,7 +23,7 @@ public abstract class Event {
 
 	protected EventManager eventManager;
 	
-	protected HashMap<KitPlayer, Double> participants;
+	protected HashMap<UUID, Double> participants;
 	protected String name;
 	protected String goal;
 	protected String rules;
@@ -56,22 +57,23 @@ public abstract class Event {
 	}
 	
 	public void announceEventEnd() {
-		MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + eventManager.getEventTop().get(1).getName());
+		MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).getName());
 		MessageUtils.broadcastMessage("&7&m------------------------------");
 		MessageUtils.broadcastMessage("&d&lEVENT HAS ENDED");
 		for(int i = 1; i < 4; i ++) {
 			if(i > eventManager.getEventTop().size()) break;
-			MessageUtils.broadcastMessage("&7#" + i + " " + Kits.getInstance().getExpManager().getLevel(eventManager.getEventTop().get(i).getExp()).getPrefix()
-				+ eventManager.getEventTop().get(i).getName());
+			MessageUtils.broadcastMessage("&7#" + i + " "
+					+ Kits.getInstance().getExpManager().getLevel(Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getExp()).getPrefix()
+				+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName());
 		}
 		MessageUtils.broadcastMessage("&7&m------------------------------");
-		eventManager.getEventTop().get(1).addEventsWon();
+		Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).addEventsWon();
 	}
 	
 	public void loadParticipants() {
 		for(Player p : Bukkit.getOnlinePlayers()) {
+			participants.put(p.getUniqueId(), 0.0);
 			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
-			participants.put(kp, 0.0);
 			kp.addEventsPlayed();
 		}
 	}
@@ -118,28 +120,28 @@ public abstract class Event {
 		this.active = active;
 	}
 	
-	public Set<KitPlayer> getParticipants() {
+	public Set<UUID> getParticipants() {
 		return participants.keySet();
 	}
 	
-	public void addParticipant(KitPlayer kp) {
-		participants.put(kp, 0.0);
+	public void addParticipant(UUID uuid) {
+		participants.put(uuid, 0.0);
 	}
 	
-	public void setParticipantScore(KitPlayer kp, double score) {
-		participants.put(kp, score);
+	public void setParticipantScore(UUID uuid, double score) {
+		participants.put(uuid, score);
 	}
 	
-	public void addParticipantScore(KitPlayer kp) {
-		participants.put(kp, participants.get(kp)+1);
+	public void addParticipantScore(UUID uuid) {
+		participants.put(uuid, participants.get(uuid)+1);
 	}
 	
-	public void addParticipantSpecifiedScore(KitPlayer kp, double score) {
-		participants.put(kp, participants.get(kp) + score);
+	public void addParticipantSpecifiedScore(UUID uuid, double score) {
+		participants.put(uuid, participants.get(uuid) + score);
 	}
 	
-	public double getParticipantScore(KitPlayer kp) {
-		return participants.get(kp);
+	public double getParticipantScore(UUID uuid) {
+		return participants.get(uuid);
 	}
 
 	public String getName() {

@@ -67,7 +67,8 @@ public class ScoreboardManager extends BukkitRunnable
                     board.add(this.separator);
                     for(int i = 1; i < 6; i ++) {
                     	if(i > eventManager.getActiveEvent().getParticipants().size()) break;
-                    	board.add("&7#" + i + "&f " + eventManager.getEventTop().get(i).getName()
+                        KitPlayer kp2 = Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i));
+                    	board.add("&7#" + i + "&f " + kp2.getName()
                     			+ ": &d" + new DecimalFormat("#.#").format(eventManager.getActiveEvent().getParticipantScore(eventManager.getEventTop().get(i))));
                     }
                     board.add(this.separator);
@@ -78,8 +79,9 @@ public class ScoreboardManager extends BukkitRunnable
                 	board.add(this.separator);
                     for(int i = 1; i < 4; i ++) {
                     	if(i > eventManager.getEventTop().size()) break;
-                    	board.add("&7#" + i + " " + Kits.getInstance().getExpManager().getLevel(eventManager.getEventTop().get(i).getExp()).getPrefix()
-                    			+ eventManager.getEventTop().get(i).getName());
+                        KitPlayer kp2 = Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i));
+                    	board.add("&7#" + i + " " + Kits.getInstance().getExpManager().getLevel(kp2.getExp()).getPrefix()
+                    			+ kp2.getName());
                     }
                 	board.add(this.separator);
                 	board.add(ConfigUtils.getConfigSection("Scoreboard").getString("Server-IP"));

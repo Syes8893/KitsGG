@@ -1,6 +1,7 @@
 package me.syes.kits.event.eventtypes;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class ShowdownEvent extends Event {
 	
 	public ShowdownEvent(EventManager eventManager) {
 		this.eventManager = eventManager;
-		this.participants = new HashMap<KitPlayer, Double>();
+		this.participants = new HashMap<UUID, Double>();
 		this.name = "Showdown";
 		this.goal = "Deal the most damage against players to win.";
 		this.rules = "All players' health is doubled. Players drop 1 Golden Apple on death.";
@@ -25,7 +26,8 @@ public class ShowdownEvent extends Event {
 	public void startEvent() {
 		this.announceEventStart();
 		this.loadParticipants();
-		for(KitPlayer kp : this.getParticipants()) {
+		for(UUID uuid : this.getParticipants()) {
+			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
 			if(Bukkit.getOfflinePlayer(kp.getUuid()).isOnline()) {
 				Player p = Bukkit.getPlayer(kp.getUuid());
 				setDoubleHealth(p);

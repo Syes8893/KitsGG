@@ -3,6 +3,7 @@ package me.syes.kits.event.eventtypes;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,7 +25,7 @@ public class MarksmanEvent extends Event {
 		this.dropsOnDeath = Arrays.asList(new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 12));
 		
 		this.eventManager = eventManager;
-		this.participants = new HashMap<KitPlayer, Double>();
+		this.participants = new HashMap<UUID, Double>();
 		this.name = "Marksman";
 		this.goal = "Hit the most bowshots to win.";
 		this.rules = "Shots hit from farther away award more points. Players drop a bow and 12 arrows on death. All players receive a bow and 16 arrows.";
@@ -34,7 +35,8 @@ public class MarksmanEvent extends Event {
 	public void startEvent() {
 		this.announceEventStart();
 		this.loadParticipants();
-		for(KitPlayer kp : this.getParticipants()) {
+		for(UUID uuid : this.getParticipants()) {
+			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
 			if(Bukkit.getOfflinePlayer(kp.getUuid()).isOnline()) {
 				Player p = Bukkit.getPlayer(kp.getUuid());
 				onArenaEnter(p);

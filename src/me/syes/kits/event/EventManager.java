@@ -1,9 +1,6 @@
 package me.syes.kits.event;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -100,22 +97,22 @@ public class EventManager {
 		return goldRushEvent;
 	}
     
-    public HashMap<Integer, KitPlayer> getEventTop() {
-    	HashMap<Integer, KitPlayer> map = new HashMap<Integer, KitPlayer>();
-    	Comparator<KitPlayer> sorter = new Comparator<KitPlayer>() {
+    public HashMap<Integer, UUID> getEventTop() {
+    	HashMap<Integer, UUID> map = new HashMap<Integer, UUID>();
+    	Comparator<UUID> sorter = new Comparator<UUID>() {
 			@Override
-			public int compare(KitPlayer a, KitPlayer b) {
+			public int compare(UUID a, UUID b) {
 				if(getActiveEvent().getParticipantScore(a) > getActiveEvent().getParticipantScore(b)) return -1;
 				return 1;
 			}
     	};
-    	ArrayList<KitPlayer> kitPlayers = new ArrayList<KitPlayer>();
-    	for(KitPlayer kp : getActiveEvent().participants.keySet()) {
-    		kitPlayers.add(kp);
+    	ArrayList<UUID> kitPlayers = new ArrayList<UUID>();
+    	for(UUID uuid : getActiveEvent().participants.keySet()) {
+    		kitPlayers.add(uuid);
     	}
     	kitPlayers.sort(sorter);
-    	for(KitPlayer kp : kitPlayers) {
-    		map.put(kitPlayers.indexOf(kp)+1, kp);
+    	for(UUID uuid : kitPlayers) {
+    		map.put(kitPlayers.indexOf(uuid)+1, uuid);
     	}
 		return map;
     }
