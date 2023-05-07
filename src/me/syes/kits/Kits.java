@@ -96,6 +96,9 @@ public class Kits extends JavaPlugin {
 		PlayerUtils.loadPlayerData();
 		//Temporary fix for
 		for(Entity e : arenaManager.getArena().getWorld().getEntities()){
+
+			if(e.getCustomName() == null)
+				continue;
 			if(!(e instanceof Player) && !(e.getType().equals(EntityType.ARMOR_STAND) && (e.getCustomName().equalsIgnoreCase("§aJoin the Arena")
 					|| e.getCustomName().equalsIgnoreCase("§aAvailable Kits"))))
 				e.remove();
