@@ -1,9 +1,6 @@
 package me.syes.kits.event.eventtypes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,7 +32,7 @@ public class KothEvent extends Event {
 		}
 		
 		this.eventManager = eventManager;
-		this.participants = new HashMap<KitPlayer, Double>();
+		this.participants = new HashMap<UUID, Double>();
 		this.name = "KoTH";
 		this.goal = "Stand in the KoTH area for as long as possible to win.";
 		this.damageMultiplier = ConfigUtils.getConfigSection("Event.KoTH").getDouble("Damage-Multiplier");
@@ -46,7 +43,8 @@ public class KothEvent extends Event {
 	public void startEvent() {
 		this.announceEventStart();
 		this.loadParticipants();
-		for(KitPlayer kp : this.getParticipants()) {
+		for(UUID uuid : this.getParticipants()) {
+			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
 			if(kp.isInArena())
 				if(Bukkit.getOfflinePlayer(kp.getUuid()).isOnline()) {
 					Player p = Bukkit.getPlayer(kp.getUuid());
@@ -81,7 +79,7 @@ public class KothEvent extends Event {
 	public void checkLocation() {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
-			if(participants.containsKey(kp)) {
+			if(participants.containsKey(p.getUniqueId())) {
 				int x = p.getLocation().getBlockX();
 				int z = p.getLocation().getBlockZ();
 				int y = p.getLocation().getBlockY();
@@ -89,7 +87,7 @@ public class KothEvent extends Event {
 					y += -1;
 				}
 				if(this.platformMaterials.contains(p.getWorld().getBlockAt(new Location(p.getWorld(), x, y, z)).getType())) {
-					this.addParticipantScore(kp);
+					this.addParticipantScore(p.getUniqueId());
 					ActionBarMessage.sendMessage(p, "§d+1 Score §7(Contested Platform)");
 				}
 			}
@@ -98,6 +96,7 @@ public class KothEvent extends Event {
 
 	@Override
 	public void onArenaEnter(Player p) {
+		super.onArenaEnter(p);
 		HashMap<Enchantment, Integer> enchants = new HashMap<Enchantment, Integer>();
 		enchants.put(Enchantment.KNOCKBACK, 1);
 		ItemStack is = ItemUtils.buildEnchantedItem(new ItemStack(Material.STICK)

@@ -1,9 +1,6 @@
 package me.syes.kits.event.eventtypes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,7 +31,7 @@ public class BossEvent extends Event {
 	
 	public BossEvent(EventManager eventManager) {
 		this.eventManager = eventManager;
-		this.participants = new HashMap<KitPlayer, Double>();
+		this.participants = new HashMap<UUID, Double>();
 		this.name = "Boss";
 		this.goal = "Deal the most damage to the boss to win.";
 		this.rules = "No rules apply for this event.";

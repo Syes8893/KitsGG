@@ -1,6 +1,7 @@
 package me.syes.kits.event.eventtypes;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,7 +15,7 @@ public class RamboEvent extends Event {
 	
 	public RamboEvent(EventManager eventManager) {
 		this.eventManager = eventManager;
-		this.participants = new HashMap<KitPlayer, Double>();
+		this.participants = new HashMap<UUID, Double>();
 		this.name = "Rambo";
 		this.goal = "Get the most kills to win.";
 		this.rules = "Wearing armour does not affect players. Killing a player heals you to full health.";
@@ -45,11 +46,6 @@ public class RamboEvent extends Event {
 		this.participants.clear();
 		time = durationSeconds;
 		resetArena();
-	}
-
-	@Override
-	public void onArenaEnter(Player p) {
-		
 	}
 
 }
