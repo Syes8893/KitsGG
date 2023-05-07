@@ -45,6 +45,7 @@ public class PlayerUtils {
 			fc.set("Heartshealed", kp.getHeartsHealed());
 			fc.set("Eventsplayed", kp.getEventsPlayed());
 			fc.set("Eventswon", kp.getEventsWon());
+			fc.set("Bonusexp", kp.getBonusExp());
 			fc.set("Savedkits", kp.getSavedKits().toArray());
 			fc.set("Unlockedkits", kp.getUnlockedKits().toArray());
 			
