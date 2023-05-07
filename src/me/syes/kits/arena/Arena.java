@@ -22,18 +22,35 @@ public class Arena {
 		this.zValues = new int[2];
 		if(worldName != null && Bukkit.getWorld(worldName) != null)
 			this.world = Bukkit.getWorld(worldName);
-		else this.world = Bukkit.getWorlds().get(0);
+		else
+			this.world = Bukkit.getWorlds().get(0);
 		if(lobbySpawn != null)
 			this.lobbySpawn = lobbySpawn;
-		else this.lobbySpawn = new Location(this.world, 0, 100, 0, 0, 90);
+		else
+			this.lobbySpawn = new Location(this.world, 0, 100, 0, 0, 90);
 	}
 
 	@Deprecated
 	public void setMinBounds(int minX, int minY, int minZ) {
-		this.xValues[0] = minX;
-		this.yValues[0] = minY;
-		this.zValues[0] = minZ;
-		sortValues();
+		if(this.xValues[1] >= minX)
+			this.xValues[0] = minX;
+		else {
+			this.xValues[0] = this.xValues[1];
+			this.xValues[1] = minX;
+		}
+		if(this.yValues[1] >= minY)
+			this.yValues[0] = minY;
+		else {
+			this.yValues[0] = this.yValues[1];
+			this.yValues[1] = minY;
+		}
+		if(this.zValues[1] >= minZ)
+			this.zValues[0] = minZ;
+		else {
+			this.zValues[0] = this.zValues[1];
+			this.zValues[1] = minZ;
+		}
+//		sortValues();
 	}
 
 
@@ -43,21 +60,36 @@ public class Arena {
 
 	@Deprecated
 	public void setMaxBounds(int maxX, int maxY, int maxZ) {
-		this.xValues[1] = maxX;
-		this.yValues[1] = maxY;
-		this.zValues[1] = maxZ;
-		sortValues();
+		if(this.xValues[0] <= maxX)
+			this.xValues[1] = maxX;
+		else {
+			this.xValues[1] = this.xValues[0];
+			this.xValues[0] = maxX;
+		}
+		if(this.yValues[0] <= maxY)
+			this.yValues[1] = maxY;
+		else {
+			this.yValues[1] = this.yValues[0];
+			this.yValues[0] = maxY;
+		}
+		if(this.zValues[0] <= maxZ)
+			this.zValues[1] = maxZ;
+		else {
+			this.zValues[1] = this.zValues[0];
+			this.zValues[0] = maxZ;
+		}
+		//sortValues();
 	}
 
 	public Location getMaxBounds() {
 		return new Location(this.world, this.xValues[1], this.yValues[1], this.zValues[1]);
 	}
 
-	public void sortValues(){
-		Arrays.sort(xValues);
-		Arrays.sort(yValues);
-		Arrays.sort(zValues);
-	}
+//	public void sortValues(){
+//		Arrays.sort(xValues);
+//		Arrays.sort(yValues);
+//		Arrays.sort(zValues);
+//	}
 	
 	public Location getCenter() {
 		return new Location(this.world, (this.xValues[1] + this.xValues[0])/2, (this.yValues[1] + this.yValues[0])/2, (this.zValues[1] + this.zValues[0])/2);
@@ -89,7 +121,26 @@ public class Arena {
 		int y = ArenaUtils.calculateLowestBlock(this.getWorld(), xValue, zValue , yValues[0], yValues[1]);
 		Location location = new Location(this.world, xValue, y + 1.5, zValue);
 		int failSafe = 0;
-		while(location.clone().add(0, -1.5, 0).getBlock().getType().equals(Material.LAVA) || location.clone().add(0, -1.5, 0).getBlock().getType().equals(Material.STATIONARY_LAVA)){
+		while(location.getY() == -1 + 1.5 || location.clone().add(0, -2.0, 0).getBlock().getType().equals(Material.LAVA)
+				|| location.clone().add(0, -2.0, 0).getBlock().getType().equals(Material.STATIONARY_LAVA)
+				|| location.clone().add(0, -2.0, 0).getBlock().getType().equals(Material.WATER)
+				|| location.clone().add(0, -2.0, 0).getBlock().getType().equals(Material.STATIONARY_WATER)
+				|| location.clone().add(0, -1.0, 0).getBlock().getType().equals(Material.LAVA)
+				|| location.clone().add(0, -1.0, 0).getBlock().getType().equals(Material.STATIONARY_LAVA)
+				|| location.clone().add(0, -1.0, 0).getBlock().getType().equals(Material.WATER)
+				|| location.clone().add(0, -1.0, 0).getBlock().getType().equals(Material.STATIONARY_WATER)
+				|| location.clone().add(0, -3.0, 0).getBlock().getType().equals(Material.LAVA)
+				|| location.clone().add(0, -3.0, 0).getBlock().getType().equals(Material.STATIONARY_LAVA)
+				|| location.clone().add(0, -3.0, 0).getBlock().getType().equals(Material.WATER)
+				|| location.clone().add(0, -3.0, 0).getBlock().getType().equals(Material.STATIONARY_WATER)
+				|| location.clone().add(0, 0, 0).getBlock().getType().equals(Material.LAVA)
+				|| location.clone().add(0, 0, 0).getBlock().getType().equals(Material.STATIONARY_LAVA)
+				|| location.clone().add(0, 0, 0).getBlock().getType().equals(Material.WATER)
+				|| location.clone().add(0, 0, 0).getBlock().getType().equals(Material.STATIONARY_WATER)
+				|| location.clone().add(0, 1, 0).getBlock().getType().equals(Material.LAVA)
+				|| location.clone().add(0, 1, 0).getBlock().getType().equals(Material.STATIONARY_LAVA)
+				|| location.clone().add(0, 1, 0).getBlock().getType().equals(Material.WATER)
+				|| location.clone().add(0, 1, 0).getBlock().getType().equals(Material.STATIONARY_WATER)){
 			if(failSafe == 10){
 				return null;
 			}
