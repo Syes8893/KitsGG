@@ -50,6 +50,7 @@ public class ArenaManager {
 		}
 		p.teleport(randomSpawn);
 		giveTrackingCompass(p);
+		p.setFireTicks(0);
 		p.setGameMode(GameMode.SURVIVAL);
 		kp.setInArena(true);
 		if(Kits.getInstance().getEventManager().getActiveEvent() == null)

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import me.syes.kits.leaderboard.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -12,12 +13,6 @@ import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
 import me.syes.kits.kitplayer.KitPlayer;
-import me.syes.kits.leaderboard.EventLeaderboard;
-import me.syes.kits.leaderboard.ExpLeaderboard;
-import me.syes.kits.leaderboard.KDRLeaderboard;
-import me.syes.kits.leaderboard.KillStreakLeaderboard;
-import me.syes.kits.leaderboard.KillsLeaderboard;
-import me.syes.kits.leaderboard.Leaderboard;
 
 public class LeaderboardCommand extends SubCommand {
 
@@ -42,8 +37,12 @@ public class LeaderboardCommand extends SubCommand {
 				new KillStreakLeaderboard(p.getLocation());
 			else if(args[2].equalsIgnoreCase("kdr"))
 				new KDRLeaderboard(p.getLocation());
+			else if(args[2].equalsIgnoreCase("deaths"))
+				new DeathsLeaderboard(p.getLocation());
+			else if(args[2].equalsIgnoreCase("eventsplayed"))
+				new EventsPlayedLeaderboard(p.getLocation());
 			else {
-				p.sendMessage("§cInvalid type, valid types are Kills, Exp, Events, Killstreak and KDR.");
+				p.sendMessage("§cInvalid type, valid types are Kills, Exp, Events, Killstreak, KDR, Deaths and Eventsplayed.");
 				return;
 			}
 			p.sendMessage("§aSuccessfully created a new Leaderboard.");

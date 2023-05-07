@@ -8,14 +8,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.MagmaCube;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -126,17 +119,21 @@ public class BossEvent extends Event {
 			karl.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, true));
 			//Set Items
 			HashMap<Enchantment, Integer> enchants = new HashMap<Enchantment, Integer>();
-			enchants.put(Enchantment.THORNS, 2);
-			enchants.put(Enchantment.DAMAGE_ALL, 3);
-			enchants.put(Enchantment.KNOCKBACK, 0);
+			enchants.put(Enchantment.THORNS, 3);
+			enchants.put(Enchantment.DAMAGE_ALL, 5);
+			enchants.put(Enchantment.KNOCKBACK, 2);
 			enchants.put(Enchantment.DURABILITY, 10000);
 			karl.getEquipment().setItemInHand(ItemUtils.buildEnchantedItem(new ItemStack(Material.WOOD_SWORD)
 					, "§2Karl's Wooden-Carved Katana", Arrays.asList(""), enchants));
+			enchants.clear();
+			enchants.put(Enchantment.DEPTH_STRIDER, 10);
+			enchants.put(Enchantment.DURABILITY, 100);
+			karl.getEquipment().setBoots(ItemUtils.buildEnchantedItem(new ItemStack(Material.DIAMOND_BOOTS), "§2Karl's Nikes", Arrays.asList(""), enchants));
 			boss = karl;
 		}else if(r == 2) {
-			Skeleton skeleton = (Skeleton) a.getWorld().spawnEntity(a.getRandomSpawn(), EntityType.SKELETON);
+			Skeleton skeleton = (Skeleton) a.getWorld().spawnEntity(a.getCenter(), EntityType.SKELETON);
 			//skeleton.setPassenger(a.getWorld().spawnEntity(skeleton.getLocation(), EntityType.SKELETON));
-			skeleton.setSkeletonType(SkeletonType.WITHER);
+			skeleton.setSkeletonType(SkeletonType.NORMAL);
 			skeleton.setMaxHealth(this.health);
 			skeleton.setHealth(skeleton.getMaxHealth());
 			skeleton.setCustomName("§eVictor the Undead");
@@ -145,13 +142,14 @@ public class BossEvent extends Event {
 			skeleton.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, true));
 			//Set Items
 			HashMap<Enchantment, Integer> enchants = new HashMap<Enchantment, Integer>();
-			enchants.put(Enchantment.DAMAGE_ALL, 5);
-			enchants.put(Enchantment.FIRE_ASPECT, 0);
-			enchants.put(Enchantment.KNOCKBACK, 2);
-			enchants.put(Enchantment.DURABILITY, 10000);
-			skeleton.getEquipment().setItemInHand(ItemUtils.buildEnchantedItem(new ItemStack(Material.GOLD_SWORD)
+			enchants.put(Enchantment.ARROW_DAMAGE, 8);
+			enchants.put(Enchantment.ARROW_INFINITE, 5);
+			skeleton.getEquipment().setItemInHand(ItemUtils.buildEnchantedItem(new ItemStack(Material.BOW)
 					, "§eVictor's Ancient Treasure", Arrays.asList(""), enchants));
 			boss = skeleton;
+			Horse horse = (Horse) a.getWorld().spawnEntity(a.getCenter(), EntityType.HORSE);
+			horse.setVariant(Horse.Variant.SKELETON_HORSE);
+			horse.setPassenger(skeleton);
 		}
 	}
 	

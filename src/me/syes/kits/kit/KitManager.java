@@ -34,7 +34,7 @@ public class KitManager {
 	
 	public boolean isAllowedKit(Player p, Kit k, boolean sendMessages) {
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
-		if(!p.hasPermission("kits." + k.getName().toLowerCase()) && ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission")) {
+		if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName().toLowerCase()) ) {
 			if(sendMessages) p.sendMessage("§cYou don't have permission to use this kit.");
 			return false;
 		}

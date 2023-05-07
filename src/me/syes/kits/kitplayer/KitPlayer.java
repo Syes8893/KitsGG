@@ -25,6 +25,7 @@ public class KitPlayer {
 	private int potionsdrunk, potionsthrown;
 	private double heartshealed;
 	private int eventsPlayed, eventsWon;
+	private int bonusExp;
 	private HashSet<String> savedKits;
 	private HashSet<String> unlockedKits;
 	
@@ -62,6 +63,7 @@ public class KitPlayer {
 		this.heartshealed = fc.getInt("Heartshealed");
 		this.eventsPlayed = fc.getInt("Eventsplayed");
 		this.eventsWon = fc.getInt("Eventswon");
+		this.bonusExp = fc.getInt("Bonusexp");
 		List<String> savedKitsList = fc.getStringList("Savedkits");
 		for(String str : savedKitsList)
 			this.savedKits.add(str);
@@ -207,6 +209,14 @@ public class KitPlayer {
 		this.eventsWon = eventsWon;
 	}
 
+	public int getBonusExp() {
+		return bonusExp;
+	}
+
+	public void setBonusExp(int bonusExp) {
+		this.bonusExp = bonusExp;
+	}
+
 	public void addEventsWon() {
 		Bukkit.getServer().getPluginManager().callEvent(new ExpChangeEvent(this, 15));
 		this.eventsWon += 1;
@@ -264,6 +274,10 @@ public class KitPlayer {
 
 	//TODO - Exp System
 	public int getExp() {
+		return this.kills + this.eventsWon * 15 + this.eventsPlayed * 4 + this.deaths/7 + this.bonusExp;
+	}
+
+	public int getRawExp() {
 		return this.kills + this.eventsWon * 15 + this.eventsPlayed * 4 + this.deaths/7;
 	}
 	

@@ -22,9 +22,10 @@ public class EntityHandler implements Listener{
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
 		if(kp.getMobs().contains(e.getEntity())) {
 			e.setCancelled(true);
-			for(Entity t : e.getEntity().getNearbyEntities(25, 25, 25))
+			for(Entity t : p.getNearbyEntities(25, 25, 25))
 				if(t instanceof Player) {
 					e.setTarget(t);
+					e.setCancelled(false);
 					return;
 				}
 		}

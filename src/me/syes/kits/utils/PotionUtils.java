@@ -63,6 +63,7 @@ public class PotionUtils {
 		if(dura == 16457) return "Strength 1 §8(6:00)";
 		if(dura == 16458) return "Slowness 1 §8(3:00)";
 		if(dura == 16459) return "Jump Boost 1 §8(3:00)";
+		if(dura == 16460) return "Instant Damage 1";
 		if(dura == 16461) return "Water Breathing 1 §8(6:00)";
 		if(dura == 16462) return "Invisibility 1 §8(6:00)";
 		return "ERROR";

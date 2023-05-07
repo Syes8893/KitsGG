@@ -34,12 +34,14 @@ public class GoldRushEvent extends Event {
 			public void run() {
 				if(time % 3 == 0 && time > 0) {
 					Arena a = Kits.getInstance().getArenaManager().getArena();
-					new BukkitRunnable() {
-						@Override
-						public void run() {
-							a.getWorld().dropItemNaturally(a.getRandomSpawn().add(0, 1.5, 0), new ItemStack(Material.GOLD_NUGGET));
-						}
-					}.runTask(Kits.getInstance());
+					for(int i = 0; i < Bukkit.getServer().getOnlinePlayers().size(); i++){
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								a.getWorld().dropItemNaturally(a.getRandomSpawn().add(0, 1.5, 0), new ItemStack(Material.GOLD_NUGGET));
+							}
+						}.runTask(Kits.getInstance());
+					}
 				} else if(time == 0) {
 					finishEvent();
 					this.cancel();

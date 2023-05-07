@@ -82,8 +82,11 @@ public class KitsGUI {
 			}
 			if(kp.getExp() < k.getRequiredExp())
 				inv.addItem(ItemUtils.buildItem(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14), "§c" + k.getName(), lore, true, true));
-			else 
-				inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName(), lore, true, true));
+			else
+				if(k.getRequiredExp() == -1)
+					inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName() + "§7(Weekly Kit)", lore, true, true));
+				else
+					inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName(), lore, true, true));
 			lore.clear();
 		}
 
