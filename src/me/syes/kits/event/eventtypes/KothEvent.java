@@ -39,7 +39,7 @@ public class KothEvent extends Event {
 		this.name = "KoTH";
 		this.goal = "Stand in the KoTH area for as long as possible to win.";
 		this.damageMultiplier = ConfigUtils.getConfigSection("Event.KoTH").getDouble("Damage-Multiplier");
-		this.rules = "All players receive a knockback 2 stick. All damage is reduced by " + (100 - (damageMultiplier * 100)) + "%.";
+		this.rules = "All players receive a knockback 1 stick. All damage is reduced by " + (100 - (damageMultiplier * 100)) + "%.";
 	}
 	
 	@Override
@@ -99,7 +99,7 @@ public class KothEvent extends Event {
 	@Override
 	public void onArenaEnter(Player p) {
 		HashMap<Enchantment, Integer> enchants = new HashMap<Enchantment, Integer>();
-		enchants.put(Enchantment.KNOCKBACK, 2);
+		enchants.put(Enchantment.KNOCKBACK, 1);
 		ItemStack is = ItemUtils.buildEnchantedItem(new ItemStack(Material.STICK)
 				, "&eKnockback Stick", Arrays.asList("§7Obtained during the KoTH event."), enchants);
 		p.getInventory().addItem(is);
