@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------------#
 
 #DO NOT TOUCH
-Config-Version: 1.1
+Config-Version: 1.2
 
 Kits:
   Per-Kit-Permission: false
@@ -40,8 +40,6 @@ Event:
     - WOOL
     - STAINED_GLASS
     Damage-Multiplier: 0.5
-  Marksman:
-    Instakill-Blocks: 40
   Boss:
     Health: 10000
     Tracking-Range: 100

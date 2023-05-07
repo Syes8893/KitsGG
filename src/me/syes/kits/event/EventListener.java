@@ -70,10 +70,8 @@ public class EventListener implements Listener {
 						int distance = (int) ((Player)((Arrow)e.getDamager()).getShooter()).getLocation().distance(e.getEntity().getLocation());
 						KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(((Player)((Arrow)e.getDamager()).getShooter()).getUniqueId());
 						eventManager.getMarksmanEvent().addParticipantScore(kp);
-						ActionBarMessage.sendMessage((Player)((Arrow)e.getDamager()).getShooter(), "§d+1 Score §7(Landed Bowshot)");
-						if(distance > eventManager.getMarksmanEvent().getInstakillBlocks()) {
-							e.setDamage(((Player)e.getEntity()).getHealth());
-						}
+						int scoreGained = (int) Math.max(Math.pow((double)distance/20.0, 2), 1);
+						ActionBarMessage.sendMessage((Player)((Arrow)e.getDamager()).getShooter(), "§d+" + scoreGained + " Score §7(Landed Bowshot)");
 					}
 		if(eventManager.getBossEvent().isActive()) {
 			if(e.getEntity() == eventManager.getBossEvent().getBoss())
