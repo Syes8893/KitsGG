@@ -3,6 +3,7 @@ package me.syes.kits.utils;
 import java.io.File;
 import java.io.IOException;
 
+import me.syes.kits.leaderboard.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -10,12 +11,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.syes.kits.Kits;
-import me.syes.kits.leaderboard.EventLeaderboard;
-import me.syes.kits.leaderboard.ExpLeaderboard;
-import me.syes.kits.leaderboard.KDRLeaderboard;
-import me.syes.kits.leaderboard.KillStreakLeaderboard;
-import me.syes.kits.leaderboard.KillsLeaderboard;
-import me.syes.kits.leaderboard.Leaderboard;
 
 public class LeaderboardUtils {
 	
@@ -37,6 +32,8 @@ public class LeaderboardUtils {
 			e.printStackTrace();
 		}
 		int i = 0;
+		for(String key : fc.getKeys(false))
+			fc.set(key, null);
 		for(Leaderboard lb : Kits.getInstance().getLeaderboardManager().getLeaderboards()) {
 			if(!lb.hasBeenDeleted()) {
 				fc.set(i + ".Type", lb.getLeaderboardType().toString());
@@ -87,6 +84,12 @@ public class LeaderboardUtils {
 			else if(fc.getString(str + ".Type").equalsIgnoreCase("kdr"))
 				new KDRLeaderboard(new Location(Bukkit.getWorld(fc.getString(str + ".Location.World"))
 					, fc.getDouble(str + ".Location.X"), fc.getDouble(str + ".Location.Y"), fc.getDouble(str + ".Location.Z")));
+			else if(fc.getString(str + ".Type").equalsIgnoreCase("deaths"))
+				new DeathsLeaderboard(new Location(Bukkit.getWorld(fc.getString(str + ".Location.World"))
+						, fc.getDouble(str + ".Location.X"), fc.getDouble(str + ".Location.Y"), fc.getDouble(str + ".Location.Z")));
+			else if(fc.getString(str + ".Type").equalsIgnoreCase("eventsplayed"))
+				new EventsPlayedLeaderboard(new Location(Bukkit.getWorld(fc.getString(str + ".Location.World"))
+						, fc.getDouble(str + ".Location.X"), fc.getDouble(str + ".Location.Y"), fc.getDouble(str + ".Location.Z")));
 		}
 	}
 
