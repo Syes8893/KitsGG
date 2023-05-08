@@ -58,7 +58,8 @@ public abstract class Event {
 	}
 	
 	public void announceEventEnd() {
-		MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).getName());
+		if(eventManager.getEventTop().size() > 0)
+			MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).getName());
 		MessageUtils.broadcastMessage("&7&m------------------------------");
 		MessageUtils.broadcastMessage("&d&lEVENT HAS ENDED");
 		for (UUID uuid : participants.keySet()) {
