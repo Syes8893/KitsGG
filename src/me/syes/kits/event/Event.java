@@ -99,6 +99,10 @@ public abstract class Event {
 				kp.setSelectedKit(null);
 				kp.setKitSelected(false);
 				p.teleport(Kits.getInstance().getArenaManager().getArena().getLobbySpawn());
+				p.setSaturation(5);
+				p.setFoodLevel(20);
+				p.setHealth(20);
+				p.setFireTicks(0);
 				for(Entity e : kp.getMobs())
 					e.remove();
 			}
