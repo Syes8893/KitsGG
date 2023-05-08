@@ -2,16 +2,11 @@ package me.syes.kits.event;
 
 import java.util.*;
 
+import me.syes.kits.event.eventtypes.*;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.syes.kits.Kits;
-import me.syes.kits.event.eventtypes.BossEvent;
-import me.syes.kits.event.eventtypes.GoldRushEvent;
-import me.syes.kits.event.eventtypes.KothEvent;
-import me.syes.kits.event.eventtypes.MarksmanEvent;
-import me.syes.kits.event.eventtypes.RamboEvent;
-import me.syes.kits.event.eventtypes.ShowdownEvent;
 import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.utils.ConfigUtils;
 import me.syes.kits.utils.MessageUtils;
@@ -26,6 +21,7 @@ public class EventManager {
 	public BossEvent bossEvent;
 	public ShowdownEvent showdownEvent;
 	public GoldRushEvent goldRushEvent;
+	public PaintballEvent paintballEvent;
 	
 	private int time;
 	private Event nextEvent;
@@ -38,6 +34,7 @@ public class EventManager {
 		this.events.add(bossEvent = new BossEvent(this));
 		this.events.add(showdownEvent = new ShowdownEvent(this));
 		this.events.add(goldRushEvent = new GoldRushEvent(this));
+		this.events.add(paintballEvent = new PaintballEvent(this));
 		eventTimer(ConfigUtils.getConfigSection("Event").getInt("Delay-Minutes"));
 	}
 	
@@ -95,6 +92,10 @@ public class EventManager {
 
 	public GoldRushEvent getGoldRushEvent() {
 		return goldRushEvent;
+	}
+
+	public PaintballEvent getPaintballEvent() {
+		return paintballEvent;
 	}
     
     public HashMap<Integer, UUID> getEventTop() {

@@ -21,11 +21,11 @@ public class ListCommand extends SubCommand {
 				else name = "§c" + k.getName();*/
 			if(ConfigUtils.getConfigSection("Kits").getBoolean("Shortened-Kit-List")) {
 				if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName()))
-					str += "§7, §8" + k.getName();
+					str += "§7, §8" + k.getName() + " (" + k.getRequiredExp() + ")";
 				else if(kp.getExp() >= k.getRequiredExp())
-					str += "§7, §f" + k.getName();
+					str += "§7, §f" + k.getName() + " (" + k.getRequiredExp() + ")";
 				else
-					str += "§7, §7" + k.getName();
+					str += "§7, §7" + k.getName() + " (" + k.getRequiredExp() + ")";
 			}
 			else {
 				if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName()))
