@@ -45,8 +45,18 @@ public class PaintballEvent extends Event {
 					for(UUID uuid : participants.keySet()){
 						if(Bukkit.getOfflinePlayer(uuid).isOnline()){
 							KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
-							if(kp.isInArena())
-								Bukkit.getPlayer(uuid).getInventory().addItem(new ItemStack(Material.SNOW_BALL, 3));
+							if(kp.isInArena()){
+								int totalSnowballs = 0;
+								Player p = Bukkit.getPlayer(uuid);
+								if(p.getItemOnCursor().getType().equals(Material.SNOW_BALL))
+									totalSnowballs += p.getItemOnCursor().getAmount();
+								for(ItemStack is : p.getInventory())
+									if(is != null)
+										if(is.getType().equals(Material.SNOW_BALL))
+											totalSnowballs += is.getAmount();
+								if(totalSnowballs < 16)
+									p.getInventory().addItem(new ItemStack(Material.SNOW_BALL, Math.min(3, 16-totalSnowballs)));
+							}
 						}
 					}
 				if(time == 0) {
