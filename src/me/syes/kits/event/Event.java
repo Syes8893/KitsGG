@@ -72,9 +72,7 @@ public abstract class Event {
 					+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName());
 		}
 		MessageUtils.broadcastMessage("&7&m------------------------------");
-		if (participants.size() != 0) {
-			Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).addEventsWon();
-		}
+		Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).addEventsWon();
 	}
 	
 	public void loadParticipants() {
