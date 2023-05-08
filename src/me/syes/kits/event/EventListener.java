@@ -75,17 +75,19 @@ public class EventListener implements Listener {
 						UUID uuid = ((Player)((Arrow)e.getDamager()).getShooter()).getUniqueId();
 						int scoreGained = (int) Math.max(Math.pow((double)distance/10.0, 2), 1);
 						eventManager.getMarksmanEvent().setParticipantScore(uuid, eventManager.getMarksmanEvent().getParticipantScore(uuid) + scoreGained);
-						ActionBarMessage.sendMessage((Player)((Arrow)e.getDamager()).getShooter(), "§d+" + scoreGained + " Score §7(Landed Bowshot)");
+						ActionBarMessage.sendMessage((Player)((Arrow)e.getDamager()).getShooter(), "ï¿½d+" + scoreGained + " Score ï¿½7(Landed Bowshot)");
 					}
 		}
 		else if(eventManager.getPaintballEvent().isActive()) {
 			if (e.getEntity() instanceof Player)
 				if (e.getDamager() instanceof Snowball)
 					if (((Snowball) e.getDamager()).getShooter() instanceof Player) {
-						UUID uuid = ((Player) ((Snowball) e.getDamager()).getShooter()).getUniqueId();
-						eventManager.getPaintballEvent().setParticipantScore(uuid, eventManager.getPaintballEvent().getParticipantScore(uuid) + 1);
-						e.setDamage(EntityDamageEvent.DamageModifier.BASE, 3);
-						ActionBarMessage.sendMessage((Player) ((Snowball) e.getDamager()).getShooter(), "§d+1" + " Score §7(Hit Player)");
+						if ((((Snowball) e.getDamager()).getShooter() != e.getEntity())) {
+							UUID uuid = ((Player) ((Snowball) e.getDamager()).getShooter()).getUniqueId();
+							eventManager.getPaintballEvent().setParticipantScore(uuid, eventManager.getPaintballEvent().getParticipantScore(uuid) + 1);
+							e.setDamage(EntityDamageEvent.DamageModifier.BASE, 3);
+							ActionBarMessage.sendMessage((Player) ((Snowball) e.getDamager()).getShooter(), "ï¿½d+1" + " Score ï¿½7(Hit Player)");
+						}
 					}
 		}
 		else if(eventManager.getBossEvent().isActive()) {
@@ -93,13 +95,13 @@ public class EventListener implements Listener {
 				if(e.getDamager() instanceof Player) {
 					UUID uuid = ((Player)e.getDamager()).getUniqueId();
 					eventManager.getBossEvent().addParticipantSpecifiedScore(uuid, e.getFinalDamage());
-					ActionBarMessage.sendMessage((Player)e.getDamager(), "§d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score §7(Damaged Boss)");
+					ActionBarMessage.sendMessage((Player)e.getDamager(), "ï¿½d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score ï¿½7(Damaged Boss)");
 				}
 				else if(e.getDamager() instanceof Projectile)
 					if(((Projectile)e.getDamager()).getShooter() instanceof Player) {
 						UUID uuid = ((Player)((Projectile)e.getDamager()).getShooter()).getUniqueId();
 						eventManager.getBossEvent().addParticipantSpecifiedScore(uuid, e.getFinalDamage());
-						ActionBarMessage.sendMessage((Player)((Projectile)e.getDamager()).getShooter(), "§d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score §7(Damaged Boss)");
+						ActionBarMessage.sendMessage((Player)((Projectile)e.getDamager()).getShooter(), "ï¿½d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score ï¿½7(Damaged Boss)");
 					}
 			if(e.getEntity() instanceof Player && (e.getDamager() instanceof Player || e.getDamager() instanceof Projectile))
 				e.setDamage(0);
@@ -109,13 +111,13 @@ public class EventListener implements Listener {
 				if(e.getDamager() instanceof Player && e.getDamager() != e.getEntity()) {
 					UUID uuid = ((Player)e.getDamager()).getUniqueId();
 					eventManager.getShowdownEvent().addParticipantSpecifiedScore(uuid, (int) e.getFinalDamage());
-					ActionBarMessage.sendMessage((Player)e.getDamager(), "§d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score §7(Damaged Player)");
+					ActionBarMessage.sendMessage((Player)e.getDamager(), "ï¿½d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score ï¿½7(Damaged Player)");
 				}
 				else if(e.getDamager() instanceof Projectile)
 					if(((Projectile)e.getDamager()).getShooter() instanceof Player && ((Projectile)e.getDamager()).getShooter() != e.getEntity()) {
 						UUID uuid = ((Player)((Projectile)e.getDamager()).getShooter()).getUniqueId();
 						eventManager.getShowdownEvent().addParticipantSpecifiedScore(uuid, (int) e.getFinalDamage());
-						ActionBarMessage.sendMessage((Player)((Projectile)e.getDamager()).getShooter(), "§d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score §7(Damaged Player)");
+						ActionBarMessage.sendMessage((Player)((Projectile)e.getDamager()).getShooter(), "ï¿½d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score ï¿½7(Damaged Player)");
 					}
 		}
 	}
@@ -128,7 +130,7 @@ public class EventListener implements Listener {
 				Player killer = e.getEntity().getKiller();
 				eventManager.getRamboEvent().addParticipantScore(killer.getUniqueId());
 				killer.setHealth(killer.getMaxHealth());
-				ActionBarMessage.sendMessage(killer, "§c+10\u2764 §7(Kill, Rambo Event)");
+				ActionBarMessage.sendMessage(killer, "ï¿½c+10\u2764 ï¿½7(Kill, Rambo Event)");
 			}
 		}
 		else if(eventManager.getMarksmanEvent().isActive()) {
@@ -144,7 +146,7 @@ public class EventListener implements Listener {
 				if(e.getEntity().getLastDamageCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
 					Player killer = e.getEntity().getKiller();
 					eventManager.getPaintballEvent().setParticipantScore(killer.getUniqueId(), eventManager.getPaintballEvent().getParticipantScore(killer.getUniqueId()) + 3);
-					ActionBarMessage.sendMessage(killer, "§d+3" + " Score §7(Hit Player)");
+					ActionBarMessage.sendMessage(killer, "ï¿½d+3" + " Score ï¿½7(Hit Player)");
 					//removing itemdrops doesnt work, perhaps next time?
 //					Iterator it = e.getDrops().iterator();
 //					while(it.hasNext())
@@ -172,7 +174,7 @@ public class EventListener implements Listener {
 				e.setCancelled(true);
 				e.getItem().remove();
 				eventManager.getGoldRushEvent().addParticipantSpecifiedScore(p.getUniqueId(), e.getItem().getItemStack().getAmount());
-				ActionBarMessage.sendMessage(p, "§d+" + e.getItem().getItemStack().getAmount() + " Score §7(Picked up Gold)");
+				ActionBarMessage.sendMessage(p, "ï¿½d+" + e.getItem().getItemStack().getAmount() + " Score ï¿½7(Picked up Gold)");
 				p.playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 100.0F);
 			}
 		}
@@ -220,8 +222,8 @@ public class EventListener implements Listener {
 			return;
 		if(e.getPlayer().getItemInHand().getType() == Material.COMPASS) {
 			e.getPlayer().setCompassTarget(eventManager.getBossEvent().getBoss().getLocation());
-		ActionBarMessage.sendMessage(e.getPlayer(), "§fNow Tracking: §a" + eventManager.getBossEvent().getBoss().getCustomName()
-		+ " §7(" + new DecimalFormat("#.#").format(e.getPlayer().getLocation().distance(eventManager.getBossEvent().getBoss().getLocation())) + " Blocks)");
+		ActionBarMessage.sendMessage(e.getPlayer(), "ï¿½fNow Tracking: ï¿½a" + eventManager.getBossEvent().getBoss().getCustomName()
+		+ " ï¿½7(" + new DecimalFormat("#.#").format(e.getPlayer().getLocation().distance(eventManager.getBossEvent().getBoss().getLocation())) + " Blocks)");
 		}
     }
 	

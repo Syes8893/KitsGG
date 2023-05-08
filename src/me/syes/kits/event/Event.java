@@ -61,18 +61,19 @@ public abstract class Event {
 		MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).getName());
 		MessageUtils.broadcastMessage("&7&m------------------------------");
 		MessageUtils.broadcastMessage("&d&lEVENT HAS ENDED");
-		for(UUID uuid : participants.keySet()){
+		for (UUID uuid : participants.keySet()) {
 			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
 			kp.addEventsPlayed();
 		}
-		for(int i = 1; i < 4; i ++) {
-			if(i > eventManager.getEventTop().size()) break;
+		for (int i = 1; i < 4; i++) {
+			if (i > eventManager.getEventTop().size()) break;
 			MessageUtils.broadcastMessage("&7#" + i + " "
 					+ Kits.getInstance().getExpManager().getLevel(Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getExp()).getPrefix()
-				+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName());
+					+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName());
 		}
 		MessageUtils.broadcastMessage("&7&m------------------------------");
-		Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).addEventsWon();
+		if(eventManager.getEventTop().size() > 0)
+			Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).addEventsWon();
 	}
 	
 	public void loadParticipants() {
