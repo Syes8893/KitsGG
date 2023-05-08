@@ -8,6 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityCombustEvent;
@@ -64,17 +65,28 @@ public class EventListener implements Listener {
 	
 	@EventHandler
 	public void onDamageByEntity(EntityDamageByEntityEvent e) {
-		if(eventManager.getMarksmanEvent().isActive())
+		if(eventManager.getMarksmanEvent().isActive()){
 			if(e.getEntity() instanceof Player)
 				if(e.getDamager() instanceof Arrow)
 					if(((Arrow)e.getDamager()).getShooter() instanceof Player) {
 						int distance = (int) ((Player)((Arrow)e.getDamager()).getShooter()).getLocation().distance(e.getEntity().getLocation());
 						UUID uuid = ((Player)((Arrow)e.getDamager()).getShooter()).getUniqueId();
-						int scoreGained = (int) Math.max(Math.pow((double)distance/20.0, 2), 1);
+						int scoreGained = (int) Math.max(Math.pow((double)distance/10.0, 2), 1);
 						eventManager.getMarksmanEvent().setParticipantScore(uuid, eventManager.getMarksmanEvent().getParticipantScore(uuid) + scoreGained);
 						ActionBarMessage.sendMessage((Player)((Arrow)e.getDamager()).getShooter(), "§d+" + scoreGained + " Score §7(Landed Bowshot)");
 					}
-		if(eventManager.getBossEvent().isActive()) {
+		}
+		else if(eventManager.getPaintballEvent().isActive()) {
+			if (e.getEntity() instanceof Player)
+				if (e.getDamager() instanceof Snowball)
+					if (((Snowball) e.getDamager()).getShooter() instanceof Player) {
+						UUID uuid = ((Player) ((Snowball) e.getDamager()).getShooter()).getUniqueId();
+						eventManager.getPaintballEvent().setParticipantScore(uuid, eventManager.getPaintballEvent().getParticipantScore(uuid) + 1);
+						e.setDamage(EntityDamageEvent.DamageModifier.BASE, 3);
+						ActionBarMessage.sendMessage((Player) ((Snowball) e.getDamager()).getShooter(), "§d+1" + " Score §7(Hit Player)");
+					}
+		}
+		else if(eventManager.getBossEvent().isActive()) {
 			if(e.getEntity() == eventManager.getBossEvent().getBoss())
 				if(e.getDamager() instanceof Player) {
 					UUID uuid = ((Player)e.getDamager()).getUniqueId();
@@ -117,7 +129,7 @@ public class EventListener implements Listener {
 				ActionBarMessage.sendMessage(killer, "§c+10\u2764 §7(Kill, Rambo Event)");
 			}
 		}
-		if(eventManager.getMarksmanEvent().isActive()) {
+		else if(eventManager.getMarksmanEvent().isActive()) {
 			if(e.getEntity().getKiller() != null && e.getEntity().getKiller() != e.getEntity()) {
 				//Player killer = e.getEntity().getKiller();
 				//KitPlayer kpKiller = Kits.getInstance().getPlayerManager().getKitPlayers().get(killer.getUniqueId());
@@ -125,9 +137,22 @@ public class EventListener implements Listener {
 					e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), is);
 			}
 		}
-		if(eventManager.getShowdownEvent().isActive())
+		else if(eventManager.getPaintballEvent().isActive()) {
+			if(e.getEntity().getKiller() != null && e.getEntity().getKiller() != e.getEntity()) {
+				if(e.getEntity().getLastDamageCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
+					Player killer = e.getEntity().getKiller();
+					eventManager.getPaintballEvent().setParticipantScore(killer.getUniqueId(), eventManager.getPaintballEvent().getParticipantScore(killer.getUniqueId()) + 3);
+					ActionBarMessage.sendMessage(killer, "§d+3" + " Score §7(Hit Player)");
+					for(ItemStack is : e.getDrops()){
+						if(is.getType().equals(Material.SNOW_BALL))
+							e.getDrops().remove(is);
+					}
+				}
+			}
+		}
+		else if(eventManager.getShowdownEvent().isActive())
 			e.getDrops().add(new ItemStack(Material.GOLDEN_APPLE));
-		if(eventManager.getGoldRushEvent().isActive()) {
+		else if(eventManager.getGoldRushEvent().isActive()) {
 			for(ItemStack i : e.getDrops())
 				if(i.getType().equals(Material.GOLD_NUGGET))
 					e.getDrops().remove(i);
