@@ -1,6 +1,7 @@
 package me.syes.kits.event;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -16,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -145,10 +147,11 @@ public class EventListener implements Listener {
 					Player killer = e.getEntity().getKiller();
 					eventManager.getPaintballEvent().setParticipantScore(killer.getUniqueId(), eventManager.getPaintballEvent().getParticipantScore(killer.getUniqueId()) + 3);
 					ActionBarMessage.sendMessage(killer, "�d+3" + " Score �7(Hit Player)");
-					for(ItemStack is : e.getDrops()){
-						if(is.getType().equals(Material.SNOW_BALL))
-							e.getDrops().remove(is);
-					}
+					//removing itemdrops doesnt work, perhaps next time?
+//					Iterator it = e.getDrops().iterator();
+//					while(it.hasNext())
+//						if(((ItemStack)it.next()).getType().equals(Material.SNOW_BALL))
+//							it.remove();
 				}
 			}
 		}
@@ -165,15 +168,34 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onItemPickup(PlayerPickupItemEvent e) {
 		Player p = e.getPlayer();
-		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(e.getPlayer().getUniqueId());
-		if(eventManager.getGoldRushEvent().isActive())
-			if(e.getItem().getItemStack().getType().equals(Material.GOLD_NUGGET)) {
+//		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
+		if(eventManager.getGoldRushEvent().isActive()) {
+			if (e.getItem().getItemStack().getType().equals(Material.GOLD_NUGGET)) {
 				e.setCancelled(true);
 				e.getItem().remove();
 				eventManager.getGoldRushEvent().addParticipantSpecifiedScore(p.getUniqueId(), e.getItem().getItemStack().getAmount());
 				ActionBarMessage.sendMessage(p, "�d+" + e.getItem().getItemStack().getAmount() + " Score �7(Picked up Gold)");
-				p.playSound(p.getLocation(),Sound.NOTE_PLING, 1.0F, 100.0F);
+				p.playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 100.0F);
 			}
+		}
+		else if(eventManager.getPaintballEvent().isActive()) {
+			if(e.getItem().getItemStack().getType().equals(Material.SNOW_BALL)) {
+				e.setCancelled(true);
+				e.getItem().remove();
+			}
+		}
+	}
+
+	@EventHandler
+	public void onItemDrop(PlayerDropItemEvent event){
+		Player p = event.getPlayer();
+//		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
+		if(eventManager.getPaintballEvent().isActive()) {
+			if(event.getItemDrop().getItemStack().getType().equals(Material.SNOW_BALL)){
+				event.setCancelled(true);
+				p.updateInventory();
+			}
+		}
 	}
 	
 	@EventHandler
