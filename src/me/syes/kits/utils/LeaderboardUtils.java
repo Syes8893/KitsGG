@@ -90,6 +90,9 @@ public class LeaderboardUtils {
 			else if(fc.getString(str + ".Type").equalsIgnoreCase("eventsplayed"))
 				new EventsPlayedLeaderboard(new Location(Bukkit.getWorld(fc.getString(str + ".Location.World"))
 						, fc.getDouble(str + ".Location.X"), fc.getDouble(str + ".Location.Y"), fc.getDouble(str + ".Location.Z")));
+			else if(fc.getString(str + ".Type").equalsIgnoreCase("eventexp"))
+				new EventExpLeaderboard(new Location(Bukkit.getWorld(fc.getString(str + ".Location.World"))
+						, fc.getDouble(str + ".Location.X"), fc.getDouble(str + ".Location.Y"), fc.getDouble(str + ".Location.Z")));
 		}
 	}
 
