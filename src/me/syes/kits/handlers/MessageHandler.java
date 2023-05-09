@@ -35,14 +35,14 @@ public class MessageHandler implements Listener {
 		Player p = e.getEntity();
 		KitPlayer kitPlayer = Kits.getInstance().playerManager.getKitPlayers().get(p.getUniqueId());
 		//e.setDeathMessage(e.getDeathMessage().replace(p.getName(), "§2[" + kitPlayer.getKills() + "] §a" + p.getName() + "§f"));
-		e.setDeathMessage(e.getDeathMessage().replace(p.getName(), Kits.getInstance().expManager.getPlayerLevel(kitPlayer).getPrefix() 
-				+ Kits.getInstance().expManager.getPlayerLevel(kitPlayer).getNameColor() + p.getName() + "§f"));
+		e.setDeathMessage(e.getDeathMessage().replaceFirst(p.getName() + " ", Kits.getInstance().expManager.getPlayerLevel(kitPlayer).getPrefix()
+				+ Kits.getInstance().expManager.getPlayerLevel(kitPlayer).getNameColor() + p.getName() + " " + "§f"));
 		Player k = e.getEntity().getKiller();
 		if(k != null && k != p) {
 			KitPlayer killerKitPlayer = Kits.getInstance().playerManager.getKitPlayers().get(k.getUniqueId());
 			//e.setDeathMessage(e.getDeathMessage().replace(k.getName(), "§2[" + killerKitPlayer.getKills() + "] §a" + k.getName() + "§f"));
-			e.setDeathMessage(e.getDeathMessage().replace(k.getName(), Kits.getInstance().expManager.getPlayerLevel(killerKitPlayer).getPrefix() 
-					+ Kits.getInstance().expManager.getPlayerLevel(killerKitPlayer).getNameColor() + k.getName() + "§f"));
+			e.setDeathMessage(e.getDeathMessage().replace(k.getName() + " ", Kits.getInstance().expManager.getPlayerLevel(killerKitPlayer).getPrefix()
+					+ Kits.getInstance().expManager.getPlayerLevel(killerKitPlayer).getNameColor() + k.getName() + " " + "§f"));
 		}
 	}
 
