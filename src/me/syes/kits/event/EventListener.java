@@ -37,6 +37,9 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
+		p.setAllowFlight(false);
+		p.setFlying(false);
+		p.setFlySpeed(0.1f);
 		//KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
 		if(eventManager.getActiveEvent() != null) {
 //			if(!eventManager.getActiveEvent().getParticipants().contains(p.getUniqueId()));

@@ -5,6 +5,7 @@ import me.syes.kits.event.Event;
 import me.syes.kits.event.EventManager;
 import me.syes.kits.kitplayer.KitPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -48,10 +49,12 @@ public class SkyFightEvent extends Event {
     public void finishEvent() {
         this.announceEventEnd();
         for (UUID uuid : this.participants.keySet()) {
-            Player p = (Player) Bukkit.getOfflinePlayer(uuid);
-            p.setAllowFlight(false);
-            p.setFlying(false);
-            p.setFlySpeed(0.1f);
+            if (Bukkit.getOfflinePlayer(uuid).isOnline()) {
+                Player p = Bukkit.getPlayer(uuid);
+                p.setAllowFlight(false);
+                p.setFlying(false);
+                p.setFlySpeed(0.1f);
+            }
         }
         setActive(false);
         this.participants.clear();
