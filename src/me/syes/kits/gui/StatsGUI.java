@@ -45,6 +45,8 @@ public class StatsGUI {
 		lore.clear();
 		lore.add("§fEvents Played: §a" + kp.getEventsPlayed());
 		lore.add("§fEvents Won: §a" + kp.getEventsWon());
+		lore.add("§f");
+		lore.add("§fEvent Exp: §a" + kp.getEventExp());
 		ItemStack events = ItemUtils.buildItem(new ItemStack(Material.CAKE), "&a&lEvent Stats", lore, true, true);
 		
 		//Set all items in the GUI
