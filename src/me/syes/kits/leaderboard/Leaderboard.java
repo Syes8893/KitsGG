@@ -20,7 +20,7 @@ public abstract class Leaderboard {
 	protected boolean deleted;
 	
 	public enum LeaderboardType {
-		KILLS, EXP, EVENTS, KILLSTREAK, KDR, DEATHS, EVENTSPLAYED;
+		KILLS, EXP, EVENTS, KILLSTREAK, KDR, DEATHS, EVENTSPLAYED, EVENTEXP;
 	}
 	
 	public Leaderboard(Location loc, LeaderboardType lbType) {

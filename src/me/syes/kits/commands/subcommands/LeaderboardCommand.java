@@ -41,8 +41,10 @@ public class LeaderboardCommand extends SubCommand {
 				new DeathsLeaderboard(p.getLocation());
 			else if(args[2].equalsIgnoreCase("eventsplayed"))
 				new EventsPlayedLeaderboard(p.getLocation());
+			else if(args[2].equalsIgnoreCase("eventexp"))
+				new EventExpLeaderboard(p.getLocation());
 			else {
-				p.sendMessage("§cInvalid type, valid types are Kills, Exp, Events, Killstreak, KDR, Deaths and Eventsplayed.");
+				p.sendMessage("§cInvalid type, valid types are Kills, Exp, Events, Killstreak, KDR, Deaths, Eventsplayed and Eventexp.");
 				return;
 			}
 			p.sendMessage("§aSuccessfully created a new Leaderboard.");

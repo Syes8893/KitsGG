@@ -108,6 +108,16 @@ public class LeaderboardManager {
 				return 0;
 			}
 		};
+		Comparator<KitPlayer> eventExpSorter = new Comparator<KitPlayer>() {
+			@Override
+			public int compare(KitPlayer a, KitPlayer b) {
+				if(a.getEventsPlayed() > b.getEventsPlayed()) return -1;
+				else if(a.getEventsPlayed() < b.getEventsPlayed()) return 1;
+				if(a.getExp() > b.getExp()) return -1;
+				else if(a.getExp() < b.getExp()) return 1;
+				return 0;
+			}
+		};
     	
     	HashMap<KitPlayer, Integer> map = new HashMap<KitPlayer, Integer>();
     	ArrayList<KitPlayer> kitPlayers = new ArrayList<KitPlayer>();
@@ -130,6 +140,8 @@ public class LeaderboardManager {
 			kitPlayers.sort(deathsSorter);
 		else if(lbType.equals(LeaderboardType.EVENTSPLAYED))
 			kitPlayers.sort(eventsPlayedSorter);
+		else if(lbType.equals(LeaderboardType.EVENTEXP))
+			kitPlayers.sort(eventExpSorter);
     	for(KitPlayer kp : kitPlayers) {
     		map.put(kp, kitPlayers.indexOf(kp)+1);
     	}
