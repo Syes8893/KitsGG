@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.logging.log4j.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -33,7 +34,8 @@ public abstract class Event {
 	protected boolean active;
 	
 	protected int time;
-	
+	protected int totalScore;
+
 	public abstract void startEvent();
 	
 	public abstract void finishEvent();
@@ -70,11 +72,27 @@ public abstract class Event {
 			if (i > eventManager.getEventTop().size()) break;
 			MessageUtils.broadcastMessage("&7#" + i + " "
 					+ Kits.getInstance().getExpManager().getLevel(Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getExp()).getPrefix()
-					+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName());
+					+ Kits.getInstance().getExpManager().getLevel(Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getExp()).getNameColor()
+					+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName() + ": &f" + participants.get(eventManager.getEventTop().get(i)));
 		}
+		this.giveExp();
 		MessageUtils.broadcastMessage("&7&m------------------------------");
 		if(eventManager.getEventTop().size() > 0)
 			Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).addEventsWon();
+	}
+
+	public void giveExp(){
+		double totalScore = 0;
+		for(double score : participants.values()){
+			totalScore += score;
+		}
+		int expPool = participants.keySet().size() * 25;
+		for(UUID uuid : participants.keySet()){
+			int expPart = (int) ((participants.get(uuid)/totalScore) * expPool);
+			Kits.getInstance().getPlayerManager().getKitPlayer(uuid).addEventExp(expPart);
+			if(Bukkit.getOfflinePlayer(uuid).isOnline())
+				Bukkit.getPlayer(uuid).sendMessage("§7§oYou received " + expPart + " EXP as a participation bonus!");
+		}
 	}
 	
 	public void loadParticipants() {
