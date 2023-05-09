@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import me.syes.kits.Kits;
 import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.utils.ActionBarMessage;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class EventListener implements Listener {
 
@@ -36,6 +37,9 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
+		p.setAllowFlight(false);
+		p.setFlying(false);
+		p.setFlySpeed(0.1f);
 		//KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
 		if(eventManager.getActiveEvent() != null) {
 //			if(!eventManager.getActiveEvent().getParticipants().contains(p.getUniqueId()));
@@ -118,6 +122,42 @@ public class EventListener implements Listener {
 						ActionBarMessage.sendMessage((Player)((Projectile)e.getDamager()).getShooter(), "§d+" + new DecimalFormat("#.#").format(e.getFinalDamage()) + " Score §7(Damaged Player)");
 					}
 		}
+		else if (eventManager.getSkyFightEvent().isActive()) {
+			if (e.getEntity() instanceof Player) {
+				Player p = (Player) e.getEntity();
+				p.setAllowFlight(false);
+				p.setFlying(false);
+				new BukkitRunnable() {
+					int time = 5;
+					public void run() {
+						if(time == 1) {
+							p.setAllowFlight(true);
+							this.cancel();
+						}
+						if (p.isDead()) {
+							this.cancel();
+						}
+						time--;
+						ActionBarMessage.sendMessage(p, "§cYou can fly again in " + time + " seconds!");
+					}
+				}.runTaskTimer(Kits.getInstance(), 0, 20);
+
+			}
+			if (e.getDamager() instanceof Player) {
+				if (e.getDamage() > 0) {
+					Player d = (Player) e.getDamager();
+					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(d.getUniqueId(), e.getDamage());
+					ActionBarMessage.sendMessage(d, "§d+" + e.getDamage() + " Score §7(Hit Player)");
+				}
+			}
+			else if (e.getDamager() instanceof Projectile) {
+				if (e.getDamage() > 0) {
+					Player d = (Player) ((Projectile) e.getDamager()).getShooter();
+					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(d.getUniqueId(), e.getDamage());
+					ActionBarMessage.sendMessage(d, "§d+" + e.getDamage() + " Score §7(Hit Player)");
+				}
+			}
+		}
 	}
 
 	@EventHandler
@@ -159,6 +199,23 @@ public class EventListener implements Listener {
 				if(i.getType().equals(Material.GOLD_NUGGET))
 					e.getDrops().remove(i);
 			e.getDrops().add(new ItemStack(Material.GOLD_NUGGET, 1 + kp.getKillstreak()));
+		}
+		else if (eventManager.getSkyFightEvent().isActive()) {
+			Player p = e.getEntity();
+			p.setAllowFlight(false);
+			p.setFlying(false);
+			if (e.getEntity().getKiller() != null) {
+				if (e.getEntity().getKiller() instanceof Player) {
+					Player k = e.getEntity().getKiller();
+					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(e.getEntity().getKiller().getUniqueId(), 50);
+					ActionBarMessage.sendMessage(k, "§d+50" + " Score §7(Killed Player)");
+				}
+				if (e.getEntity().getKiller() instanceof Projectile) {
+					Player k = (Player) ((Projectile) e.getEntity().getKiller()).getShooter();
+					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(e.getEntity().getKiller().getUniqueId(), 50);
+					ActionBarMessage.sendMessage(k, "§d+50" + " Score §7(Killed Player)");
+				}
+			}
 		}
 	}
 

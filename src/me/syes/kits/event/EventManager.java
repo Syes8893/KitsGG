@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.syes.kits.Kits;
-import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.utils.ConfigUtils;
 import me.syes.kits.utils.MessageUtils;
 
@@ -22,6 +21,7 @@ public class EventManager {
 	public ShowdownEvent showdownEvent;
 	public GoldRushEvent goldRushEvent;
 	public PaintballEvent paintballEvent;
+	public SkyFightEvent skyFightEvent;
 	
 	private int time;
 	private Event nextEvent;
@@ -35,6 +35,7 @@ public class EventManager {
 		this.events.add(showdownEvent = new ShowdownEvent(this));
 		this.events.add(goldRushEvent = new GoldRushEvent(this));
 		this.events.add(paintballEvent = new PaintballEvent(this));
+		this.events.add(skyFightEvent = new SkyFightEvent(this));
 		eventTimer(ConfigUtils.getConfigSection("Event").getInt("Delay-Minutes"));
 	}
 	
@@ -55,7 +56,7 @@ public class EventManager {
 					nextEvent = getRandomEvent();
 				}
 			}
-		}.runTaskTimerAsynchronously(Kits.getInstance(), 20, 20);
+		}.runTaskTimer(Kits.getInstance(), 20, 20);
 	}
 	
 	public Event getRandomEvent() {
@@ -96,6 +97,9 @@ public class EventManager {
 
 	public PaintballEvent getPaintballEvent() {
 		return paintballEvent;
+	}
+	public SkyFightEvent getSkyFightEvent() {
+		return skyFightEvent;
 	}
     
     public HashMap<Integer, UUID> getEventTop() {
