@@ -64,10 +64,6 @@ public abstract class Event {
 			MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).getName());
 		MessageUtils.broadcastMessage("&7&m------------------------------");
 		MessageUtils.broadcastMessage("&d&lEVENT HAS ENDED");
-		for (UUID uuid : participants.keySet()) {
-			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
-			kp.addEventsPlayed();
-		}
 		for (int i = 1; i < 4; i++) {
 			if (i > eventManager.getEventTop().size()) break;
 			MessageUtils.broadcastMessage("&7#" + i + " "
@@ -75,8 +71,12 @@ public abstract class Event {
 					+ Kits.getInstance().getExpManager().getLevel(Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getExp()).getNameColor()
 					+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName() + ": &f" + participants.get(eventManager.getEventTop().get(i)));
 		}
-		this.giveExp();
 		MessageUtils.broadcastMessage("&7&m------------------------------");
+		this.giveExp();
+		for (UUID uuid : participants.keySet()) {
+			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
+			kp.addEventsPlayed();
+		}
 		if(eventManager.getEventTop().size() > 0)
 			Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).addEventsWon();
 	}
@@ -89,9 +89,9 @@ public abstract class Event {
 		int expPool = participants.keySet().size() * 25;
 		for(UUID uuid : participants.keySet()){
 			int expPart = (int) ((participants.get(uuid)/totalScore) * expPool);
-			Kits.getInstance().getPlayerManager().getKitPlayer(uuid).addEventExp(expPart);
 			if(Bukkit.getOfflinePlayer(uuid).isOnline())
 				Bukkit.getPlayer(uuid).sendMessage("§7§oYou received " + expPart + " EXP as a participation bonus!");
+			Kits.getInstance().getPlayerManager().getKitPlayer(uuid).addEventExp(expPart);
 		}
 	}
 	
