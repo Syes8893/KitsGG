@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.entity.Skeleton.SkeletonType;
@@ -20,6 +21,7 @@ import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.utils.ConfigUtils;
 import me.syes.kits.utils.ItemUtils;
 import me.syes.kits.utils.MessageUtils;
+import org.bukkit.util.Vector;
 
 public class BossEvent extends Event {
 	
@@ -66,14 +68,14 @@ public class BossEvent extends Event {
 				if(time < durationSeconds && time%10 == 0 && time > 0) {
 					bossAbility();
 				}
-				if(time%30 == 0 && time > 0) {
-					MessageUtils.broadcastMessage("&fThe boss is located at: &dX:" + boss.getLocation().getBlockX()
-							+ " Y:" + boss.getLocation().getBlockY() + " Z:" + boss.getLocation().getBlockZ() + " &7(Use the compass to track it down!)");
-				}
-				if(time == 0 || boss.isDead()) {
+				if(time == 0 || boss == null || boss.isDead()) {
 					finishEvent();
 					this.cancel();
 					time++;
+				}
+				if(time%30 == 0 && time > 0) {
+					MessageUtils.broadcastMessage("&fThe boss is located at: &dX:" + boss.getLocation().getBlockX()
+							+ " Y:" + boss.getLocation().getBlockY() + " Z:" + boss.getLocation().getBlockZ() + " &7(Use the compass to track it down!)");
 				}
 				time--;
 			}
@@ -128,30 +130,20 @@ public class BossEvent extends Event {
 			karl.getEquipment().setBoots(ItemUtils.buildEnchantedItem(new ItemStack(Material.DIAMOND_BOOTS), "§2Karl's Nikes", Arrays.asList(""), enchants));
 			boss = karl;
 		}else if(r == 2) {
-			Skeleton skeleton = (Skeleton) a.getWorld().spawnEntity(a.getCenter(), EntityType.SKELETON);
-			//skeleton.setPassenger(a.getWorld().spawnEntity(skeleton.getLocation(), EntityType.SKELETON));
-			skeleton.setSkeletonType(SkeletonType.NORMAL);
-			skeleton.setMaxHealth(this.health);
-			skeleton.setHealth(skeleton.getMaxHealth());
-			skeleton.setCustomName("§eVictor the Undead");
-			skeleton.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 3, true));
-			skeleton.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 1, true));
-			skeleton.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, true));
-			//Set Items
-			HashMap<Enchantment, Integer> enchants = new HashMap<Enchantment, Integer>();
-			enchants.put(Enchantment.ARROW_DAMAGE, 8);
-			enchants.put(Enchantment.ARROW_INFINITE, 5);
-			skeleton.getEquipment().setItemInHand(ItemUtils.buildEnchantedItem(new ItemStack(Material.BOW)
-					, "§eVictor's Ancient Treasure", Arrays.asList(""), enchants));
-			boss = skeleton;
-			Horse horse = (Horse) a.getWorld().spawnEntity(a.getCenter(), EntityType.HORSE);
-			horse.setVariant(Horse.Variant.SKELETON_HORSE);
-			horse.setPassenger(skeleton);
+			Location randomLoc = a.getRandomSpawn();
+			IronGolem ironGolem = (IronGolem) a.getWorld().spawnEntity(randomLoc, EntityType.IRON_GOLEM);
+			ironGolem.setMaxHealth(this.health);
+			ironGolem.setHealth(ironGolem.getMaxHealth());
+			ironGolem.setCustomName("§eDarius the Protector");
+			ironGolem.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 2, true));
+			ironGolem.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0, true));
+			ironGolem.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, true));
+			boss = ironGolem;
 		}
 	}
 	
 	public void bossAbility() {
-		int r = new Random().nextInt(5);
+		int r = new Random().nextInt(6);
 		for(Entity e : boss.getNearbyEntities(10, 5, 10))
 			if(e instanceof Player) {
 				Player p = (Player) e;
@@ -192,6 +184,16 @@ public class BossEvent extends Event {
 						boss.teleport(playerLoc);
 						p.sendMessage("§7§oYou've swapped locations with the boss!");
 						MessageUtils.broadcastMessage(boss.getCustomName() + " §fused ability: §dLocation Swap");
+						break;
+					}else
+						if(r == 5) {
+						//Groundslam
+						Location playerLoc = p.getLocation();
+						Location bossLoc = boss.getLocation();
+						if(playerLoc.distance(bossLoc) < 10){
+							p.setVelocity(new Vector(((playerLoc.getX()-bossLoc.getX()))/2 + 2, ((playerLoc.getY() - bossLoc.getY()))/5 + 3, ((playerLoc.getZ()-bossLoc.getZ()))/2 + 2));
+						}
+						MessageUtils.broadcastMessage(boss.getCustomName() + " §fused ability: §dGroundslam");
 						break;
 					}
 				}

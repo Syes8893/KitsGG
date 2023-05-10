@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------------#
 
 #DO NOT TOUCH
-Config-Version: 1.2
+Config-Version: 1.2.1
 
 Kits:
   Per-Kit-Permission: false
@@ -64,6 +64,12 @@ Scoreboard:
   Primary-Color: "&f"
   Secondary-Color: "&a"
   Server-IP: "&7&oserver-ip"
+
+NPC:
+  Name-Color: "&a&l"
+
+Leaderboard:
+  Title-Color: "&a&l"
   
 Extra:
   Display-Health: true

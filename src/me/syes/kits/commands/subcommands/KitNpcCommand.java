@@ -1,5 +1,6 @@
 package me.syes.kits.commands.subcommands;
 
+import me.syes.kits.utils.ConfigUtils;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -17,7 +18,7 @@ public class KitNpcCommand extends SubCommand{
 		}
 		if(args[1].equalsIgnoreCase("add")) {
 			ArmorStand as = (ArmorStand) p.getWorld().spawnEntity(p.getLocation(), EntityType.ARMOR_STAND);
-			as.setCustomName("§aAvailable Kits");
+			as.setCustomName(ConfigUtils.getConfigSection("NPC").getString("Name-Color").replace("&", "§") + "Available Kits");
 			as.setCustomNameVisible(true);
 			as.setBasePlate(false);
 			as.setArms(true);
@@ -32,7 +33,7 @@ public class KitNpcCommand extends SubCommand{
 		}else if(args[1].equalsIgnoreCase("remove")) {
 			for(Entity e : p.getNearbyEntities(3, 3, 3)) {
 				if(e.getType() == EntityType.ARMOR_STAND 
-						&& (e.getCustomName() != null && e.getCustomName().equalsIgnoreCase("§aAvailable Kits"))) e.remove();
+						&& (e.getCustomName() != null && e.getCustomName().equalsIgnoreCase(ConfigUtils.getConfigSection("NPC").getString("Name-Color").replace("&", "§") + "Available Kits"))) e.remove();
 			}
 			p.sendMessage("§aSuccessfully removed all nearby NPCs.");
 		}

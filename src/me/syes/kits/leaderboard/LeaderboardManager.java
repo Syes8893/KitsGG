@@ -111,8 +111,8 @@ public class LeaderboardManager {
 		Comparator<KitPlayer> eventExpSorter = new Comparator<KitPlayer>() {
 			@Override
 			public int compare(KitPlayer a, KitPlayer b) {
-				if(a.getEventsPlayed() > b.getEventsPlayed()) return -1;
-				else if(a.getEventsPlayed() < b.getEventsPlayed()) return 1;
+				if(a.getEventExp() > b.getEventExp()) return -1;
+				else if(a.getEventExp() < b.getEventExp()) return 1;
 				if(a.getExp() > b.getExp()) return -1;
 				else if(a.getExp() < b.getExp()) return 1;
 				return 0;

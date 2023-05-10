@@ -41,6 +41,10 @@ public class PaintballEvent extends Event {
 		this.time = this.durationSeconds;
 		new BukkitRunnable() {
 			public void run() {
+				if(!isActive()) {
+					this.cancel();
+					return;
+				}
 				if(time% 3 == 0)
 					for(UUID uuid : participants.keySet()){
 						if(Bukkit.getOfflinePlayer(uuid).isOnline()){
@@ -66,7 +70,7 @@ public class PaintballEvent extends Event {
 				}
 				time--;
 			}
-		}.runTaskTimerAsynchronously(Kits.getInstance(), 0, 20);
+		}.runTaskTimer(Kits.getInstance(), 0, 20);
 	}
 
 	@Override

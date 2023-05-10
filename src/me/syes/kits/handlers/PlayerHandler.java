@@ -52,6 +52,8 @@ public class PlayerHandler implements Listener {
 
 	private boolean itemDrops;
 	private boolean lootchestOnBurn;
+
+	private String npcPrefix;
 	
 	public PlayerHandler() {
 		this.allowWorkbench = ConfigUtils.getConfigSection("Arena.Utility").getBoolean("Allow-Crafting");
@@ -60,6 +62,7 @@ public class PlayerHandler implements Listener {
 
 		this.itemDrops = ConfigUtils.getConfigSection("Arena.Player-Deaths").getBoolean("Item-Drops");
 		this.lootchestOnBurn = ConfigUtils.getConfigSection("Arena.Player-Deaths").getBoolean("Loot-Chest-On-Burn");
+		this.npcPrefix = ConfigUtils.getConfigSection("NPC").getString("Name-Color").replace("&", "§");
 	}
 	
 	@EventHandler
@@ -79,10 +82,10 @@ public class PlayerHandler implements Listener {
 		if(!p.hasPermission("kits.basic")) return;
 		if(!kitPlayer.isInArena()) e.setCancelled(true);
 		if(e.getRightClicked().getCustomName() != null
-				&& e.getRightClicked().getCustomName().equals("§aJoin The Arena")) {
+				&& e.getRightClicked().getCustomName().equals(npcPrefix + "Join The Arena")) {
 			Kits.getInstance().getArenaManager().warpIntoArena(p);
 		}else if(e.getRightClicked().getCustomName() != null
-				&& e.getRightClicked().getCustomName().equals("§aAvailable Kits")) {
+				&& e.getRightClicked().getCustomName().equals(npcPrefix + "Available Kits")) {
 			KitsGUI.openKitsGUI(p);
 		}
 	}
@@ -134,9 +137,11 @@ public class PlayerHandler implements Listener {
 			e.setQuitMessage(Kits.getInstance().expManager.getPlayerLevel(kp).getPrefix() 
 							+ Kits.getInstance().expManager.getPlayerLevel(kp).getSecondaryColor() + p.getName() + "§f has left the server");
 		if(kp.isInArena()) {
+			e.setQuitMessage(null);
 			kp.setInArena(false);
 			kp.setKitSelected(false);
 			kp.resetSelectedKit();
+			kp.resetKillstreak();
 			kp.removeMobs();
 			for(ItemStack is : p.getInventory().getContents()) {
 				if(is != null)
@@ -151,9 +156,23 @@ public class PlayerHandler implements Listener {
 			p.setHealth(p.getMaxHealth());
 			p.setFoodLevel(20);
 			p.setSaturation(20);
-			if(p.getKiller() == null)
-				Bukkit.broadcastMessage(Kits.getInstance().expManager.getPlayerLevel(kp).getPrefix() 
-						+ Kits.getInstance().expManager.getPlayerLevel(kp).getSecondaryColor() + p.getName() + "§f left and was killed");
+			if(p.getKiller() == null) {
+				if(p.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+					if(((EntityDamageByEntityEvent) p.getLastDamageCause()).getDamager() instanceof Player){
+						Player killer = (Player) ((EntityDamageByEntityEvent) p.getLastDamageCause()).getDamager();
+						KitPlayer killerKitPlayer = Kits.getInstance().getPlayerManager().getKitPlayer(killer.getUniqueId());
+						killerKitPlayer.addKill();
+						Bukkit.broadcastMessage(Kits.getInstance().expManager.getPlayerLevel(kp).getPrefix()
+								+ Kits.getInstance().expManager.getPlayerLevel(kp).getSecondaryColor() + p.getName() + "§f left and was killed by "
+								+ Kits.getInstance().expManager.getPlayerLevel(killerKitPlayer).getPrefix()
+								+ Kits.getInstance().expManager.getPlayerLevel(killerKitPlayer).getSecondaryColor() + killer.getName()
+						);
+					}
+				}else{
+					Bukkit.broadcastMessage(Kits.getInstance().expManager.getPlayerLevel(kp).getPrefix()
+							+ Kits.getInstance().expManager.getPlayerLevel(kp).getSecondaryColor() + p.getName() + "§f left and was killed");
+				}
+			}
 			if(p.getKiller() != null) {
 				Player killer = p.getKiller();
 				KitPlayer killerKitPlayer = Kits.getInstance().getPlayerManager().getKitPlayer(killer.getUniqueId());
@@ -163,6 +182,7 @@ public class PlayerHandler implements Listener {
 					else killer.setHealth(p.getKiller().getMaxHealth());
 					killer.setFoodLevel(20);
 					killer.setSaturation(20);
+					killerKitPlayer.addKill();
 					ActionBarMessage.sendMessage(killer, "§c+2\u2764 §7(Kill)");
 					Bukkit.broadcastMessage(Kits.getInstance().expManager.getPlayerLevel(kp).getPrefix() 
 							+ Kits.getInstance().expManager.getPlayerLevel(kp).getSecondaryColor() + p.getName() + "§f left and was killed by "
