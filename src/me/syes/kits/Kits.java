@@ -95,14 +95,14 @@ public class Kits extends JavaPlugin {
 		ArenaUtils.loadArenaData();
 		PlayerUtils.loadPlayerData();
 		//Temporary fix for
-		for(Entity e : arenaManager.getArena().getWorld().getEntities()){
-
-			if(e.getCustomName() == null)
-				continue;
-			if(!(e instanceof Player) && !(e.getType().equals(EntityType.ARMOR_STAND) && (e.getCustomName().equalsIgnoreCase("§aJoin the Arena")
-					|| e.getCustomName().equalsIgnoreCase("§aAvailable Kits"))))
-				e.remove();
-		}
+//		for(Entity e : arenaManager.getArena().getWorld().getEntities()){
+//
+//			if(e.getCustomName() == null)
+//				continue;
+//			if(!(e instanceof Player) && !(e.getType().equals(EntityType.ARMOR_STAND) && (e.getCustomName().equalsIgnoreCase("Join the Arena")
+//					|| e.getCustomName().equalsIgnoreCase("Available Kits"))))
+//				e.remove();
+//		}
 		LeaderboardUtils.loadLeaderboardData();
 		
 		//Fix no KitPlayer bug
