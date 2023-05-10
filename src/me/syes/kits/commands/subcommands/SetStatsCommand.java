@@ -32,8 +32,10 @@ public class SetStatsCommand extends SubCommand {
 			kp.setEventsWon(amt);
 		else if(args[2].equalsIgnoreCase("bonusexp"))
 			kp.setBonusExp(amt);
+		else if(args[2].equalsIgnoreCase("eventexp"))
+			kp.setEventExp(amt);
 		else {
-			p.sendMessage("§cInvalid type, valid types are Kills, Deaths, Eventsplayed, Eventswon and Bonusexp.");
+			p.sendMessage("§cInvalid type, valid types are Kills, Deaths, Eventsplayed, Eventswon, Bonusexp and EventExp.");
 			return;
 		}
 		p.sendMessage("§aSuccesfully updated " + kp.getName() + "'s Stats!");
@@ -41,12 +43,12 @@ public class SetStatsCommand extends SubCommand {
 
 	@Override
 	public void help(Player p) {
-		p.sendMessage("§cUsage: /stats set <player> <kills/deaths/eventplayed/eventswon/bonusexp> <amount>");
+		p.sendMessage("§cUsage: /stats set <player> <kills/deaths/eventplayed/eventswon/bonusexp/eventexp> <amount>");
 	}
 
 	@Override
 	public String permission() {
-		return "kits.basic";
+		return "kits.admin";
 	}
 
 }
