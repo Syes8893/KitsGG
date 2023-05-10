@@ -3,6 +3,7 @@ package me.syes.kits.event;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
+import me.syes.kits.kit.Kit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
@@ -125,22 +126,10 @@ public class EventListener implements Listener {
 		else if (eventManager.getSkyFightEvent().isActive()) {
 			if (e.getEntity() instanceof Player) {
 				Player p = (Player) e.getEntity();
+				KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(p.getUniqueId());
 				p.setAllowFlight(false);
 				p.setFlying(false);
-				new BukkitRunnable() {
-					int time = 5;
-					public void run() {
-						if(time == 1) {
-							p.setAllowFlight(true);
-							this.cancel();
-						}
-						if (p.isDead()) {
-							this.cancel();
-						}
-						time--;
-						ActionBarMessage.sendMessage(p, "§cYou can fly again in " + time + " seconds!");
-					}
-				}.runTaskTimer(Kits.getInstance(), 0, 20);
+				eventManager.getSkyFightEvent().flyCooldown.put(p.getUniqueId(), 5);
 
 			}
 			if (e.getDamager() instanceof Player) {
@@ -207,12 +196,12 @@ public class EventListener implements Listener {
 			if (e.getEntity().getKiller() != null) {
 				if (e.getEntity().getKiller() instanceof Player) {
 					Player k = e.getEntity().getKiller();
-					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(e.getEntity().getKiller().getUniqueId(), 50);
+					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(e.getEntity().getKiller().getUniqueId(), 10);
 					ActionBarMessage.sendMessage(k, "§d+50" + " Score §7(Killed Player)");
 				}
 				if (e.getEntity().getKiller() instanceof Projectile) {
 					Player k = (Player) ((Projectile) e.getEntity().getKiller()).getShooter();
-					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(e.getEntity().getKiller().getUniqueId(), 50);
+					eventManager.getSkyFightEvent().addParticipantSpecifiedScore(e.getEntity().getKiller().getUniqueId(), 10);
 					ActionBarMessage.sendMessage(k, "§d+50" + " Score §7(Killed Player)");
 				}
 			}
