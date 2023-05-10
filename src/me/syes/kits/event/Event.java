@@ -1,5 +1,6 @@
 package me.syes.kits.event;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -19,10 +20,13 @@ import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.utils.ConfigUtils;
 import me.syes.kits.utils.MessageUtils;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 public abstract class Event {
 
 	protected EventManager eventManager;
+
+	//protected BukkitTask runnable;
 	
 	protected HashMap<UUID, Double> participants;
 	protected String name;
@@ -48,8 +52,12 @@ public abstract class Event {
 	public void announceEventStart() {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			this.announceEventStart(p);
-			p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1.0F, 1.0F);
+			p.playSound(p.getLocation(), Sound.WITHER_DEATH, 1.0F, 0.9F);
 		}
+//		MessageUtils.broadcastTitle("&d&l" + this.name.toUpperCase(), this.goal);
+//		MessageUtils.broadcastMessage("&7&m--------------------------------------------------");
+//		MessageUtils.broadcastMessage("&d&l" + this.name.toUpperCase() + " EVENT HAS STARTED " + " \n&fObjective: &a" + this.goal + "\n&7&o" + this.rules);
+//		MessageUtils.broadcastMessage("&7&m--------------------------------------------------");
 	}
 	
 	public void announceEventStart(Player p) {
@@ -62,16 +70,16 @@ public abstract class Event {
 	public void announceEventEnd() {
 		if(eventManager.getEventTop().size() > 0)
 			MessageUtils.broadcastTitle("&d&lEVENT ENDED", "&fWinner: " + Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(1)).getName());
-		MessageUtils.broadcastMessage("&7&m------------------------------");
+		MessageUtils.broadcastMessage("&7&m--------------------------------------------------");
 		MessageUtils.broadcastMessage("&d&lEVENT HAS ENDED");
 		for (int i = 1; i < 4; i++) {
 			if (i > eventManager.getEventTop().size()) break;
 			MessageUtils.broadcastMessage("&7#" + i + " "
 					+ Kits.getInstance().getExpManager().getLevel(Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getExp()).getPrefix()
 					+ Kits.getInstance().getExpManager().getLevel(Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getExp()).getNameColor()
-					+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName() + ": &f" + participants.get(eventManager.getEventTop().get(i)));
+					+ Kits.getInstance().getPlayerManager().getKitPlayers().get(eventManager.getEventTop().get(i)).getName() + ": &f" + new DecimalFormat("#.#").format(participants.get(eventManager.getEventTop().get(i))));
 		}
-		MessageUtils.broadcastMessage("&7&m------------------------------");
+		MessageUtils.broadcastMessage("&7&m--------------------------------------------------");
 		this.giveExp();
 		for (UUID uuid : participants.keySet()) {
 			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayers().get(uuid);
@@ -139,6 +147,9 @@ public abstract class Event {
 				}
 			}
 		}.runTask(Kits.getInstance());
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			p.playSound(p.getLocation(), Sound.AMBIENCE_THUNDER, 1.0F, 0.9F);
+		}
 	}
 
 	public boolean isActive() {
