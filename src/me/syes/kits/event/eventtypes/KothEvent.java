@@ -56,6 +56,10 @@ public class KothEvent extends Event {
 		this.time = this.durationSeconds;
 		new BukkitRunnable() {
 			public void run() {
+				if(!isActive()) {
+					this.cancel();
+					return;
+				}
 				checkLocation();
 				if(time == 0) {
 					finishEvent();
@@ -64,7 +68,7 @@ public class KothEvent extends Event {
 				}
 				time--;
 			}
-		}.runTaskTimerAsynchronously(Kits.getInstance(), 0, 20);
+		}.runTaskTimer(Kits.getInstance(), 0, 20);
 	}
 
 	@Override

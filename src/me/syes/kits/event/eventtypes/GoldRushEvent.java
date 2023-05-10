@@ -33,6 +33,10 @@ public class GoldRushEvent extends Event {
 		this.time = this.durationSeconds;
 		new BukkitRunnable() {
 			public void run() {
+				if(!isActive()) {
+					this.cancel();
+					return;
+				}
 				if(time % 3 == 0 && time > 0) {
 					Arena a = Kits.getInstance().getArenaManager().getArena();
 					for(int i = 0; i < Bukkit.getServer().getOnlinePlayers().size(); i++){
@@ -53,7 +57,7 @@ public class GoldRushEvent extends Event {
 				}
 				time--;
 			}
-		}.runTaskTimerAsynchronously(Kits.getInstance(), 0, 20);
+		}.runTaskTimer(Kits.getInstance(), 0, 20);
 	}
 
 	@Override

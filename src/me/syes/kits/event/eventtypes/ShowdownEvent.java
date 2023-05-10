@@ -38,6 +38,10 @@ public class ShowdownEvent extends Event {
 		this.time = this.durationSeconds;
 		new BukkitRunnable() {
 			public void run() {
+				if(!isActive()) {
+					this.cancel();
+					return;
+				}
 				if(time == 0) {
 					finishEvent();
 					this.cancel();
@@ -45,7 +49,7 @@ public class ShowdownEvent extends Event {
 				}
 				time--;
 			}
-		}.runTaskTimerAsynchronously(Kits.getInstance(), 0, 20);
+		}.runTaskTimer(Kits.getInstance(), 0, 20);
 	}
 	
 	public void setDoubleHealth(Player p) {
