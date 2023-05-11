@@ -22,6 +22,7 @@ public class EventManager {
 	public GoldRushEvent goldRushEvent;
 	public PaintballEvent paintballEvent;
 	public SkyFightEvent skyFightEvent;
+	public EnderHuntEvent enderHuntEvent;
 	
 	private int time;
 	private Event nextEvent;
@@ -36,6 +37,7 @@ public class EventManager {
 		this.events.add(goldRushEvent = new GoldRushEvent(this));
 		this.events.add(paintballEvent = new PaintballEvent(this));
 		this.events.add(skyFightEvent = new SkyFightEvent(this));
+		this.events.add(enderHuntEvent = new EnderHuntEvent(this));
 		eventTimer(ConfigUtils.getConfigSection("Event").getInt("Delay-Minutes"));
 	}
 	
@@ -100,6 +102,9 @@ public class EventManager {
 	}
 	public SkyFightEvent getSkyFightEvent() {
 		return skyFightEvent;
+	}
+	public EnderHuntEvent getEnderHuntEvent() {
+		return enderHuntEvent;
 	}
     
     public HashMap<Integer, UUID> getEventTop() {
