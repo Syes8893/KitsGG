@@ -21,17 +21,17 @@ public class Kit {
 	
 	private int requiredExp;
 
-	private boolean hasPrestige;
+	private boolean hasUpgrade;
+	private int level;
 	
-	public Kit(String name, HashMap<Integer, ItemStack> items, ItemStack[] armour, ItemStack icon, int requiredExp, boolean hasPrestige) {
+	public Kit(String name, HashMap<Integer, ItemStack> items, ItemStack[] armour, ItemStack icon, int requiredExp, boolean hasUpgrade, int level) {
 		this.name = name;
-//		if(this.name.contains("_prestige"))
-//			this.name = this.name.replace("_prestige", "");
 		this.items = items;
 		this.armour = armour;
 		this.icon = icon;
 		this.requiredExp = requiredExp;
-		this.hasPrestige = hasPrestige;
+		this.hasUpgrade = hasUpgrade;
+		this.level = level;
 		Kits.getInstance().getKitManager().addKit(this);
 	}
 	
@@ -41,7 +41,7 @@ public class Kit {
 		p.setHealth(p.getMaxHealth());
 		for(PotionEffect pe : p.getActivePotionEffects()) p.removePotionEffect(pe.getType());
 		p.getInventory().setArmorContents(armour.clone());
-		//ItemUtils.renameItems(this.items.values(), this, "&6[Prestige] ");
+		//ItemUtils.renameItems(this.items.values(), this, "&6[Prestige + prestigeLevel] ");
 		for(int slot : items.keySet()) {
 			p.getInventory().setItem(slot, items.get(slot));
 		}
@@ -51,6 +51,14 @@ public class Kit {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getFileName(){
+		return name + "_" + level;
+	}
+
+	public String getNameAndLevel() {
+		return name + " (Level: " + level + ")";
 	}
 
 	public void setName(String name) {
@@ -91,11 +99,19 @@ public class Kit {
 		this.requiredExp = requiredExp;
 	}
 
-	public boolean hasPrestige() {
-		return hasPrestige;
+	public boolean hasUpgrade() {
+		return hasUpgrade;
 	}
 
-	public void setHasPrestige(boolean hasPrestige) {
-		this.hasPrestige = hasPrestige;
+	public void setHasUpgrade(boolean hasUpgrade) {
+		this.hasUpgrade = hasUpgrade;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 }

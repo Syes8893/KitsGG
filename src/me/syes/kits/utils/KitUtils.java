@@ -23,9 +23,9 @@ public class KitUtils {
 	
 	public static void saveKit(Kit k) {
 		new File(Kits.getInstance().getDataFolder() + "/kits").mkdir();
-		File f = new File(Kits.getInstance().getDataFolder() + "/kits/" + k.getName().toString() + ".yml");
+		File f = new File(Kits.getInstance().getDataFolder() + "/kits/" + k.getFileName() + ".yml");
 		
-		if(!f.exists() && !f.getName().equals(k.getName().toString())) {
+		if(!f.exists() && !f.getName().equals(k.getFileName())) {
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
@@ -53,7 +53,8 @@ public class KitUtils {
 		}
 		fc.set(k.getName().toLowerCase() + ".icon", k.getIcon());
 		fc.set(k.getName().toLowerCase() + ".requiredExp", k.getRequiredExp());
-		fc.set(k.getName().toLowerCase() + ".hasPrestige", k.hasPrestige());
+		fc.set(k.getName().toLowerCase() + ".hasUpgrade", k.hasUpgrade());
+		fc.set(k.getName().toLowerCase() + ".level", k.getLevel());
 		
 		try {
 			fc.save(f);
@@ -72,17 +73,22 @@ public class KitUtils {
 			} catch (IOException | InvalidConfigurationException e) {
 				e.printStackTrace();
 			}
-			new Kit(getKitName(f), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(f).toLowerCase() + ".requiredExp"), getHasPrestige(f, fc));
+			new Kit(getKitName(fc), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(fc).toLowerCase() + ".requiredExp"), getHasUpgrade(fc), getLevel(fc));
 		}
+
 		Kits.getInstance().getKitManager().organiseKits();
 	}
 	
-	public static String getKitName(File f) {
-		return f.getName().replace(".yml", "");
+	public static String getKitName(FileConfiguration fc) {
+		return fc.getString("");
 	}
 
-	public static Boolean getHasPrestige(File f, FileConfiguration fc) {
-		return fc.getBoolean(getKitName(f).toLowerCase() + ".hasPrestige");
+	public static Boolean getHasUpgrade(FileConfiguration fc) {
+		return fc.getBoolean(getKitName(fc).toLowerCase() + ".hasUpgrade");
+	}
+
+	public static int getLevel(FileConfiguration fc) {
+		return fc.getInt(getKitName(fc).toLowerCase() + ".level");
 	}
 
 	public static HashMap<Integer, ItemStack> loadItems(FileConfiguration fc) {

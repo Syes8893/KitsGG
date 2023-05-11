@@ -18,23 +18,30 @@ public class KitManager {
 		kits = new ArrayList<Kit>();
 	}
 	
-	public Kit getKit(String name) {
+	public Kit getKit(String name, int level) {
 		for(Kit k : kits)
-			if(k.getName().equalsIgnoreCase(name))
+			if(k.getName().equalsIgnoreCase(name) && k.getLevel() == level)
 				return k;
 		return null;
 	}
+
+//	public Kit getNextPrestigeKit(String name, int level){
+//		for(Kit k : kits)
+//			if(k.getName().equals(name) && k.getPrestigeLevel() == level+1)
+//				return k;
+//		return null;
+//	}
 	
 	public void giveKit(Player p, Kit k) {
 		if(isAllowedKit(p, k, true)) {
 			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
-			if(k.hasPrestige()){
-				Kit pres = Kits.getInstance().getKitManager().getKit(k.getName() + "_prestige");
-				if(kp.getExp() >= pres.getRequiredExp()){
-					giveKit(p, pres);
-					return;
-				}
-			}
+//			if(k.hasUpgrade()){
+//				Kit pres = Kits.getInstance().getKitManager().getKit(k.getName() + "_prestige");
+//				if(kp.getExp() >= pres.getRequiredExp()){
+//					giveKit(p, pres);
+//					return;
+//				}
+//			}
 			k.giveKit(p);
 			p.sendMessage("§aYou have received the " + k.getName() + " Kit.");
 		}
@@ -46,7 +53,7 @@ public class KitManager {
 			if(sendMessages) p.sendMessage("§cYou don't have permission to use this kit.");
 			return false;
 		}
-		if(kp.getExp() < k.getRequiredExp()) {
+		else if(kp.getExp() < k.getRequiredExp()) {
 			if(sendMessages) p.sendMessage("§cYou don't have enough Exp to use this kit. (" + kp.getExp() + "/" + k.getRequiredExp() + ")");
 			return false;
 		}

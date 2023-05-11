@@ -32,10 +32,20 @@ public class KitsGUI {
 		Inventory inv = Bukkit.createInventory(null, (int)(((km.getKits().size()+1)/9)+3) * 9 , "§a§lAvailable Kits:");
 		List<String> lore = new ArrayList<String>();
 		for(Kit k : km.getKits()) {
-			if(k.getName().contains("_prestige"))
-				continue;
-			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
-				k = km.getKit(k.getName() + "_prestige");
+			while(k.hasUpgrade()){
+				if(kp.getExp() > km.getKit(k.getName(), k.getLevel()+1).getRequiredExp())
+					k = km.getKit(k.getName(), k.getLevel()+1);
+				else
+					break;
+			}
+//			Kit upgradedKit = null;
+//			if(k.hasUpgrade())
+//				upgradedKit = km.getKit(k.getName(), k.getLevel()+1);
+//			if(kp.getExp() > upgradedKit.getRequiredExp())
+//			if(k.getP)
+//				continue;
+//			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
+//				k = km.getKit(k.getName() + "_prestige");
 			if(!p.hasPermission("kits." + k.getName().toLowerCase()) && ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission"))
 				lore.add("§cKit Locked");
 			else if(kp.getExp() < k.getRequiredExp()) {
@@ -96,24 +106,24 @@ public class KitsGUI {
 			lore.clear();
 		}
 
-		List<Integer> slots = Arrays.asList(inv.getSize()-8, inv.getSize()-7, inv.getSize()-3, inv.getSize()-2);
-		for(int i = 0; i < slots.size(); i++)
-				inv.setItem(slots.get(i), ItemUtils.buildItem(new ItemStack(Material.EMPTY_MAP, 1)
-						, "§aEmpty Kit Slot", Arrays.asList("§7Right-Click a kit", "§7in order to save it."), false, false));
-		
-		for(String str : kp.getSavedKits()) {
-			Kit k = km.getKit(str);
-			if(k == null) {
-				kp.removeSavedKit(str);
-				continue;
-			}
-			for(int i : slots)
-				if(inv.getItem(i).getType().equals(Material.EMPTY_MAP)) {
-					inv.setItem(i, ItemUtils.buildItem(k.getIcon()
-							, "§a" + k.getName(), Arrays.asList("§7Shift + Left-Click to", "§7remove this kit."), true, true));
-					break;
-				}
-		}
+//		List<Integer> slots = Arrays.asList(inv.getSize()-8, inv.getSize()-7, inv.getSize()-3, inv.getSize()-2);
+//		for(int i = 0; i < slots.size(); i++)
+//				inv.setItem(slots.get(i), ItemUtils.buildItem(new ItemStack(Material.EMPTY_MAP, 1)
+//						, "§aEmpty Kit Slot", Arrays.asList("§7Right-Click a kit", "§7in order to save it."), false, false));
+//
+//		for(String str : kp.getSavedKits()) {
+//			Kit k = km.getKit(str);
+//			if(k == null) {
+//				kp.removeSavedKit(str);
+//				continue;
+//			}
+//			for(int i : slots)
+//				if(inv.getItem(i).getType().equals(Material.EMPTY_MAP)) {
+//					inv.setItem(i, ItemUtils.buildItem(k.getIcon()
+//							, "§a" + k.getName(), Arrays.asList("§7Shift + Left-Click to", "§7remove this kit."), true, true));
+//					break;
+//				}
+//		}
 
 		inv.setItem(inv.getSize()-5, ItemUtils.buildItem(new ItemStack(Material.PAINTING)
 				, "§aRandom Kit", Arrays.asList("§7Gives you a random kit.", "§7(Only unlocked kits)"), true, false));

@@ -35,49 +35,49 @@ public class InventoryHandler implements Listener {
 						return;
 					}
 					String kitName = e.getInventory().getItem(e.getRawSlot()).getItemMeta().getDisplayName().replace("§a", "").replace("§c", "").replace("§b", "");
-					if(!e.isRightClick()) {
-						if(e.isLeftClick() && e.isShiftClick()) {
-							if(!kp.getSavedKits().contains(kitName)) {
-								p.sendMessage("§cYou don't have this kit saved!");
-								return;
-							}
-							if(e.getInventory().getItem(e.getRawSlot()).getType().equals(Material.EMPTY_MAP)) {
-								p.sendMessage("§cThere's no kit saved in this slot!");
-								return;
-							}
-							kp.removeSavedKit(kitName);
-							p.sendMessage("§aSuccesfully unsaved the " + kitName + " Kit. §7(" + kp.getSavedKits().size() + "/4 Saved)");
-							KitsGUI.openKitsGUI(p);
-							return;
-						}
-						for(Kit kit : Kits.getInstance().getKitManager().getKits()) {
-							if(kitName.equalsIgnoreCase(kit.getName())) {
-								Kits.getInstance().getKitManager().giveKit(p, kit);
-								return;
-							}
-						}
-						if(kitName.equalsIgnoreCase("Random Kit")) {
-							Kits.getInstance().getKitManager().giveRandomKit(p);
-							return;
-						}
-					} else {
-						if(!Kits.getInstance().getKitManager().isAllowedKit(p, Kits.getInstance().getKitManager().getKit(kitName), false)) {
-							p.sendMessage("§cYou can't save this kit!");
-							return;
-						}
-						if(kp.getSavedKits().contains(kitName)) {
-							p.sendMessage("§cYou have already saved this kit!");
-							return;
-						}
-						if(kp.getSavedKits().size() == 4) {
-							p.sendMessage("§cYou can't save any more kits! §7(4/4)");
-							return;
-						}
-						kp.addSavedKit(kitName);
-						p.sendMessage("§aSuccesfully saved the " + kitName + " Kit. §7(" + kp.getSavedKits().size() + "/4 Saved)");
-						KitsGUI.openKitsGUI(p);
-						return;
-					}
+//					if(!e.isRightClick()) {
+//						if(e.isLeftClick() && e.isShiftClick()) {
+//							if(!kp.getSavedKits().contains(kitName)) {
+//								p.sendMessage("§cYou don't have this kit saved!");
+//								return;
+//							}
+//							if(e.getInventory().getItem(e.getRawSlot()).getType().equals(Material.EMPTY_MAP)) {
+//								p.sendMessage("§cThere's no kit saved in this slot!");
+//								return;
+//							}
+//							kp.removeSavedKit(kitName);
+//							p.sendMessage("§aSuccesfully unsaved the " + kitName + " Kit. §7(" + kp.getSavedKits().size() + "/4 Saved)");
+//							KitsGUI.openKitsGUI(p);
+//							return;
+//						}
+//						for(Kit kit : Kits.getInstance().getKitManager().getKits()) {
+//							if(kitName.equalsIgnoreCase(kit.getName())) {
+//								Kits.getInstance().getKitManager().giveKit(p, kit);
+//								return;
+//							}
+//						}
+//						if(kitName.equalsIgnoreCase("Random Kit")) {
+//							Kits.getInstance().getKitManager().giveRandomKit(p);
+//							return;
+//						}
+//					} else {
+//						if(!Kits.getInstance().getKitManager().isAllowedKit(p, Kits.getInstance().getKitManager().getKit(kitName), false)) {
+//							p.sendMessage("§cYou can't save this kit!");
+//							return;
+//						}
+//						if(kp.getSavedKits().contains(kitName)) {
+//							p.sendMessage("§cYou have already saved this kit!");
+//							return;
+//						}
+//						if(kp.getSavedKits().size() == 4) {
+//							p.sendMessage("§cYou can't save any more kits! §7(4/4)");
+//							return;
+//						}
+//						kp.addSavedKit(kitName);
+//						p.sendMessage("§aSuccesfully saved the " + kitName + " Kit. §7(" + kp.getSavedKits().size() + "/4 Saved)");
+//						KitsGUI.openKitsGUI(p);
+//						return;
+//					}
 				}
 	}
 
