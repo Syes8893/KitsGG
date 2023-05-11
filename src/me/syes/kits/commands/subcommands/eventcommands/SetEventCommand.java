@@ -20,7 +20,7 @@ public class SetEventCommand extends SubCommand {
             }
             Event newEvent = Kits.getInstance().getEventManager().getEvent(args[1].replace("_", " "));
             if(newEvent == null){
-                p.sendMessage("§cInvalid event, valid events are Gold_Rush, Showdown, Marksman, Boss, Rambo, Koth and SkyFight.");
+                p.sendMessage("§cInvalid event, valid events are GoldRush, Showdown, Marksman, Boss, Rambo, KoTH, SkyFight and EnderHunt.");
                 return;
             }
             Kits.getInstance().getEventManager().setNextEvent(newEvent);
