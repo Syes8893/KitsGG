@@ -6,17 +6,10 @@ import java.util.UUID;
 import me.syes.kits.kit.Kit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -147,6 +140,27 @@ public class EventListener implements Listener {
 				}
 			}
 		}
+		else if (eventManager.getEnderHuntEvent().isActive()) {
+			if (e.getEntity().getType().equals(EntityType.ENDERMAN)) {
+				if (e.getDamager() instanceof Player) {
+					Player d = (Player) e.getDamager();
+					eventManager.getEnderHuntEvent().addParticipantSpecifiedScore(d.getUniqueId(), 10);
+					ActionBarMessage.sendMessage(d, "§d+10 Score §7(Killed Enderman)");
+				}
+			}
+			if (e.getEntity().getType().equals(EntityType.ENDERMITE)) {
+				if (e.getDamager() instanceof Player) {
+					Player d = (Player) e.getDamager();
+					eventManager.getEnderHuntEvent().addParticipantSpecifiedScore(d.getUniqueId(), 1);
+					ActionBarMessage.sendMessage(d, "§d+1 Score §7(Killed Endermite)");
+				}
+				if (e.getDamager() instanceof Projectile) {
+					Player d = (Player) ((Projectile) e.getDamager()).getShooter();
+					eventManager.getEnderHuntEvent().addParticipantSpecifiedScore(d.getUniqueId(), 1);
+					ActionBarMessage.sendMessage(d, "§d+1 Score §7(Killed Endermite)");
+				}
+			}
+		}
 	}
 
 	@EventHandler
@@ -236,6 +250,33 @@ public class EventListener implements Listener {
 	public void onEntityBurn(EntityCombustEvent e) {
 		if(eventManager.getBossEvent().isActive())
 			e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onEnitityBlockPickup (EntityChangeBlockEvent e) {
+		if (eventManager.getEnderHuntEvent().isActive()) {
+			e.setCancelled(true);
+		}
+	}
+	@EventHandler
+	public void onEndermanTeleport(EntityTeleportEvent e) {
+		if (eventManager.getEnderHuntEvent().isActive()) {
+			if (e.getEntityType().equals(EntityType.ENDERMAN)) {
+				e.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onEntityDamage(EntityDamageEvent e) {
+		if (eventManager.getEnderHuntEvent().isActive()) {
+			if (e.getEntity().getType().equals(EntityType.ENDERMAN)) {
+				e.getEntity().teleport(Kits.getInstance().getArenaManager().getArena().getRandomSpawn());
+			}
+			if (eventManager.getEnderHuntEvent().getEndermites().contains(e.getEntity())) {
+				e.getEntity().teleport(Kits.getInstance().getArenaManager().getArena().getRandomSpawn());
+			}
+		}
 	}
 
     @EventHandler
