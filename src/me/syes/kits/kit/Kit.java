@@ -20,17 +20,23 @@ public class Kit {
 	private ItemStack icon;
 	
 	private int requiredExp;
+
+	private boolean hasPrestige;
 	
-	public Kit(String name, HashMap<Integer, ItemStack> items, ItemStack[] armour, ItemStack icon, int requiredExp) {
+	public Kit(String name, HashMap<Integer, ItemStack> items, ItemStack[] armour, ItemStack icon, int requiredExp, boolean hasPrestige) {
 		this.name = name;
+//		if(this.name.contains("_prestige"))
+//			this.name = this.name.replace("_prestige", "");
 		this.items = items;
 		this.armour = armour;
 		this.icon = icon;
 		this.requiredExp = requiredExp;
+		this.hasPrestige = hasPrestige;
 		Kits.getInstance().getKitManager().addKit(this);
 	}
 	
 	public void giveKit(Player p) {
+		KitPlayer kp = Kits.getInstance().playerManager.getKitPlayers().get(p.getUniqueId());
 		p.getInventory().clear();
 		p.setHealth(p.getMaxHealth());
 		for(PotionEffect pe : p.getActivePotionEffects()) p.removePotionEffect(pe.getType());
@@ -39,7 +45,6 @@ public class Kit {
 		for(int slot : items.keySet()) {
 			p.getInventory().setItem(slot, items.get(slot));
 		}
-		KitPlayer kp = Kits.getInstance().playerManager.getKitPlayers().get(p.getUniqueId());
 		kp.setKitSelected(true);
 		kp.setSelectedKit(this);
 	}
@@ -85,6 +90,12 @@ public class Kit {
 	public void setRequiredExp(int requiredExp) {
 		this.requiredExp = requiredExp;
 	}
-	
 
+	public boolean hasPrestige() {
+		return hasPrestige;
+	}
+
+	public void setHasPrestige(boolean hasPrestige) {
+		this.hasPrestige = hasPrestige;
+	}
 }

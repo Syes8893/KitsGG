@@ -31,7 +31,8 @@ public class CreateCommand extends SubCommand{
 				return;
 			}
 		}
-		Kit k = new Kit(args[1], InventoryUtils.getNamedInventoryHashMap(p, args[1], ""), InventoryUtils.getNamedArmourArray(p, args[1], ""), p.getItemInHand().clone(), 0);
+		Kit k = new Kit(args[1], InventoryUtils.getNamedInventoryHashMap(p, args[1], ""), InventoryUtils.getNamedArmourArray(p, args[1], "")
+				, p.getItemInHand().clone(), 0, false);
 		p.sendMessage("§aSuccesfully created the kit: " + k.getName());
 	}
 

@@ -1,5 +1,6 @@
 package me.syes.kits.commands.subcommands;
 
+import me.syes.kits.kit.KitManager;
 import me.syes.kits.kitplayer.KitPlayer;
 import org.bukkit.entity.Player;
 
@@ -14,7 +15,12 @@ public class ListCommand extends SubCommand {
 		p.sendMessage("§a§lAvailable Kits: §7(" + Kits.getInstance().getKitManager().getKits().size() + ")");
 		String str = "";
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
-		for(Kit k : Kits.getInstance().getKitManager().getKits()) {
+		KitManager km =  Kits.getInstance().getKitManager();
+		for(Kit k : km.getKits()) {
+			if(k.getName().contains("_prestige"))
+				continue;
+			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
+				k = km.getKit(k.getName() + "_prestige");
 			/*String name = k.getName();
 			if(ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission"))
 				if(p.hasPermission("kits." + k.getName().toLowerCase())) name = "§a" + k.getName();

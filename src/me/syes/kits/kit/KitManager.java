@@ -27,6 +27,14 @@ public class KitManager {
 	
 	public void giveKit(Player p, Kit k) {
 		if(isAllowedKit(p, k, true)) {
+			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
+			if(k.hasPrestige()){
+				Kit pres = Kits.getInstance().getKitManager().getKit(k.getName() + "_prestige");
+				if(kp.getExp() >= pres.getRequiredExp()){
+					giveKit(p, pres);
+					return;
+				}
+			}
 			k.giveKit(p);
 			p.sendMessage("§aYou have received the " + k.getName() + " Kit.");
 		}

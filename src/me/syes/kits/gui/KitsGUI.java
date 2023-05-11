@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.syes.kits.kit.KitManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,9 +28,14 @@ public class KitsGUI {
 	
 	public static void openKitsGUI(Player p) {
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
-		Inventory inv = Bukkit.createInventory(null, (int)(((Kits.getInstance().getKitManager().getKits().size()+1)/9)+3) * 9 , "§a§lAvailable Kits:");
+		KitManager km = Kits.getInstance().getKitManager();
+		Inventory inv = Bukkit.createInventory(null, (int)(((km.getKits().size()+1)/9)+3) * 9 , "§a§lAvailable Kits:");
 		List<String> lore = new ArrayList<String>();
-		for(Kit k : Kits.getInstance().getKitManager().getKits()) {
+		for(Kit k : km.getKits()) {
+			if(k.getName().contains("_prestige"))
+				continue;
+			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
+				k = km.getKit(k.getName() + "_prestige");
 			if(!p.hasPermission("kits." + k.getName().toLowerCase()) && ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission"))
 				lore.add("§cKit Locked");
 			else if(kp.getExp() < k.getRequiredExp()) {
@@ -96,7 +102,7 @@ public class KitsGUI {
 						, "§aEmpty Kit Slot", Arrays.asList("§7Right-Click a kit", "§7in order to save it."), false, false));
 		
 		for(String str : kp.getSavedKits()) {
-			Kit k = Kits.getInstance().getKitManager().getKit(str);
+			Kit k = km.getKit(str);
 			if(k == null) {
 				kp.removeSavedKit(str);
 				continue;

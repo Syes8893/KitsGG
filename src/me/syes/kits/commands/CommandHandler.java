@@ -2,20 +2,13 @@ package me.syes.kits.commands;
 
 import java.util.HashMap;
 
+import me.syes.kits.commands.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
-import me.syes.kits.commands.subcommands.CreateCommand;
-import me.syes.kits.commands.subcommands.DeleteCommand;
-import me.syes.kits.commands.subcommands.KitNpcCommand;
-import me.syes.kits.commands.subcommands.ListCommand;
-import me.syes.kits.commands.subcommands.SetIconCommand;
-import me.syes.kits.commands.subcommands.SetRequiredExpCommand;
-import me.syes.kits.commands.subcommands.SubCommand;
-import me.syes.kits.commands.subcommands.UpdateCommand;
 import me.syes.kits.gui.KitsGUI;
 import me.syes.kits.kit.Kit;
 import me.syes.kits.kitplayer.KitPlayer;
@@ -32,11 +25,14 @@ public class CommandHandler implements CommandExecutor {
 	
 	public void registerCommands() {
 		commands.put("create", new CreateCommand());
+		commands.put("createprestige", new CreatePrestigeCommand());
 		commands.put("delete", new DeleteCommand());
+		commands.put("deleteprestige", new DeletePrestigeCommand());
 		commands.put("seticon", new SetIconCommand());
 		SetRequiredExpCommand setRequiredExpCommand = new SetRequiredExpCommand();
 		commands.put("setexp", setRequiredExpCommand);
 		commands.put("setrequiredexp", setRequiredExpCommand);
+		commands.put("setprestigeexp", new SetPrestigeExpCommand());
 		commands.put("list", new ListCommand());
 		commands.put("update", new UpdateCommand());
 		commands.put("npc", new KitNpcCommand());
@@ -98,10 +94,13 @@ public class CommandHandler implements CommandExecutor {
 		if(p.hasPermission("kits.admin")) {
 			p.sendMessage("§dStaff Commands:");
 			p.sendMessage("§7> §f/kit create §a<kitname>");
+			p.sendMessage("§7> §f/kit createprestige §a<kitname>");
 			p.sendMessage("§7> §f/kit delete §a<kitname>");
+			p.sendMessage("§7> §f/kit deleteprestige §a<kitname>");
 			p.sendMessage("§7> §f/kit seticon §a<kitname>");
 			p.sendMessage("§7> §f/kit npc §a<add/remove> §e<skullowner>");
 			p.sendMessage("§7> §f/kit setrequiredexp §a<kitname> <amount>");
+			p.sendMessage("§7> §f/kit setprestigeexp §a<kitname> <amount>");
 			p.sendMessage("§7> §f/kit update §7(Use after updating)");
 		}
 		p.sendMessage("§7");

@@ -53,6 +53,7 @@ public class KitUtils {
 		}
 		fc.set(k.getName().toLowerCase() + ".icon", k.getIcon());
 		fc.set(k.getName().toLowerCase() + ".requiredExp", k.getRequiredExp());
+		fc.set(k.getName().toLowerCase() + ".hasPrestige", k.hasPrestige());
 		
 		try {
 			fc.save(f);
@@ -71,13 +72,17 @@ public class KitUtils {
 			} catch (IOException | InvalidConfigurationException e) {
 				e.printStackTrace();
 			}
-			new Kit(getKitName(f), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(f).toLowerCase() + ".requiredExp"));
+			new Kit(getKitName(f), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(f).toLowerCase() + ".requiredExp"), getHasPrestige(f, fc));
 		}
 		Kits.getInstance().getKitManager().organiseKits();
 	}
 	
 	public static String getKitName(File f) {
 		return f.getName().replace(".yml", "");
+	}
+
+	public static Boolean getHasPrestige(File f, FileConfiguration fc) {
+		return fc.getBoolean(getKitName(f).toLowerCase() + ".hasPrestige");
 	}
 
 	public static HashMap<Integer, ItemStack> loadItems(FileConfiguration fc) {
