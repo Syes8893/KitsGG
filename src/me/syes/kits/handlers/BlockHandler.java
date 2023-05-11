@@ -2,9 +2,12 @@ package me.syes.kits.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
+import me.syes.kits.utils.ActionBarMessage;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,23 +26,23 @@ public class BlockHandler implements Listener {
 
 	public List<Block> placedBlocks;
 	public List<Material> placeableBlocks;
-	//public List<Material> breakableBlocks;
-	
+//	public List<Material> breakableBlocks;
+
 	private int blockDisappearSeconds;
-	
+
 	public BlockHandler() {
 		placedBlocks = new ArrayList<Block>();
 		placeableBlocks = new ArrayList<Material>();
-		//breakableBlocks = new ArrayList<Material>();
-		
-		for(String str : ConfigUtils.getConfigSection("Arena.Building").getStringList("Placeable-Blocks")) {
-			if(Material.getMaterial(str.replace(" ", "_").toUpperCase()) == null)
+//		breakableBlocks = new ArrayList<Material>();
+
+		for (String str : ConfigUtils.getConfigSection("Arena.Building").getStringList("Placeable-Blocks")) {
+			if (Material.getMaterial(str.replace(" ", "_").toUpperCase()) == null)
 				System.out.println("[ERROR] Unknown material for entry: " + str + " (At Arena: Building: Placeable-Blocks: " + str + ")");
 			placeableBlocks.add(Material.getMaterial(str.replace(" ", "_").toUpperCase()));
 		}
-		//for(String str : ConfigUtils.getConfigSection("Arena.Building").getStringList("Breakable-Blocks"))
-			//breakableBlocks.add(Material.getMaterial(str));
-		
+//		for(String str : ConfigUtils.getConfigSection("Arena.Building").getStringList("Breakable-Blocks"))
+//			breakableBlocks.add(Material.getMaterial(str));
+
 		blockDisappearSeconds = ConfigUtils.getConfigSection("Arena.Building").getInt("Block-Disappear-Seconds");
 	}
 
@@ -47,20 +50,33 @@ public class BlockHandler implements Listener {
 	public void onFireBreak(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
-        if(!placedBlocks.contains(p.getTargetBlock((Set<Material>) null, 5)) && kp.isInArena())
-			if(e.getAction().equals(Action.LEFT_CLICK_BLOCK))
-				e.setCancelled(true);
+		if (!placedBlocks.contains(p.getTargetBlock((Set<Material>) null, 5)) && kp.isInArena())
+			if (e.getAction().equals(Action.LEFT_CLICK_BLOCK))
+				if (!e.getClickedBlock().getType().equals(Material.DIAMOND_ORE)) {
+					e.setCancelled(true);
+				}
 	}
-	
+
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		Player p = e.getPlayer();
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
-		if(kp.isInArena() && placedBlocks.contains(e.getBlock())) {
+		if (kp.isInArena() && placedBlocks.contains(e.getBlock())) {
 			placedBlocks.remove(e.getBlock());
 			return;
 		}
-		if(!e.getPlayer().hasPermission("kits.build")) e.setCancelled(true);
+		if (kp.isInArena() && e.getBlock().getType().equals(Material.DIAMOND_ORE)) {
+			Random random = new Random();
+			if (random.nextInt(10) == 0) {
+				e.getPlayer().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 100.0F);
+				kp.setBonusExp(kp.getBonusExp() + 1);
+				ActionBarMessage.sendMessage(p, "§d+1 Exp §7(Mined Diamonds)");
+			}
+			e.setCancelled(true);
+		}
+		if (!e.getPlayer().hasPermission("kits.build")) {
+			e.setCancelled(true);
+		}
 	}
 	
 	@EventHandler
