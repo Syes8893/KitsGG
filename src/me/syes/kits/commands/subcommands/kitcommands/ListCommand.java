@@ -1,5 +1,6 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.kitcommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import me.syes.kits.kit.KitManager;
 import me.syes.kits.kitplayer.KitPlayer;
 import org.bukkit.entity.Player;
@@ -17,14 +18,10 @@ public class ListCommand extends SubCommand {
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
 		KitManager km =  Kits.getInstance().getKitManager();
 		for(Kit k : km.getKits()) {
-			if(k.getName().contains("_prestige"))
-				continue;
-			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
-				k = km.getKit(k.getName() + "_prestige");
-			/*String name = k.getName();
-			if(ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission"))
-				if(p.hasPermission("kits." + k.getName().toLowerCase())) name = "§a" + k.getName();
-				else name = "§c" + k.getName();*/
+//			if(k.getName().contains("_prestige"))
+//				continue;
+//			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
+//				k = km.getKit(k.getName() + "_prestige");
 			if(ConfigUtils.getConfigSection("Kits").getBoolean("Shortened-Kit-List")) {
 				if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName()))
 					str += "§7, §8" + k.getName() + " (" + k.getRequiredExp() + ")";

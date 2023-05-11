@@ -1,10 +1,11 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.eventcommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
 
-public class RerollEventCommand extends SubCommand{
+public class RerollEventCommand extends SubCommand {
 
 	@Override
 	public void execute(Player p, String[] args) {

@@ -1,5 +1,6 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.kitcommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -7,7 +8,7 @@ import me.syes.kits.Kits;
 import me.syes.kits.kit.Kit;
 import me.syes.kits.utils.ItemUtils;
 
-public class UpdateCommand extends SubCommand{
+public class UpdateCommand extends SubCommand {
 
 	@Override
 	public void execute(Player p, String[] args) {

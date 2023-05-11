@@ -1,5 +1,6 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.kitcommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import me.syes.kits.utils.ConfigUtils;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -8,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import me.syes.kits.utils.ItemUtils;
 
-public class KitNpcCommand extends SubCommand{
+public class KitNpcCommand extends SubCommand {
 
 	@Override
 	public void execute(Player p, String[] args) {

@@ -56,7 +56,7 @@ public class LevelCommandHandler implements CommandExecutor {
 
 	private void sendHelpMenu(Player p) {
 		p.sendMessage("§a§lAvailable Commands §7(v" + Kits.getInstance().getDescription().getVersion() + ")");
-		p.sendMessage("§7> §f/level §e<player>");
+		p.sendMessage("§7> §f/level §e[player]");
 		p.sendMessage("§7");
 	}
 

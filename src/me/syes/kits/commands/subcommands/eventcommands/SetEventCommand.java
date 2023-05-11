@@ -1,6 +1,7 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.eventcommands;
 
 import me.syes.kits.Kits;
+import me.syes.kits.commands.subcommands.SubCommand;
 import me.syes.kits.event.Event;
 import org.bukkit.entity.Player;
 

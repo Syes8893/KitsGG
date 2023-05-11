@@ -1,5 +1,6 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.statscommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

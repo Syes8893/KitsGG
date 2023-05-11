@@ -1,24 +1,24 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.eventcommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
 
-public class FinishEventCommand extends SubCommand{
+public class StartEventCommand extends SubCommand {
 
 	@Override
 	public void execute(Player p, String[] args) {
 		if(Kits.getInstance().getEventManager().getActiveEvent() != null) {
-			Kits.getInstance().getEventManager().getActiveEvent().finishEvent();
-			p.sendMessage("§aEvent successfully finished.");
+			p.sendMessage("§cThere's already an event running!");
 			return;
 		}
-		p.sendMessage("§cThere's no event currently running.");
+		Kits.getInstance().getEventManager().skipTimeUntilNextEvent();
 	}
 
 	@Override
 	public void help(Player p) {
-		p.sendMessage("§cUsage: /event finish");
+		p.sendMessage("§cUsage: /event start");
 	}
 
 	@Override

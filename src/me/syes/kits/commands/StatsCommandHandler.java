@@ -9,9 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
-import me.syes.kits.commands.subcommands.LeaderboardCommand;
-import me.syes.kits.commands.subcommands.ResetStatsCommand;
-import me.syes.kits.commands.subcommands.SetStatsCommand;
+import me.syes.kits.commands.subcommands.statscommands.LeaderboardCommand;
+import me.syes.kits.commands.subcommands.statscommands.ResetStatsCommand;
+import me.syes.kits.commands.subcommands.statscommands.SetStatsCommand;
 import me.syes.kits.commands.subcommands.SubCommand;
 import me.syes.kits.gui.StatsGUI;
 import me.syes.kits.kitplayer.KitPlayer;
@@ -70,12 +70,11 @@ public class StatsCommandHandler implements CommandExecutor {
 
 	private void sendHelpMenu(Player p) {
 		p.sendMessage("§a§lAvailable Commands §7(v" + Kits.getInstance().getDescription().getVersion() + ")");
-		p.sendMessage("§7> §f/stats §e<player>");
-		p.sendMessage("§7> §f/stats level");
+		p.sendMessage("§7> §f/stats §e[player]");
 		if(p.hasPermission("kits.admin")) {
 			p.sendMessage("§dStaff Commands:");
 			p.sendMessage("§7> §f/stats reset §a<player>");
-			p.sendMessage("§7> §f/stats lb §a<add/remove> §e<type/radius>");
+			p.sendMessage("§7> §f/stats lb §a<add/remove> <type/radius>");
 			p.sendMessage("§7> §f/stats set §a<player> <kills/deaths/eventplayed/eventswon> <amount>");
 		}
 		p.sendMessage("§7");
