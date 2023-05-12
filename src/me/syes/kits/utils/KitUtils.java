@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.logging.log4j.core.helpers.NameUtil;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,9 +24,9 @@ public class KitUtils {
 	
 	public static void saveKit(Kit k) {
 		new File(Kits.getInstance().getDataFolder() + "/kits").mkdir();
-		File f = new File(Kits.getInstance().getDataFolder() + "/kits/" + k.getName().toString() + ".yml");
+		File f = new File(Kits.getInstance().getDataFolder() + "/kits/" + k.getFileName() + ".yml");
 		
-		if(!f.exists() && !f.getName().equals(k.getName().toString())) {
+		if(!f.exists() && !f.getName().equals(k.getFileName())) {
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
@@ -42,17 +43,19 @@ public class KitUtils {
 		
 		//Reset the file in order to remove all items that were removed during a possible kit change
 		for(String str : fc.getKeys(false)) {
-			fc.set(str, null);
+			fc.set(TextUtils.toUpperCamelCase(str), null);
 		}
 		
 		for(int i : k.getItems().keySet()) {
-			fc.set(k.getName().toLowerCase() + ".items." + i, k.getItems().get(i));
+			fc.set(k.getName() + ".items." + i, k.getItems().get(i));
 		}
 		for(int i = 0; i < k.getArmour().length; i++) {
-			fc.set(k.getName().toLowerCase() + ".armour." + i, k.getArmour()[i]);
+			fc.set(k.getName() + ".armour." + i, k.getArmour()[i]);
 		}
-		fc.set(k.getName().toLowerCase() + ".icon", k.getIcon());
-		fc.set(k.getName().toLowerCase() + ".requiredExp", k.getRequiredExp());
+		fc.set(k.getName() + ".icon", k.getIcon());
+		fc.set(k.getName() + ".requiredExp", k.getRequiredExp());
+		fc.set(k.getName() + ".hasUpgrade", k.hasUpgrade());
+		fc.set(k.getName() + ".level", k.getLevel());
 		
 		try {
 			fc.save(f);
@@ -71,13 +74,26 @@ public class KitUtils {
 			} catch (IOException | InvalidConfigurationException e) {
 				e.printStackTrace();
 			}
-			new Kit(getKitName(f), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(f).toLowerCase() + ".requiredExp"));
+			new Kit(getKitName(fc), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(fc) + ".requiredExp"), getHasUpgrade(fc), getLevel(fc));
 		}
+
 		Kits.getInstance().getKitManager().organiseKits();
 	}
 	
-	public static String getKitName(File f) {
-		return f.getName().replace(".yml", "");
+	public static String getKitName(FileConfiguration fc) {
+		for(String str : fc.getKeys(false))
+			return TextUtils.toUpperCamelCase(str);
+		return "null";
+	}
+
+	public static Boolean getHasUpgrade(FileConfiguration fc) {
+		return fc.getBoolean(getKitName(fc) + ".hasUpgrade");
+	}
+
+	public static int getLevel(FileConfiguration fc) {
+		if(fc.getInt(getKitName(fc) + ".level") == 0)
+			return 1;
+		return fc.getInt(getKitName(fc) + ".level");
 	}
 
 	public static HashMap<Integer, ItemStack> loadItems(FileConfiguration fc) {

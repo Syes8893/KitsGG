@@ -8,12 +8,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
-import me.syes.kits.commands.subcommands.ArenaNpcCommand;
-import me.syes.kits.commands.subcommands.SetBoundsCommand;
-import me.syes.kits.commands.subcommands.SetSpawnCommand;
-import me.syes.kits.commands.subcommands.SetWorldCommand;
+import me.syes.kits.commands.subcommands.arenacommands.ArenaNpcCommand;
+import me.syes.kits.commands.subcommands.arenacommands.SetBoundsCommand;
+import me.syes.kits.commands.subcommands.arenacommands.SetSpawnCommand;
+import me.syes.kits.commands.subcommands.arenacommands.SetWorldCommand;
 import me.syes.kits.commands.subcommands.SubCommand;
-import me.syes.kits.commands.subcommands.WarpCommand;
+import me.syes.kits.commands.subcommands.arenacommands.WarpCommand;
 
 public class ArenaCommandHandler implements CommandExecutor {
 	
@@ -66,7 +66,7 @@ public class ArenaCommandHandler implements CommandExecutor {
 			p.sendMessage("§7> §f/arena setspawn");
 			p.sendMessage("§7> §f/arena setworld");
 			p.sendMessage("§7> §f/arena setbounds §a<min/max>");
-			p.sendMessage("§7> §f/arena npc §a<add/remove> §e<skullowner>");
+			p.sendMessage("§7> §f/arena npc §a<add/remove> §e[skullowner]");
 		}
 		p.sendMessage("§7");
 	}

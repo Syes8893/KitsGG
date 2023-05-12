@@ -60,7 +60,9 @@ public class ItemUtils {
 				&& !i.getType().equals(Material.SNOW_BALL)) {
 			ItemMeta im = i.getItemMeta();
 			if(im == null) return new ItemStack(Material.AIR);
-			im.setDisplayName(prefix.replace("&", "§") + "§f" + kit + "'s " + getItemStackName(i));
+			if(prefix.equals(""))
+				prefix = "&f";
+			im.setDisplayName(prefix.replace("&", "§") + kit + "'s " + getItemStackName(i));
 			i.setItemMeta(im);
 		}
 		return i;

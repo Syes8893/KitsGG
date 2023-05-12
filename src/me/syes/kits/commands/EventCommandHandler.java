@@ -3,6 +3,10 @@ package me.syes.kits.commands;
 import java.util.HashMap;
 
 import me.syes.kits.commands.subcommands.*;
+import me.syes.kits.commands.subcommands.eventcommands.FinishEventCommand;
+import me.syes.kits.commands.subcommands.eventcommands.RerollEventCommand;
+import me.syes.kits.commands.subcommands.eventcommands.SetEventCommand;
+import me.syes.kits.commands.subcommands.eventcommands.StartEventCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

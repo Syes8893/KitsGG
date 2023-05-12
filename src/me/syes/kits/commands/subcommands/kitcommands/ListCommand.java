@@ -1,6 +1,9 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.kitcommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
+import me.syes.kits.kit.KitManager;
 import me.syes.kits.kitplayer.KitPlayer;
+import me.syes.kits.utils.TextUtils;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
@@ -14,18 +17,28 @@ public class ListCommand extends SubCommand {
 		p.sendMessage("§a§lAvailable Kits: §7(" + Kits.getInstance().getKitManager().getKits().size() + ")");
 		String str = "";
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
-		for(Kit k : Kits.getInstance().getKitManager().getKits()) {
-			/*String name = k.getName();
-			if(ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission"))
-				if(p.hasPermission("kits." + k.getName().toLowerCase())) name = "§a" + k.getName();
-				else name = "§c" + k.getName();*/
+		KitManager km =  Kits.getInstance().getKitManager();
+		for(Kit k : km.getKits()) {
+			if(k.getLevel() > 1)
+				continue;
+			while(k.hasUpgrade()){
+				if(kp.getExp() >= km.getKit(k.getName(), k.getLevel()+1).getRequiredExp())
+					k = km.getKit(k.getName(), k.getLevel()+1);
+				else
+					break;
+			}
+//			Kit upgra
+//			if(k.getName().contains("_prestige"))
+//				continue;
+//			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
+//				k = km.getKit(k.getName() + "_prestige");
 			if(ConfigUtils.getConfigSection("Kits").getBoolean("Shortened-Kit-List")) {
 				if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName()))
-					str += "§7, §8" + k.getName() + " (" + k.getRequiredExp() + ")";
+					str += "§7, §8" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")";
 				else if(kp.getExp() >= k.getRequiredExp())
-					str += "§7, §f" + k.getName() + " (" + k.getRequiredExp() + ")";
+					str += "§7, §f" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")";
 				else
-					str += "§7, §7" + k.getName() + " (" + k.getRequiredExp() + ")";
+					str += "§7, §7" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")";
 			}
 			else {
 				if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName()))

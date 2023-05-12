@@ -1,5 +1,6 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.arenacommands;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import me.syes.kits.utils.ConfigUtils;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -8,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import me.syes.kits.utils.ItemUtils;
 
-public class KitNpcCommand extends SubCommand{
+public class ArenaNpcCommand extends SubCommand {
 
 	@Override
 	public void execute(Player p, String[] args) {
@@ -18,7 +19,7 @@ public class KitNpcCommand extends SubCommand{
 		}
 		if(args[1].equalsIgnoreCase("add")) {
 			ArmorStand as = (ArmorStand) p.getWorld().spawnEntity(p.getLocation(), EntityType.ARMOR_STAND);
-			as.setCustomName(ConfigUtils.getConfigSection("NPC").getString("Name-Color").replace("&", "§") + "Available Kits");
+			as.setCustomName(ConfigUtils.getConfigSection("NPC").getString("Name-Color").replace("&", "§") + "Join The Arena");
 			as.setCustomNameVisible(true);
 			as.setBasePlate(false);
 			as.setArms(true);
@@ -33,7 +34,7 @@ public class KitNpcCommand extends SubCommand{
 		}else if(args[1].equalsIgnoreCase("remove")) {
 			for(Entity e : p.getNearbyEntities(3, 3, 3)) {
 				if(e.getType() == EntityType.ARMOR_STAND 
-						&& (e.getCustomName() != null && e.getCustomName().equalsIgnoreCase(ConfigUtils.getConfigSection("NPC").getString("Name-Color").replace("&", "§") + "Available Kits"))) e.remove();
+						&& (e.getCustomName() != null && e.getCustomName().equalsIgnoreCase(ConfigUtils.getConfigSection("NPC").getString("Name-Color").replace("&", "§") + "Join The Arena"))) e.remove();
 			}
 			p.sendMessage("§aSuccessfully removed all nearby NPCs.");
 		}
@@ -41,7 +42,7 @@ public class KitNpcCommand extends SubCommand{
 
 	@Override
 	public void help(Player p) {
-		p.sendMessage("§cUsage: /kit npc <add/remove> <skullowner>");
+		p.sendMessage("§cUsage: /arena npc <add/remove> <skullowner>");
 	}
 
 	@Override

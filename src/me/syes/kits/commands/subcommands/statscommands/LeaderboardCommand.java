@@ -1,10 +1,11 @@
-package me.syes.kits.commands.subcommands;
+package me.syes.kits.commands.subcommands.statscommands;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import me.syes.kits.commands.subcommands.SubCommand;
 import me.syes.kits.leaderboard.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;

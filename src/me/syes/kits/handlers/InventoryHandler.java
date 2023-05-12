@@ -35,6 +35,7 @@ public class InventoryHandler implements Listener {
 						return;
 					}
 					String kitName = e.getInventory().getItem(e.getRawSlot()).getItemMeta().getDisplayName().replace("§a", "").replace("§c", "").replace("§b", "");
+					kitName = kitName.split(" ")[0];
 					if(!e.isRightClick()) {
 						if(e.isLeftClick() && e.isShiftClick()) {
 							if(!kp.getSavedKits().contains(kitName)) {
