@@ -48,7 +48,11 @@ public class KitsGUI {
 			if(!p.hasPermission("kits." + k.getName().toLowerCase()) && ConfigUtils.getConfigSection("Kits").getBoolean("Per-Kit-Permission"))
 				lore.add("§cKit Locked");
 			else if(kp.getExp() < k.getRequiredExp()) {
-				lore.add("§7Progress: §a" + kp.getExp() + "/" + k.getRequiredExp() + " Exp");
+				lore.add("§7Progress (Unlock): §a" + kp.getExp() + "/" + k.getRequiredExp() + " Exp");
+				lore.add("§7");
+			}else if(k.hasUpgrade()) {
+				Kit nextLevel = km.getKit(k.getName(), k.getLevel()+1);
+				lore.add("§7Progress (" + TextUtils.toRoman(k.getLevel()) + " \u27A1 " + TextUtils.toRoman(nextLevel.getLevel()) + "): §b" + kp.getExp() + "/" + nextLevel.getRequiredExp() + " Exp");
 				lore.add("§7");
 			}
 			for(ItemStack i : k.getItems().values()) {
@@ -96,9 +100,9 @@ public class KitsGUI {
 				lore.add("§aYou have saved this kit.");
 			}
 			if(kp.getExp() < k.getRequiredExp())
-				inv.addItem(ItemUtils.buildItem(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14), "§c" + k.getName(), lore, true, true));
+				inv.addItem(ItemUtils.buildItem(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14), "§c" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")", lore, true, true));
 			else
-				inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName() + " §7(" + TextUtils.toRoman(k.getLevel()) + ")", lore, true, true));
+				inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")", lore, true, true));
 			lore.clear();
 		}
 
