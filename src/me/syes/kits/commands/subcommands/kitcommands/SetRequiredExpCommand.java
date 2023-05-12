@@ -15,7 +15,7 @@ public class SetRequiredExpCommand extends SubCommand {
 			return;
 		}
 		int level = 1;
-		if(args[3] != null)
+		if(args.length > 3)
 			level = Integer.parseInt(args[3]);
 		for(Kit k : Kits.getInstance().getKitManager().getKits()) {
 			if(k.getName().equalsIgnoreCase(args[1]) && k.getLevel() == level) {

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.syes.kits.kit.KitManager;
+import me.syes.kits.utils.*;
+import org.apache.logging.log4j.core.helpers.NameUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -18,11 +20,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.syes.kits.Kits;
 import me.syes.kits.kit.Kit;
 import me.syes.kits.kitplayer.KitPlayer;
-import me.syes.kits.utils.ConfigUtils;
-import me.syes.kits.utils.EnchantUtils;
-import me.syes.kits.utils.ItemUtils;
-import me.syes.kits.utils.PotionUtils;
-import me.syes.kits.utils.TimeUtils;
 
 public class KitsGUI {
 	
@@ -30,10 +27,12 @@ public class KitsGUI {
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
 		KitManager km = Kits.getInstance().getKitManager();
 		Inventory inv = Bukkit.createInventory(null, (int)(((km.getKits().size()+1)/9)+3) * 9 , "§a§lAvailable Kits:");
-		List<String> lore = new ArrayList<String>();
+		List<String> lore = new ArrayList<>();
 		for(Kit k : km.getKits()) {
+			if(k.getLevel() > 1)
+				continue;
 			while(k.hasUpgrade()){
-				if(kp.getExp() > km.getKit(k.getName(), k.getLevel()+1).getRequiredExp())
+				if(kp.getExp() >= km.getKit(k.getName(), k.getLevel()+1).getRequiredExp())
 					k = km.getKit(k.getName(), k.getLevel()+1);
 				else
 					break;
@@ -99,31 +98,34 @@ public class KitsGUI {
 			if(kp.getExp() < k.getRequiredExp())
 				inv.addItem(ItemUtils.buildItem(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14), "§c" + k.getName(), lore, true, true));
 			else
-				if(k.getRequiredExp() == -1)
-					inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName() + "§7(Weekly Kit)", lore, true, true));
-				else
-					inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName(), lore, true, true));
+				inv.addItem(ItemUtils.buildItem(k.getIcon(), "§a" + k.getName() + " §7(" + TextUtils.toRoman(k.getLevel()) + ")", lore, true, true));
 			lore.clear();
 		}
 
-//		List<Integer> slots = Arrays.asList(inv.getSize()-8, inv.getSize()-7, inv.getSize()-3, inv.getSize()-2);
-//		for(int i = 0; i < slots.size(); i++)
-//				inv.setItem(slots.get(i), ItemUtils.buildItem(new ItemStack(Material.EMPTY_MAP, 1)
-//						, "§aEmpty Kit Slot", Arrays.asList("§7Right-Click a kit", "§7in order to save it."), false, false));
-//
-//		for(String str : kp.getSavedKits()) {
-//			Kit k = km.getKit(str);
-//			if(k == null) {
-//				kp.removeSavedKit(str);
-//				continue;
-//			}
-//			for(int i : slots)
-//				if(inv.getItem(i).getType().equals(Material.EMPTY_MAP)) {
-//					inv.setItem(i, ItemUtils.buildItem(k.getIcon()
-//							, "§a" + k.getName(), Arrays.asList("§7Shift + Left-Click to", "§7remove this kit."), true, true));
-//					break;
-//				}
-//		}
+		List<Integer> slots = Arrays.asList(inv.getSize()-8, inv.getSize()-7, inv.getSize()-3, inv.getSize()-2);
+		for(int i = 0; i < slots.size(); i++)
+				inv.setItem(slots.get(i), ItemUtils.buildItem(new ItemStack(Material.EMPTY_MAP, 1)
+						, "§aEmpty Kit Slot", Arrays.asList("§7Right-Click a kit", "§7in order to save it."), false, false));
+
+		for(String str : kp.getSavedKits()) {
+			Kit k = km.getKit(str);
+			while(k.hasUpgrade()){
+				if(kp.getExp() > km.getKit(k.getName(), k.getLevel()+1).getRequiredExp())
+					k = km.getKit(k.getName(), k.getLevel()+1);
+				else
+					break;
+			}
+			if(k == null) {
+				kp.removeSavedKit(str);
+				continue;
+			}
+			for(int i : slots)
+				if(inv.getItem(i).getType().equals(Material.EMPTY_MAP)) {
+					inv.setItem(i, ItemUtils.buildItem(k.getIcon()
+							, "§a" + k.getName(), Arrays.asList("§7Shift + Left-Click to", "§7remove this kit."), true, true));
+					break;
+				}
+		}
 
 		inv.setItem(inv.getSize()-5, ItemUtils.buildItem(new ItemStack(Material.PAINTING)
 				, "§aRandom Kit", Arrays.asList("§7Gives you a random kit.", "§7(Only unlocked kits)"), true, false));

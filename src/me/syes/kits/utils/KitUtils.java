@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.logging.log4j.core.helpers.NameUtil;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,19 +43,19 @@ public class KitUtils {
 		
 		//Reset the file in order to remove all items that were removed during a possible kit change
 		for(String str : fc.getKeys(false)) {
-			fc.set(str, null);
+			fc.set(getStringCase(str), null);
 		}
 		
 		for(int i : k.getItems().keySet()) {
-			fc.set(k.getName().toLowerCase() + ".items." + i, k.getItems().get(i));
+			fc.set(k.getName() + ".items." + i, k.getItems().get(i));
 		}
 		for(int i = 0; i < k.getArmour().length; i++) {
-			fc.set(k.getName().toLowerCase() + ".armour." + i, k.getArmour()[i]);
+			fc.set(k.getName() + ".armour." + i, k.getArmour()[i]);
 		}
-		fc.set(k.getName().toLowerCase() + ".icon", k.getIcon());
-		fc.set(k.getName().toLowerCase() + ".requiredExp", k.getRequiredExp());
-		fc.set(k.getName().toLowerCase() + ".hasUpgrade", k.hasUpgrade());
-		fc.set(k.getName().toLowerCase() + ".level", k.getLevel());
+		fc.set(k.getName() + ".icon", k.getIcon());
+		fc.set(k.getName() + ".requiredExp", k.getRequiredExp());
+		fc.set(k.getName() + ".hasUpgrade", k.hasUpgrade());
+		fc.set(k.getName() + ".level", k.getLevel());
 		
 		try {
 			fc.save(f);
@@ -73,22 +74,26 @@ public class KitUtils {
 			} catch (IOException | InvalidConfigurationException e) {
 				e.printStackTrace();
 			}
-			new Kit(getKitName(fc), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(fc).toLowerCase() + ".requiredExp"), getHasUpgrade(fc), getLevel(fc));
+			new Kit(getKitName(fc), loadItems(fc), loadArmour(fc), loadIcon(fc), fc.getInt(getKitName(fc) + ".requiredExp"), getHasUpgrade(fc), getLevel(fc));
 		}
 
 		Kits.getInstance().getKitManager().organiseKits();
 	}
 	
 	public static String getKitName(FileConfiguration fc) {
-		return fc.getString("");
+		for(String str : fc.getKeys(false))
+			return getStringCase(str);
+		return "null";
 	}
 
 	public static Boolean getHasUpgrade(FileConfiguration fc) {
-		return fc.getBoolean(getKitName(fc).toLowerCase() + ".hasUpgrade");
+		return fc.getBoolean(getKitName(fc) + ".hasUpgrade");
 	}
 
 	public static int getLevel(FileConfiguration fc) {
-		return fc.getInt(getKitName(fc).toLowerCase() + ".level");
+		if(fc.getInt(getKitName(fc) + ".level") == 0)
+			return 1;
+		return fc.getInt(getKitName(fc) + ".level");
 	}
 
 	public static HashMap<Integer, ItemStack> loadItems(FileConfiguration fc) {
@@ -128,6 +133,24 @@ public class KitUtils {
 			}
 		}
 		return new ItemStack(Material.COBBLESTONE);
+	}
+
+	public static String getStringCase(String str) {
+		String[] split1 = str.split(" ");
+		String itemname = "";
+		for(int i = 0; i < split1.length; i++) {
+			String[] split2 = split1[i].split("");
+			for(int z = 0; z < split2.length; z++) {
+				if(z == 0) {
+					itemname = itemname + split2[z].toUpperCase();
+					continue;
+				}
+				itemname = itemname + split2[z];
+			}
+			if(i < split1.length-1)
+				itemname = itemname + " ";
+		}
+		return itemname;
 	}
 	
 }

@@ -17,12 +17,15 @@ public class DeleteCommand extends SubCommand {
 			return;
 		}
 		int level = 1;
-		if(args[2] != null)
+		if(args.length > 2)
 			level = Integer.parseInt(args[2]);
 		for(Kit k : Kits.getInstance().getKitManager().getKits()) {
 			if(args[1].equalsIgnoreCase(k.getName()) && k.getLevel() == level) {
+				if(k.getLevel() > 1)
+					Kits.getInstance().getKitManager().getKit(args[1], level-1).setHasUpgrade(false);
 				Kits.getInstance().getKitManager().removeKit(k);
-				File f = new File(Kits.getInstance().getDataFolder() + "/kits/" + k.getFileName() + ".yml");
+				File f = new File(Kits.getInstance().getDataFolder() + "/kits/" + k.getFileName().toLowerCase() + ".yml");
+				System.out.println(k.getFileName().toLowerCase());
 				f.delete();
 				p.sendMessage("§aSuccessfully deleted the kit: " + k.getNameAndLevel() + ".");
 				return;

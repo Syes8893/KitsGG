@@ -42,7 +42,7 @@ public class KitNpcCommand extends SubCommand {
 
 	@Override
 	public void help(Player p) {
-		p.sendMessage("§cUsage: /kit npc <add/remove> <skullowner>");
+		p.sendMessage("§cUsage: /kit npc <add/remove> [skullowner]");
 	}
 
 	@Override

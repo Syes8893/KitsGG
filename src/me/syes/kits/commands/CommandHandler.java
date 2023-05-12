@@ -90,11 +90,11 @@ public class CommandHandler implements CommandExecutor {
 		p.sendMessage("§7> §f/kit list");
 		if(p.hasPermission("kits.admin")) {
 			p.sendMessage("§dStaff Commands:");
-			p.sendMessage("§7> §f/kit create §a<kitname> §e[level]");
+			p.sendMessage("§7> §f/kit create §a<kitname> §e[level] [prefix]");
 			p.sendMessage("§7> §f/kit delete §a<kitname> §e[level]");
 			p.sendMessage("§7> §f/kit seticon §a<kitname> §e[level]");
 			p.sendMessage("§7> §f/kit setrequiredexp §a<kitname> <amount> §e[level]");
-			p.sendMessage("§7> §f/kit npc §a<add/remove> §e<skullowner>");
+			p.sendMessage("§7> §f/kit npc §a<add/remove> §e[skullowner]");
 			p.sendMessage("§7> §f/kit update §7(Use after updating)");
 		}
 		p.sendMessage("§7");

@@ -25,6 +25,13 @@ public class KitManager {
 		return null;
 	}
 
+	public Kit getKit(String name){
+		for(Kit k : kits)
+			if(k.getName().equalsIgnoreCase(name))
+				return k;
+		return null;
+	}
+
 //	public Kit getNextPrestigeKit(String name, int level){
 //		for(Kit k : kits)
 //			if(k.getName().equals(name) && k.getPrestigeLevel() == level+1)
@@ -35,6 +42,12 @@ public class KitManager {
 	public void giveKit(Player p, Kit k) {
 		if(isAllowedKit(p, k, true)) {
 			KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
+			while(k.hasUpgrade()){
+				if(kp.getExp() >= Kits.getInstance().getKitManager().getKit(k.getName(), k.getLevel()+1).getRequiredExp())
+					k = Kits.getInstance().getKitManager().getKit(k.getName(), k.getLevel()+1);
+				else
+					break;
+			}
 //			if(k.hasUpgrade()){
 //				Kit pres = Kits.getInstance().getKitManager().getKit(k.getName() + "_prestige");
 //				if(kp.getExp() >= pres.getRequiredExp()){

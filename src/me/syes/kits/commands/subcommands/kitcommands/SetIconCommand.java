@@ -15,7 +15,7 @@ public class SetIconCommand extends SubCommand {
 			return;
 		}
 		int level = 1;
-		if(args[2] != null)
+		if(args.length > 2)
 			level = Integer.parseInt(args[2]);
 		for(Kit k : Kits.getInstance().getKitManager().getKits()) {
 			if(k.getName().equalsIgnoreCase(args[1]) && k.getLevel() == level) {

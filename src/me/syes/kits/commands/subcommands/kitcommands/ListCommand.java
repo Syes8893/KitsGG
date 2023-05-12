@@ -18,6 +18,15 @@ public class ListCommand extends SubCommand {
 		KitPlayer kp = Kits.getInstance().getPlayerManager().getKitPlayer(p.getUniqueId());
 		KitManager km =  Kits.getInstance().getKitManager();
 		for(Kit k : km.getKits()) {
+			if(k.getLevel() > 1)
+				continue;
+			while(k.hasUpgrade()){
+				if(kp.getExp() >= km.getKit(k.getName(), k.getLevel()+1).getRequiredExp())
+					k = km.getKit(k.getName(), k.getLevel()+1);
+				else
+					break;
+			}
+//			Kit upgra
 //			if(k.getName().contains("_prestige"))
 //				continue;
 //			if(k.hasPrestige() && kp.getExp() > km.getKit(k.getName() + "_prestige").getRequiredExp())
