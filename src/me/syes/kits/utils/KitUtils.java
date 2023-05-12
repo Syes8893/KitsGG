@@ -43,7 +43,7 @@ public class KitUtils {
 		
 		//Reset the file in order to remove all items that were removed during a possible kit change
 		for(String str : fc.getKeys(false)) {
-			fc.set(getStringCase(str), null);
+			fc.set(TextUtils.toUpperCamelCase(str), null);
 		}
 		
 		for(int i : k.getItems().keySet()) {
@@ -82,7 +82,7 @@ public class KitUtils {
 	
 	public static String getKitName(FileConfiguration fc) {
 		for(String str : fc.getKeys(false))
-			return getStringCase(str);
+			return TextUtils.toUpperCamelCase(str);
 		return "null";
 	}
 
@@ -133,24 +133,6 @@ public class KitUtils {
 			}
 		}
 		return new ItemStack(Material.COBBLESTONE);
-	}
-
-	public static String getStringCase(String str) {
-		String[] split1 = str.split(" ");
-		String itemname = "";
-		for(int i = 0; i < split1.length; i++) {
-			String[] split2 = split1[i].split("");
-			for(int z = 0; z < split2.length; z++) {
-				if(z == 0) {
-					itemname = itemname + split2[z].toUpperCase();
-					continue;
-				}
-				itemname = itemname + split2[z];
-			}
-			if(i < split1.length-1)
-				itemname = itemname + " ";
-		}
-		return itemname;
 	}
 	
 }

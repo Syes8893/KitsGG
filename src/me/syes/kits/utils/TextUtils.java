@@ -33,4 +33,22 @@ public class TextUtils {
         return map.get(l) + toRoman(number-l);
     }
 
+    public static String toUpperCamelCase(String str) {
+        String[] split1 = str.split(" ");
+        String itemname = "";
+        for(int i = 0; i < split1.length; i++) {
+            String[] split2 = split1[i].split("");
+            for(int z = 0; z < split2.length; z++) {
+                if(z == 0) {
+                    itemname = itemname + split2[z].toUpperCase();
+                    continue;
+                }
+                itemname = itemname + split2[z];
+            }
+            if(i < split1.length-1)
+                itemname = itemname + " ";
+        }
+        return itemname;
+    }
+
 }
