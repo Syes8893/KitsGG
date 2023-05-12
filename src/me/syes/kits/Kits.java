@@ -1,5 +1,6 @@
 package me.syes.kits;
 
+import me.syes.kits.handlers.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -18,14 +19,6 @@ import me.syes.kits.event.EventManager;
 import me.syes.kits.experience.ExpListener;
 import me.syes.kits.experience.ExpManager;
 import me.syes.kits.gui.GUIManager;
-import me.syes.kits.handlers.BlockHandler;
-import me.syes.kits.handlers.EntityHandler;
-import me.syes.kits.handlers.InventoryHandler;
-import me.syes.kits.handlers.MessageHandler;
-import me.syes.kits.handlers.PlayerHandler;
-import me.syes.kits.handlers.StatsHandler;
-import me.syes.kits.handlers.VelocityHandler;
-import me.syes.kits.handlers.WeatherHandler;
 import me.syes.kits.kit.KitManager;
 import me.syes.kits.kitplayer.KitPlayer;
 import me.syes.kits.kitplayer.PlayerManager;
@@ -85,6 +78,7 @@ public class Kits extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new VelocityHandler(), this);
 		getServer().getPluginManager().registerEvents(new InventoryHandler(), this);
 		getServer().getPluginManager().registerEvents(new EntityHandler(), this);
+		getServer().getPluginManager().registerEvents(new ActivityHandler(), this);
 		getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
 		
 		getServer().getPluginManager().registerEvents(new EventListener(), this);

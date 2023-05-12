@@ -65,15 +65,15 @@ public class BlockHandler implements Listener {
 			placedBlocks.remove(e.getBlock());
 			return;
 		}
-		if (kp.isInArena() && e.getBlock().getType().equals(Material.DIAMOND_ORE)) {
-			Random random = new Random();
-			if (random.nextInt(10) == 0) {
-				e.getPlayer().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 100.0F);
-				kp.setBonusExp(kp.getBonusExp() + 1);
-				ActionBarMessage.sendMessage(p, "§d+1 Exp §7(Mined Diamonds)");
-			}
-			e.setCancelled(true);
-		}
+//		if (kp.isInArena() && e.getBlock().getType().equals(Material.DIAMOND_ORE)) {
+//			Random random = new Random();
+//			if (random.nextInt(10) == 0) {
+//				e.getPlayer().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 100.0F);
+//				kp.setBonusExp(kp.getBonusExp() + 1);
+//				ActionBarMessage.sendMessage(p, "§d+1 Exp §7(Mined Diamond)");
+//			}
+//			e.setCancelled(true);
+//		}
 		if (!e.getPlayer().hasPermission("kits.build")) {
 			e.setCancelled(true);
 		}

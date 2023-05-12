@@ -25,7 +25,8 @@ public class ItemUtils {
 
 	public static ItemStack buildItem(ItemStack i, String name, List<String> lore, boolean hideEnchants, boolean hidePotionEffects) {
 		ItemMeta im = i.getItemMeta();
-		im.setDisplayName(name.replace("&", "§"));
+		if(name != null)
+			im.setDisplayName(name.replace("&", "§"));
 		im.setLore(lore);
 		if(hideEnchants)
 			im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
