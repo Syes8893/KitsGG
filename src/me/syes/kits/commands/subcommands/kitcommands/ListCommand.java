@@ -3,6 +3,7 @@ package me.syes.kits.commands.subcommands.kitcommands;
 import me.syes.kits.commands.subcommands.SubCommand;
 import me.syes.kits.kit.KitManager;
 import me.syes.kits.kitplayer.KitPlayer;
+import me.syes.kits.utils.TextUtils;
 import org.bukkit.entity.Player;
 
 import me.syes.kits.Kits;
@@ -33,11 +34,11 @@ public class ListCommand extends SubCommand {
 //				k = km.getKit(k.getName() + "_prestige");
 			if(ConfigUtils.getConfigSection("Kits").getBoolean("Shortened-Kit-List")) {
 				if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName()))
-					str += "§7, §8" + k.getName() + " (" + k.getRequiredExp() + ")";
+					str += "§7, §8" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")";
 				else if(kp.getExp() >= k.getRequiredExp())
-					str += "§7, §f" + k.getName() + " (" + k.getRequiredExp() + ")";
+					str += "§7, §f" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")";
 				else
-					str += "§7, §7" + k.getName() + " (" + k.getRequiredExp() + ")";
+					str += "§7, §7" + k.getName() + " (" + TextUtils.toRoman(k.getLevel()) + ")";
 			}
 			else {
 				if(ConfigUtils.perKitPermissions && !p.hasPermission("kits." + k.getName()))
